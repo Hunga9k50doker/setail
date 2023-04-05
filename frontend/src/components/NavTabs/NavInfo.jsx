@@ -10,15 +10,12 @@ import Location from "./NavTabsContent/location";
 import Gallery from "./NavTabsContent/gallery";
 import TourPlan from "./NavTabsContent/tourPlan";
 import Reviews from "./NavTabsContent/reviews";
-const NavTabInfo = () => {
+const NavTabInfo = (props) => {
+  const { data } = props;
   return (
     <>
       <nav>
-        <article
-          className="nav__sidebar nav nav-tabs"
-          id="nav-tab"
-          role="tablist"
-        >
+        <article className="nav__sidebar nav nav-tabs" id="nav-tab" role="tablist">
           <button
             className="nav-link active"
             id="nav-info-tab"
@@ -90,45 +87,20 @@ const NavTabInfo = () => {
 
       <article className="col col-xxl-9 col-lg-12 col-md-12 col-12">
         <article className="tab-content" id="nav-tabContent">
-          <article
-            className="tab-pane fade show active"
-            id="nav-info"
-            role="tabpanel"
-            aria-labelledby="nav-info-tab"
-          >
-            <ContentItem />
+          <article className="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+            <ContentItem data={data} />
           </article>
-          <article
-            className="tab-pane fade"
-            id="nav-tour-plan"
-            role="tabpanel"
-            aria-labelledby="nav-tour-plan-tab"
-          >
+          <article className="tab-pane fade" id="nav-tour-plan" role="tabpanel" aria-labelledby="nav-tour-plan-tab">
             <TourPlan />
           </article>
 
-          <article
-            className="tab-pane fade"
-            id="nav-location"
-            role="tabpanel"
-            aria-labelledby="nav-location-tab"
-          >
+          <article className="tab-pane fade" id="nav-location" role="tabpanel" aria-labelledby="nav-location-tab">
             <Location />
           </article>
-          <article
-            className="tab-pane fade"
-            id="nav-gallery"
-            role="tabpanel"
-            aria-labelledby="nav-gallery-tab"
-          >
+          <article className="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
             <Gallery />
           </article>
-          <article
-            className="tab-pane fade"
-            id="nav-reviews"
-            role="tabpanel"
-            aria-labelledby="nav-reviews-tab"
-          >
+          <article className="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
             <Reviews />
           </article>
         </article>

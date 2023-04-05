@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getCardById } from "../../actions/cards";
 import cardData from "../../assets/fake-data/CardDetails";
-
+import Loading from "../loading";
 // import components
 import Helmet from "../Helmet/Helmet";
 import Banner from "../../components/banner/banner";
@@ -27,33 +28,38 @@ const NewStyleSelection = styled.div`
 `;
 
 const ItemDetail = () => {
+  const dispatch = useDispatch();
   let { slug } = useParams();
-
+  const cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
+  const { card, cards, isLoading } = useSelector((state) => state.cards);
+  useEffect(() => {
+    if (!cardItem) {
+      dispatch(getCardById(slug));
+    }
+  }, []);
   return (
-    <Helmet title={slug}>
-      <div className="component">
-        {cardData.getAllCards().map(
-          (item, index) =>
-            to_slug(item.title) === slug && (
-              <Banner
-                // bgUrl={require("../../assets/img/banner_img/bgOurteamIteam.jpg").default}
-                key={index}
-                img={BgSydneyOpera}
-                title={item.title}
-                subTitle="Amazing Tour"
-                description={item.description}
-              ></Banner>
-            )
-        )}
+    <Helmet title={cardItem ? cardItem.title : "Tour Item"}>
+      {isLoading ? (
+        <div className="component mt-5 pt-5">
+          <Loading />
+        </div>
+      ) : (
+        <div className="component">
+          {cardItem ? (
+            <Banner img={BgSydneyOpera} title={cardItem.title} subTitle="Amazing Tour" description={cardItem.description}></Banner>
+          ) : (
+            <Banner img={card.img} title={card.title} subTitle="Amazing Tour" description={card.subTitle}></Banner>
+          )}
 
-        <NewStyleSelection>
-          <Selections>
-            <div className="row ">
-              <NavTabInfo />
-            </div>
-          </Selections>
-        </NewStyleSelection>
-      </div>
+          <NewStyleSelection>
+            <Selections>
+              <div className="row ">
+                <NavTabInfo data={card} />
+              </div>
+            </Selections>
+          </NewStyleSelection>
+        </div>
+      )}
       <Sub />
     </Helmet>
   );

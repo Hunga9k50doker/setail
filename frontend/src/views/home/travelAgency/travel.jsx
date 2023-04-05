@@ -46,7 +46,7 @@ const content2 = {
 };
 
 const HomeTravel = () => {
-  const cards = useSelector((state) => state.cards);
+  const { cards } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -71,12 +71,11 @@ const HomeTravel = () => {
       <TourFilter />
       {/* sub title */}
       <CustomTitle content={content1.content} title={content1.title} subTitle={content1.subTitle} />
-
       {/* selection item  */}
       {Boolean(cards.length) && (
         <Selections>
           {cards.map((item, index) => (
-            <Link to={"/tour-item/" + to_slug(item.title)} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
+            <Link to={`/tour-item/${item?._id ? item._id : to_slug(item.title)}`} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
               <CardSelection
                 img={item.img}
                 title={item.title}

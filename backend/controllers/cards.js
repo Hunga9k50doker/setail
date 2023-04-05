@@ -10,6 +10,16 @@ export const getCards = async (req, res) => {
   }
 };
 
+export const getCardById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cardDetail = await CardMessage.findById(id);
+    return res.status(200).json(cardDetail);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 export const createCard = async (req, res) => {
   const card = req.body;
   const newCard = new CardMessage({ ...card, creator: req.userId, createdAt: new Date().toISOString() });

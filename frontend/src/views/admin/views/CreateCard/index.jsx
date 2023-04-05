@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createCard } from "../../actions/cards";
+import { createCard } from "../../../../actions/cards";
 import { toast } from "react-toastify";
 function Home() {
   const dispatch = useDispatch();

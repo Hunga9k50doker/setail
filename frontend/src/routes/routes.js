@@ -41,7 +41,18 @@ import TypographySectionTitle from "../views/elements/typography/sectionTitle";
 import ItemDetail from "../components/tourItem/item";
 
 // =====================admin================================
-import Home from "../views/admin/Home";
+import Dashboard from "../views/admin/scenes/dashboard";
+import Team from "../views/admin/scenes/team";
+import Invoices from "../views/admin/scenes/invoices";
+import Contacts from "../views/admin/scenes/contacts";
+import Bar from "../views/admin/scenes/bar";
+import Form from "../views/admin/scenes/form";
+import Line from "../views/admin/scenes/line";
+import Pie from "../views/admin/scenes/pie";
+import FAQ from "../views/admin/scenes/faq";
+import Geography from "../views/admin/scenes/geography";
+import Calendar from "../views/admin/scenes/calendar/calendar";
+
 const PublishRoute = [
   { path: "/", component: HomeTravel },
   { path: "/detail/:slug", component: TypeStandard },
@@ -90,6 +101,18 @@ const PublishRoute = [
   { path: "/elements/section-title", component: TypographySectionTitle },
 ];
 
-const PrivateRoute = [{ path: "/admin", component: Home }];
+const PrivateRoute = [
+  { path: "/admin", component: Dashboard },
+  { path: "/admin/team", component: Team },
+  { path: "/admin/contacts", component: Contacts },
+  { path: "/admin/invoices", component: Invoices },
+  { path: "/admin/form", component: Form },
+  { path: "/admin/bar", component: Bar },
+  { path: "/admin/pie", component: Pie },
+  { path: "/admin/line", component: Line },
+  { path: "/admin/faq", component: FAQ },
+  { path: "/admin/calendar", component: Calendar },
+  { path: "/admin/geography", component: Geography },
+];
 
 export { PublishRoute, PrivateRoute };

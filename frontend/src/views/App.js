@@ -18,6 +18,7 @@ function App() {
     window.addEventListener("scroll", () => {
       scrollFunction();
     });
+    console.log(window.location);
     return window.removeEventListener("scroll", () => {
       scrollFunction();
     });
@@ -25,11 +26,19 @@ function App() {
 
   function scrollFunction() {
     if (window.scrollY > 30) {
-      // document.querySelector(".nav.nav__category").style.top = "0";
-      // document.querySelector(".nav__list-item-Elements .nav__list-item-selections").style.top = "75px";
+      const nav = document.querySelector(".nav.nav__category");
+      const navItem = document.querySelector(".nav__list-item-Elements .nav__list-item-selections");
+      if (nav && navItem) {
+        nav.style.top = "0";
+        navItem.style.top = "75px";
+      }
     } else {
-      // document.querySelector(".nav.nav__category").style.top = "42px";
-      // document.querySelector(".nav__list-item-Elements .nav__list-item-selections").style.top = "117px";
+      const nav = document.querySelector(".nav.nav__category");
+      const navItem = document.querySelector(".nav__list-item-Elements .nav__list-item-selections");
+      if (nav && navItem) {
+        nav.style.top = "42px";
+        navItem.style.top = "117px";
+      }
       setShowButton(false);
     }
     if (window.scrollY > 300) {
