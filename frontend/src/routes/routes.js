@@ -43,10 +43,13 @@ import ItemDetail from "../components/tourItem/item";
 // =====================admin================================
 import Dashboard from "../views/admin/scenes/dashboard";
 import Team from "../views/admin/scenes/team";
+import Product from "../views/admin/scenes/product";
 import Invoices from "../views/admin/scenes/invoices";
 import Contacts from "../views/admin/scenes/contacts";
 import Bar from "../views/admin/scenes/bar";
 import Form from "../views/admin/scenes/form";
+import FormEditProduct from "../views/admin/scenes/form/formEditProduct";
+import FormAddProduct from "../views/admin/scenes/form/formAddProduct";
 import Line from "../views/admin/scenes/line";
 import Pie from "../views/admin/scenes/pie";
 import FAQ from "../views/admin/scenes/faq";
@@ -104,9 +107,12 @@ const PublishRoute = [
 const PrivateRoute = [
   { path: "/admin", component: Dashboard },
   { path: "/admin/team", component: Team },
+  { path: "/admin/product", component: Product },
   { path: "/admin/contacts", component: Contacts },
   { path: "/admin/invoices", component: Invoices },
   { path: "/admin/form", component: Form },
+  { path: "/admin/product/add", component: FormAddProduct },
+  { path: "/admin/product/edit/:id", component: FormEditProduct },
   { path: "/admin/bar", component: Bar },
   { path: "/admin/pie", component: Pie },
   { path: "/admin/line", component: Line },

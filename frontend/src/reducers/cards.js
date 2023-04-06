@@ -13,6 +13,10 @@ export default (state = { isLoading: true, cards: [], card: null }, action) => {
       return { ...state, card: action.payload.card };
     case CREATE_CARD:
       return { ...state, cards: [...state.cards, action.payload] };
+    case UPDATE_CARD:
+      return { ...state, cards: state.cards.filter((card) => (card._id === action.payload ? action.payload : card)) };
+    case DELETE_CARD:
+      return { ...state, cards: state.cards.filter((card) => card._id !== action.payload) };
     default:
       return state;
   }

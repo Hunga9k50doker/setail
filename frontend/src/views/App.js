@@ -2,28 +2,38 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from "react-redux";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
-
+import { TypeUser } from "../config/auth";
 import { PublishRoute, PrivateRoute } from "../routes/routes";
 import NotFound from "./NotFound/notfound";
 import "./App.scss";
+import { AUTH } from "../constants/actionTypes";
 
 function App() {
   // handleEvent btn back top
   // The back-to-top button is hidden at the beginning
   const [showButton, setShowButton] = useState(false);
-
+  const dispatch = useDispatch();
+  const user = useSelector((state) => {
+    return state.authReducer.authData;
+  });
   useEffect(() => {
     window.addEventListener("scroll", () => {
       scrollFunction();
     });
-    console.log(window.location);
+    verifyToken();
     return window.removeEventListener("scroll", () => {
       scrollFunction();
     });
   }, []);
 
+  const verifyToken = () => {
+    if (localStorage.getItem("profile")) {
+      dispatch({ type: AUTH, data: JSON.parse(localStorage.getItem("profile")) });
+    }
+  };
   function scrollFunction() {
     if (window.scrollY > 30) {
       const nav = document.querySelector(".nav.nav__category");
@@ -65,15 +75,15 @@ function App() {
               })}
             </MainLayout>
           </Route>
-
-          <Route exact path={PrivateRoute.map((e) => e.path)}>
-            <AdminLayout>
-              {PrivateRoute.map((route, key) => {
-                return <Route exact key={key} path={route.path} component={route.component}></Route>;
-              })}
-            </AdminLayout>
-          </Route>
-
+          {user?.result?.role >= TypeUser.ADMIN && (
+            <Route exact path={PrivateRoute.map((e) => e.path)}>
+              <AdminLayout>
+                {PrivateRoute.map((route, key) => {
+                  return <Route exact key={key} path={route.path} component={route.component}></Route>;
+                })}
+              </AdminLayout>
+            </Route>
+          )}
           <MainLayout>
             <Route path="*">
               <NotFound />

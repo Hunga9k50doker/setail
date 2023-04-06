@@ -35,16 +35,6 @@ const Calendar = () => {
     }
   };
 
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  }
-  const events = [{ title: "Meeting", start: new Date() }];
-
   return (
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
@@ -82,7 +72,7 @@ const Calendar = () => {
 
         {/* CALENDAR */}
         <Box flex="1 1 100%" ml="15px">
-          {/* <FullCalendar
+          <FullCalendar
             height="75vh"
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
             headerToolbar={{
@@ -110,8 +100,7 @@ const Calendar = () => {
                 date: "2022-09-28",
               },
             ]}
-          /> */}
-          {/* <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" weekends={false} events={events} eventContent={renderEventContent} /> */}
+          />
         </Box>
       </Box>
     </Box>

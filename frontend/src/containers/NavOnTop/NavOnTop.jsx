@@ -37,7 +37,7 @@ const NavOnTop = () => {
     const token = dataUser?.token;
     if (token) {
       const decodeToken = decode(token);
-      if (decodeToken.exp * 100 < new Date().getTime()) logout();
+      if (decodeToken.exp * 10000 < new Date().getTime()) logout();
     }
     setDataUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);

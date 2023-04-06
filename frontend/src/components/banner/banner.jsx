@@ -9,7 +9,7 @@ const Banner = (props) => {
         background: `url(${BgSydneyOpera})`,
       }}
     >
-      <img srcSet={props.img} alt={props.img} />
+      <img src={props.img} alt={props.img} />
       <div className="content">
         <h5 className="subTitle" data-aos="fade-down">
           {props.subTitle}

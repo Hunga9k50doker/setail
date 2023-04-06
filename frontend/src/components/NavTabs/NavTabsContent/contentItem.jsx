@@ -11,7 +11,6 @@ const ContentItem = (props) => {
   let cardItem;
   cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
   if (!cardItem) cardItem = data;
-  console.log(cardItem, "eqwiewin");
   return (
     <Helmet title={slug}>
       <div className="component nav__content">

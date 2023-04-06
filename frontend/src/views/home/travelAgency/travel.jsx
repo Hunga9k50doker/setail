@@ -26,7 +26,8 @@ import "../../App.scss";
 import "./travel.scss";
 // img sub
 import { Paris } from "../../../assets/img";
-
+import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
+import { useHistory } from "react-router-dom";
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_home_travel");
 const getVideoData = VideoData.filter((e) => e.id === "video_home_travel");
@@ -49,6 +50,12 @@ const HomeTravel = () => {
   const { cards } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
+  const onRedirect = (item) => {
+    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
+    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -75,7 +82,7 @@ const HomeTravel = () => {
       {Boolean(cards.length) && (
         <Selections>
           {cards.map((item, index) => (
-            <Link to={`/tour-item/${item?._id ? item._id : to_slug(item.title)}`} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
+            <Link to={`#`} onClick={() => onRedirect(item)} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
               <CardSelection
                 img={item.img}
                 title={item.title}

@@ -9,7 +9,7 @@ import Loading from "../loading";
 import Helmet from "../Helmet/Helmet";
 import Banner from "../../components/banner/banner";
 import Selections from "../../components/selections/selections";
-import { BgSydneyOpera } from "../../assets/img";
+// import { BgSydneyOpera } from "../../assets/img";
 
 import NavTabInfo from "../NavTabs/NavInfo";
 import Sub from "../Subscribe/sub";
@@ -31,30 +31,29 @@ const ItemDetail = () => {
   const dispatch = useDispatch();
   let { slug } = useParams();
   const cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
-  const { card, cards, isLoading } = useSelector((state) => state.cards);
+  const { card, isLoading } = useSelector((state) => state.cards);
+  const [cardDataInit, setcardDataInit] = useState(card);
   useEffect(() => {
-    if (!cardItem) {
+    if (!card) {
       dispatch(getCardById(slug));
+    } else {
+      setcardDataInit(card);
     }
   }, []);
+
   return (
-    <Helmet title={cardItem ? cardItem.title : "Tour Item"}>
-      {isLoading ? (
+    <Helmet title={cardDataInit ? cardDataInit.title : "Tour Item"}>
+      {!cardDataInit ? (
         <div className="component mt-5 pt-5">
           <Loading />
         </div>
       ) : (
         <div className="component">
-          {cardItem ? (
-            <Banner img={BgSydneyOpera} title={cardItem.title} subTitle="Amazing Tour" description={cardItem.description}></Banner>
-          ) : (
-            <Banner img={card.img} title={card.title} subTitle="Amazing Tour" description={card.subTitle}></Banner>
-          )}
-
+          <Banner img={cardDataInit.img} title={cardDataInit.title} subTitle="Amazing Tour" description={cardDataInit.subTitle}></Banner>
           <NewStyleSelection>
             <Selections>
               <div className="row ">
-                <NavTabInfo data={card} />
+                <NavTabInfo data={cardDataInit} />
               </div>
             </Selections>
           </NewStyleSelection>

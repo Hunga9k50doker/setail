@@ -8,9 +8,12 @@ API.interceptors.request.use((req) => {
   }
   return req;
 });
+
 export const fetchCards = () => API.get("/cards");
 export const getCardById = (id) => API.get(`/cards/${id}`);
 export const createCard = (newCard) => API.post("/cards", newCard);
+export const deleteCard = (id) => API.delete(`/cards/${id}`);
+export const updateCard = (id, newData) => API.patch(`/cards/${id}`, newData);
 
 export const signin = (formData) => API.post("/user/signin", formData);
 export const signup = (formData) => API.post("/user/signup", formData);
