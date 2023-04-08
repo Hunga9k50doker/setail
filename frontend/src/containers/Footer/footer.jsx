@@ -4,7 +4,6 @@ import "../../styles/grid.scss";
 import LogoFooter from "../../assets/img/logo/logo-header.png";
 
 const Footer = () => {
-  
   return (
     <>
       <footer className="footer ">
@@ -44,7 +43,7 @@ const Footer = () => {
                     Visit Thailand, Bali And China
                   </Link>
                   <Link to="" className="time-visit">
-                    September 7, 2022
+                    September 7, 2023
                   </Link>
                 </li>
                 <li className="footer__content-item">
@@ -52,7 +51,7 @@ const Footer = () => {
                     The Sound Of Our Jungle
                   </Link>
                   <Link to="" className="time-visit">
-                    September 7, 2022
+                    September 7, 2023
                   </Link>
                 </li>
                 <li className="footer__content-item">
@@ -60,56 +59,35 @@ const Footer = () => {
                     New Year, New Resolutions!
                   </Link>
                   <Link to="" className="time-visit">
-                    September 7, 2022
+                    September 7, 2023
                   </Link>
                 </li>
               </ul>
             </div>
             <div className="col col-xxl-3 col-lg-6 col-md-12 col-12">
               <h3 className="footer__title">Subscribe to our Newsletter</h3>
-              <h5 className="footer__content footer__text">
-                Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho
-              </h5>
+              <h5 className="footer__content footer__text">Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho</h5>
               <form action="" className="footer__form">
                 <div className="footer__form-name">
                   <i className="fas fa-user"></i>
-                  <input
-                    maxLength="50"
-                    type="text"
-                    placeholder="Name"
-                    name=""
-                    id=""
-                  />
+                  <input maxLength="50" type="text" placeholder="Name" name="" id="" />
                 </div>
                 <div className="footer__form-email">
                   <i className="far fa-envelope"></i>
-                  <input
-                    maxLength="50"
-                    type="email"
-                    placeholder="Email"
-                    name=""
-                    id=""
-                  />
+                  <input maxLength="50" type="email" placeholder="Email" name="" id="" />
                 </div>
                 <button className="footer__form-submit">Subscribe</button>
               </form>
             </div>
             <div className="col col-xxl-3 col-lg-6 col-md-12 col-12">
               <h3 className="footer__title">Our Instagram</h3>
-              <h5 className="footer__content footer__text">
-                Aliquam lorem ante, dapibus inviver raqui feugiat a, tellus.
-                Phasellus null
-              </h5>
+              <h5 className="footer__content footer__text">Aliquam lorem ante, dapibus inviver raqui feugiat a, tellus. Phasellus null</h5>
             </div>
           </div>
           <div className="row">
             <h5 className="copyright">
               Powered by @
-              <a
-                href="https://www.linkedin.com/in/nguyen-hung-651459218/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://www.linkedin.com/in/nguyen-hung-651459218/" target="_blank" rel="noreferrer">
                 Nguyen Hung
               </a>
             </h5>

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
-const RatingStarInput = () => {
-  var [star, setStar] = useState(3);
+const RatingStarInput = ({ name, onChange, defaultValue, ...props }) => {
+  let [star, setStar] = useState(defaultValue ?? 3);
+  // const [value, setValue] = useState(3);
+  // const onChange = (e) => {
+  //   console.log(e);
+  // };
   var $ = [];
   for (let i = 0; i <= 4; i++) {
     $ = [
@@ -9,7 +13,7 @@ const RatingStarInput = () => {
       <label
         className="rating__label"
         key={i}
-        htmlFor={`rating${i + 1}`}
+        htmlFor={`${name}${i + 1}`}
         onClick={() => {
           setStar(() => i + 1);
         }}
@@ -21,20 +25,21 @@ const RatingStarInput = () => {
 
   return (
     <div className="star-input">
-      <input type="radio" name="rating" id="rating1" value="1" hidden />
-      <input type="radio" name="rating" id="rating2" value="2" hidden />
-      <input type="radio" name="rating" id="rating3" value="3" hidden />
-      <input type="radio" name="rating" id="rating4" value="4" hidden />
-      <input type="radio" name="rating" id="rating5" value="5" hidden />
+      <input type="radio" name={name} id={`${name}1`} value={20} hidden onChange={(e) => onChange(e.target.value, name)} />
+      <input type="radio" name={name} id={`${name}2`} value={40} hidden onChange={(e) => onChange(e.target.value, name)} />
+      <input type="radio" name={name} id={`${name}3`} value={60} hidden onChange={(e) => onChange(e.target.value, name)} />
+      <input type="radio" name={name} id={`${name}4`} value={80} hidden onChange={(e) => onChange(e.target.value, name)} />
+      <input type="radio" name={name} id={`${name}5`} value={100} hidden onChange={(e) => onChange(e.target.value, name)} />
       {$}
     </div>
   );
 };
 
 const RatingStar = ({ rating }) => {
+  let score = rating / 20;
   let star = "";
   for (var i = 1; i <= 5; i++) {
-    if (i > rating) star += `<i className="far fa-star"></i>`;
+    if (i > score) star += `<i className="far fa-star"></i>`;
     else star += '<i class="fas fa-star"></i>';
   }
   return <article className="star" dangerouslySetInnerHTML={{ __html: star }} />;
@@ -133,4 +138,11 @@ const parallaxBackground = (ref) => {
   });
 };
 
-export { RatingStarInput, RatingStar, to_slug, Pagination, get_random, parallaxBackground };
+const numberWithCommas = (num) => {
+  if (num === Math.floor(num)) {
+    return `${num}.0`;
+  }
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+export { RatingStarInput, RatingStar, to_slug, Pagination, get_random, parallaxBackground, numberWithCommas };

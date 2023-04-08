@@ -37,6 +37,8 @@ import ElementsTeam from "../views/elements/presentation/team";
 import TypographyHeadings from "../views/elements/typography/headings";
 import TypographyColumns from "../views/elements/typography/columns";
 import TypographySectionTitle from "../views/elements/typography/sectionTitle";
+import FormUser from "../views/user";
+import MyTour from "../views/MyTour";
 
 import ItemDetail from "../components/tourItem/item";
 
@@ -105,6 +107,11 @@ const PublishRoute = [
 ];
 
 const PrivateRoute = [
+  { path: "/setting", component: FormUser },
+  { path: "/my-tour", component: MyTour },
+];
+
+const SuperPrivateRoute = [
   { path: "/admin", component: Dashboard },
   { path: "/admin/team", component: Team },
   { path: "/admin/product", component: Product },
@@ -121,4 +128,4 @@ const PrivateRoute = [
   { path: "/admin/geography", component: Geography },
 ];
 
-export { PublishRoute, PrivateRoute };
+export { PublishRoute, PrivateRoute, SuperPrivateRoute };

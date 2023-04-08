@@ -1,17 +1,18 @@
-import { Box, Button, TextField, Typography, colors, Input } from "@mui/material";
+import { Box, Button, TextField, Typography, colors, Select, Input } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { TextareaAutosize } from "@mui/base";
 import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
+import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getCardById, updateCard } from "../../../../../actions/cards";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import Loading from "../../../../../components/loading";
-import { TypeUser } from "../../../../../config/auth";
+import { TypeUser } from "../../../../../config/auth.js";
 // import Textarea from "@mui/joy/Textarea";
 const FormEditProduct = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -23,11 +24,13 @@ const FormEditProduct = () => {
   let { slug } = useParams();
   const { card, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
+  const [isAvalilable, setIsAvalilable] = useState(card.avaliable);
 
   const handleFormSubmit = (data) => {
     if (images.length && imagesPreview.length) {
       const dataSumbit = {
         ...data,
+        avaliable: isAvalilable,
         img: images?.[0].data_url,
         img__grid: imagesPreview.map((item) => item.data_preview_url),
       };
@@ -39,6 +42,10 @@ const FormEditProduct = () => {
     } else {
       toast.warning("Image and Preview images are required.");
     }
+  };
+
+  const handleChangeSelect = (select) => {
+    setIsAvalilable(select.target.value);
   };
 
   const onChange = (imageList) => {
@@ -55,6 +62,7 @@ const FormEditProduct = () => {
     } else {
       setDataInit(card);
       setImages([{ data_url: card.img }]);
+      // setIsAvalilable(card.avaliable);
       setImagesPreview(
         card.img__grid.map((item) => ({
           data_preview_url: item,
@@ -157,6 +165,23 @@ const FormEditProduct = () => {
                   helperText={touched.cost && errors.cost}
                   sx={{ gridColumn: "span 2" }}
                 />
+                <Select
+                  fullWidth
+                  variant="filled"
+                  sx={{ gridColumn: "span 2" }}
+                  value={isAvalilable}
+                  label="Avalilable"
+                  onChange={handleChangeSelect}
+                  // error={!!touched.avaliable && !!errors.avaliable}
+                  // helperText={touched.avaliable && errors.avaliable}
+                >
+                  <MenuItem fullWidth value={true}>
+                    Avalilable
+                  </MenuItem>
+                  <MenuItem fullWidth value={false}>
+                    Not Avalilable
+                  </MenuItem>
+                </Select>
                 <TextareaAutosize
                   variant="filled"
                   placeholder="Description"
@@ -243,8 +268,6 @@ const FormEditProduct = () => {
     </Box>
   );
 };
-
-// const phoneRegExp = /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),

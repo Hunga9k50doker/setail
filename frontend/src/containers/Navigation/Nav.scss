@@ -444,9 +444,9 @@
   &-account {
     position: absolute;
     top: 50%;
-    right: 100px;
+    right: 20px;
     transform: translateY(-50%);
-    font-size: 40px;
+    font-size: 30px;
   }
 
   // disable
@@ -505,4 +505,57 @@
     transform-origin: top center;
     transform: scaleY(1);
   }
+}
+
+.displayName__account {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .options__account {
+    position: absolute;
+    overflow: hidden;
+    top: calc(100% + 12px);
+    right: -10px;
+    display: flex;
+    min-width: 150px;
+    max-height: 0;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    background: $primary-color;
+    transition: max-height 0.3s linear;
+    li {
+      padding: 8px 0;
+      text-align: center;
+      color: $white-color;
+      font-size: 12px;
+      &:hover {
+        color: #ccc;
+      }
+      &:not(:first-child) {
+        border-top: 1px solid $white-color;
+      }
+    }
+  }
+  &:hover {
+    .options__account {
+      max-height: 20rem;
+    }
+  }
+}
+
+.form__show__list__item::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.form__show__list__item::-webkit-scrollbar-track {
+  background: #e2dada;
+}
+.form__show__list__item::-webkit-scrollbar-track:hover {
+  border-radius: 4px;
+  background: #d1cbcb;
+}
+.form__show__list__item::-webkit-scrollbar-thumb {
+  background: #8a8181;
+  border-radius: 4px;
 }

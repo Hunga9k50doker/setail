@@ -10,7 +10,7 @@ import "../../styles/grid.scss";
 import { AUTH, LOGOUT } from "../../constants/actionTypes";
 import { toast } from "react-toastify";
 import { gapi } from "gapi-script";
-import { login, register } from "../../actions/auth";
+import { login, register, verifyUser } from "../../actions/auth";
 const NavOnTop = () => {
   const clientId = "212369444782-cqma440j1i0lu34ef4939ghsmfspse0d.apps.googleusercontent.com";
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const NavOnTop = () => {
   const [dataUser, setDataUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const comfirmPasswordRef = useRef(null);
   const modalAccoutRef = useRef(null);
-  // const authData = useSelector((state) => state.authData);
+  const { authData } = useSelector((state) => state.authReducer);
   const location = useLocation();
   const [formLogin, setFormLogin] = useState({
     username: "",
@@ -37,7 +37,7 @@ const NavOnTop = () => {
     const token = dataUser?.token;
     if (token) {
       const decodeToken = decode(token);
-      if (decodeToken.exp * 10000 < new Date().getTime()) logout();
+      if (decodeToken.exp * 100000 < new Date().getTime()) logout();
     }
     setDataUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
@@ -59,7 +59,7 @@ const NavOnTop = () => {
   };
   const logout = () => {
     dispatch({ type: LOGOUT });
-    history.push("/");
+    window.location.replace("/");
     setDataUser(null);
   };
   function hiddenModal() {
@@ -67,20 +67,30 @@ const NavOnTop = () => {
   }
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
-    const token = res?.token;
     try {
-      dispatch({ type: AUTH, data: { result, token } });
-      toast.success("Login sucessfully!");
-      setDataUser(JSON.parse(localStorage.getItem("profile")));
-      hiddenModal();
+      dispatch(
+        verifyUser(
+          {
+            id: result.googleId,
+            username: result.googleId,
+            email: result.email,
+            password: result.googleId,
+            name: result.name,
+            avatar: result.imageUrl,
+          },
+          history
+        )
+      );
+      // dispatch(verifyUser())
+      // toast.success("Login sucessfully!");
+      // setDataUser(JSON.parse(localStorage.getItem("profile")));
+      // window.location.reload();
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
     }
   };
   const googleFailure = (error) => {
     toast.error(error.message);
-    console.log(error);
   };
 
   return (
@@ -138,11 +148,16 @@ const NavOnTop = () => {
           </li>
           <li className="nav__onTop-rightInner-item nav__onTop-rightInner-account">
             {dataUser ? (
-              <div className="displayName__account">
-                <p>{dataUser?.result?.name}</p>
+              <div className="displayName__account" style={{ maxWidth: "100px" }}>
+                <p className="text-truncate">{dataUser?.result?.name}</p>
                 <ul className="options__account">
-                  <li>Setting</li>
-                  <li onClick={() => logout()}>Đăng xuất</li>
+                  <Link to="/setting" className="w-100 ">
+                    <li className="w-100 text-center">Setting</li>
+                  </Link>
+                  <Link to="/my-tour" className="w-100 ">
+                    <li className="w-100 text-center">My tours</li>
+                  </Link>
+                  <li onClick={() => logout()}>Logout</li>
                 </ul>
               </div>
             ) : (

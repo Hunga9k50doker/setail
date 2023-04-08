@@ -5,8 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from "react-redux";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
-import { TypeUser } from "../config/auth";
-import { PublishRoute, PrivateRoute } from "../routes/routes";
+import { TypeUser } from "../config/auth.js";
+import { PublishRoute, PrivateRoute, SuperPrivateRoute } from "../routes/routes";
 import NotFound from "./NotFound/notfound";
 import "./App.scss";
 import { AUTH } from "../constants/actionTypes";
@@ -34,6 +34,7 @@ function App() {
       dispatch({ type: AUTH, data: JSON.parse(localStorage.getItem("profile")) });
     }
   };
+
   function scrollFunction() {
     if (window.scrollY > 30) {
       const nav = document.querySelector(".nav.nav__category");
@@ -75,10 +76,19 @@ function App() {
               })}
             </MainLayout>
           </Route>
-          {user?.result?.role >= TypeUser.ADMIN && (
+          {user?.result && (
             <Route exact path={PrivateRoute.map((e) => e.path)}>
-              <AdminLayout>
+              <MainLayout>
                 {PrivateRoute.map((route, key) => {
+                  return <Route exact key={key} path={route.path} component={route.component}></Route>;
+                })}
+              </MainLayout>
+            </Route>
+          )}
+          {user?.result?.role >= TypeUser.ADMIN && (
+            <Route exact path={SuperPrivateRoute.map((e) => e.path)}>
+              <AdminLayout>
+                {SuperPrivateRoute.map((route, key) => {
                   return <Route exact key={key} path={route.path} component={route.component}></Route>;
                 })}
               </AdminLayout>

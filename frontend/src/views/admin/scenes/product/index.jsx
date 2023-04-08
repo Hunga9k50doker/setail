@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Loading from "../../../../components/loading";
 import { GET_CARD_BY_ID } from "../../../../constants/actionTypes";
-import { TypeUser } from "../../../../config/auth";
+import { TypeUser } from "../../../../config/auth.js";
 import { toast } from "react-toastify";
 const Product = () => {
   const dispatch = useDispatch();

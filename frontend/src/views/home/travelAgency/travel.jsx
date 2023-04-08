@@ -94,9 +94,14 @@ const HomeTravel = () => {
           ))}
         </Selections>
       )}
-      {(isLoading || !Boolean(cards.length)) && (
+      {isLoading && (
         <Selections>
           <Loading />
+        </Selections>
+      )}
+      {!cards.length && !isLoading && (
+        <Selections>
+          <h3 className="text-center">No data</h3>
         </Selections>
       )}
       {/* img sub */}

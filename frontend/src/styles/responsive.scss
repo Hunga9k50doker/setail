@@ -2,7 +2,7 @@
 @import "./global.scss";
 
 //large pc
-@media (min-width: 1025px) {
+@media (min-width: 1200px) {
   // navigation
   .nav {
     &-account {
@@ -20,7 +20,10 @@
 }
 
 //============== <=low pc
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .nav__category {
+    height: 80px;
+  }
   .accordion {
     display: block;
   }
@@ -34,7 +37,7 @@
     color: $white-color;
     &__logo {
       float: center;
-      margin: 28px auto;
+      margin: auto;
     }
     &__list {
       display: none;
@@ -42,7 +45,7 @@
     &__innerRight {
       position: absolute;
       top: 50%;
-      left: 100px;
+      left: 20px;
       transform: translateY(-50%);
       &-item-search,
       &-item-cart {
@@ -72,7 +75,7 @@
 
   // ======banner==============
   .ban {
-    margin-top: 100px;
+    margin-top: 80px;
     height: 40vh;
     img {
       width: 200%;

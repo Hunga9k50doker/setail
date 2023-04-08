@@ -9,7 +9,7 @@ import Loading from "../loading";
 import Helmet from "../Helmet/Helmet";
 import Banner from "../../components/banner/banner";
 import Selections from "../../components/selections/selections";
-// import { BgSydneyOpera } from "../../assets/img";
+import { BgSydneyOpera } from "../../assets/img";
 
 import NavTabInfo from "../NavTabs/NavInfo";
 import Sub from "../Subscribe/sub";
@@ -33,23 +33,34 @@ const ItemDetail = () => {
   const cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
   const { card, isLoading } = useSelector((state) => state.cards);
   const [cardDataInit, setcardDataInit] = useState(card);
+
+  useEffect(() => {
+    dispatch(getCardById(slug));
+  }, []);
+
   useEffect(() => {
     if (!card) {
-      dispatch(getCardById(slug));
+      // dispatch(getCardById(slug));
     } else {
       setcardDataInit(card);
     }
-  }, []);
+  }, [card, dispatch]);
 
   return (
-    <Helmet title={cardDataInit ? cardDataInit.title : "Tour Item"}>
+    <Helmet title={cardDataInit?.title ?? "Tour Item"}>
       {!cardDataInit ? (
         <div className="component mt-5 pt-5">
           <Loading />
         </div>
       ) : (
         <div className="component">
-          <Banner img={cardDataInit.img} title={cardDataInit.title} subTitle="Amazing Tour" description={cardDataInit.subTitle}></Banner>
+          <Banner
+            maxHeight={"800px"}
+            img={cardDataInit.img}
+            title={cardDataInit.title}
+            subTitle="Amazing Tour"
+            description={cardDataInit.subTitle}
+          ></Banner>
           <NewStyleSelection>
             <Selections>
               <div className="row ">

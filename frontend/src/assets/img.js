@@ -120,6 +120,7 @@ import user4 from "./img/user/user4.png";
 import user5 from "./img/user/user5.png";
 import user6 from "./img/user/user6.png";
 import user7 from "./img/user/user7.png";
+import avartDefault from "./img/user/default_avatar.jpg";
 
 //our Team members
 import ourTeam10 from "./img/ourteam/ourteam10.jpg";
@@ -230,6 +231,7 @@ export {
   user5,
   user6,
   user7,
+  avartDefault,
   TourFeatureImg1,
   TourFeatureImg2,
   TourFeatureImg3,

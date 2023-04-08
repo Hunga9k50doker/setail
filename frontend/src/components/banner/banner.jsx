@@ -6,10 +6,19 @@ const Banner = (props) => {
     <div
       className="ban"
       style={{
-        background: `url(${BgSydneyOpera})`,
+        maxHeight: props.maxHeight,
+        backgroundImage: `url(${BgSydneyOpera})`,
       }}
     >
-      <img src={props.img} alt={props.img} />
+      <img
+        style={{
+          maxHeight: props.maxHeight,
+          objectFit: "cover",
+          width: "100%",
+        }}
+        src={props.img}
+        alt={props.img}
+      />
       <div className="content">
         <h5 className="subTitle" data-aos="fade-down">
           {props.subTitle}

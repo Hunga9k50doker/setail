@@ -1,19 +1,21 @@
-import { Box, Button, TextField, colors } from "@mui/material";
+import { Box, Button, TextField, colors, Select } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { TextareaAutosize } from "@mui/base";
+import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { createCard } from "../../../../../actions/cards";
 import { useDispatch, useSelector } from "react-redux";
-import { TypeUser } from "../../../../../config/auth";
+import { TypeUser } from "../../../../../config/auth.js";
 const FormEditProduct = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [isAvalilable, setIsAvalilable] = useState(true);
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
@@ -22,6 +24,7 @@ const FormEditProduct = () => {
     if (images.length && imagesPreview.length) {
       const dataSumbit = {
         ...data,
+        avaliable: isAvalilable,
         img: images?.[0].data_url,
         img__grid: imagesPreview.map((item) => item.data_preview_url),
       };
@@ -43,6 +46,9 @@ const FormEditProduct = () => {
     setImagesPreview(imageList);
   };
 
+  const handleChangeSelect = (select) => {
+    setIsAvalilable(select.target.value);
+  };
   return (
     <Box m="20px">
       <Header title="ADD PRODUCT" subtitle="Add new product" />
@@ -69,6 +75,19 @@ const FormEditProduct = () => {
                 name="title"
                 error={!!touched.title && !!errors.title}
                 helperText={touched.title && errors.title}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Sub title"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.subTitle}
+                name="subTitle"
+                error={!!touched.subTitle && !!errors.subTitle}
+                helperText={touched.subTitle && errors.subTitle}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -135,6 +154,23 @@ const FormEditProduct = () => {
                 helperText={touched.cost && errors.cost}
                 sx={{ gridColumn: "span 2" }}
               />
+              <Select
+                fullWidth
+                variant="filled"
+                sx={{ gridColumn: "span 2" }}
+                value={isAvalilable}
+                label="Avalilable"
+                onChange={handleChangeSelect}
+                // error={!!touched.avaliable && !!errors.avaliable}
+                // helperText={touched.avaliable && errors.avaliable}
+              >
+                <MenuItem fullWidth value={true}>
+                  Avalilable
+                </MenuItem>
+                <MenuItem fullWidth value={false}>
+                  Not Avalilable
+                </MenuItem>
+              </Select>
               <TextareaAutosize
                 variant="filled"
                 type="text"
@@ -142,8 +178,8 @@ const FormEditProduct = () => {
                 required
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.subTitle}
-                name="subTitle"
+                value={values.description}
+                name="description"
                 minRows={10}
                 style={{ gridColumn: "span 4", padding: "4px" }}
               />
@@ -232,6 +268,7 @@ const checkoutSchema = yup.object().shape({
   calendar: yup.date().required("required"),
   cost: yup.number().required("required"),
   custom: yup.number().required("required"),
+  description: yup.string().required("required"),
 });
 const initialValues = {
   title: "",
@@ -239,10 +276,12 @@ const initialValues = {
   age: "",
   calendar: "",
   subTitle: "",
+  description: "",
   cost: "",
   custom: "",
   img: "",
   img__grid: "",
+  avaliable: true,
 };
 
 export default FormEditProduct;

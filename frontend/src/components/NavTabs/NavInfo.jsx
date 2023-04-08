@@ -98,10 +98,10 @@ const NavTabInfo = (props) => {
             <Location />
           </article>
           <article className="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
-            <Gallery />
+            <Gallery data={data} />
           </article>
           <article className="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
-            <Reviews />
+            <Reviews data={data} />
           </article>
         </article>
       </article>
