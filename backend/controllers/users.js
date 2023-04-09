@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import uniqid from "uniqid";
 import User from "../models/user.js";
 import mongoose from "mongoose";
-const secret = "setail";
+const secret = process.env.SECRET;
 export const signin = async (req, res) => {
   const { username, password } = req.body;
   try {

@@ -132,7 +132,7 @@ const SidebarBooking = () => {
             <div className="siderbar__item siderbar__item__btn">
               <button disabled={isLoading} type="submit" className="d-flex justify-content-center align-items-center">
                 Book now
-                {isLoading && <Spinner />}
+                {/* {isLoading && <Spinner />} */}
               </button>
             </div>
           </form>
