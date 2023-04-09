@@ -8,11 +8,7 @@ const CardDetails = (props) => {
       <div className="card-header">
         <picture className="card-img">
           <source media="(min-width:1200px)" srcSet={props.img} />
-          <source
-            media="(min-width:768px)"
-            srcSet={props.img}
-            style={{ width: "328px", height: "193px" }}
-          />
+          <source media="(min-width:768px)" srcSet={props.img} style={{ width: "328px", height: "193px" }} />
           <img src={props.img} className="card-img-top" alt="not found" />
         </picture>
         <h5 className="card__header__text">Special offer</h5>
@@ -35,15 +31,13 @@ const CardDetails = (props) => {
         <h3 className="card-title">{props.title}</h3>
 
         <div className="container__text">
-          <p className="card-text">{props.subTitle}</p>
+          <p className="card-text">{props.description}</p>
         </div>
         <div className="card-cost__rating">
           <p className="card-cost">{"$" + props.cost}</p>
           <p className="card-rating">
             <i className={props.icon}></i>
-            {Number(props.rating) <= 7
-              ? props.rating + " Good"
-              : props.rating + " Superb"}
+            {Number(props.rating) <= 7 ? props.rating + " Good" : props.rating + " Superb"}
           </p>
         </div>
       </div>
@@ -56,7 +50,8 @@ CardDetails.propTypes = {
   custom: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+  description: PropTypes.string,
   cost: PropTypes.number.isRequired,
   icon: PropTypes.string.isRequired,
 };

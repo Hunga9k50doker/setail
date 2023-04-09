@@ -5,7 +5,7 @@ import { getCards } from "../../../actions/cards";
 // import data
 import BannerArr from "../../../assets/fake-data/Banner";
 import VideoData from "../../../assets/fake-data/Video";
-import cardData from "../../../assets/fake-data/CardDetails";
+// import cardData from "../../../assets/fake-data/CardDetails";
 
 // import components
 import Helmet from "../../../components/Helmet/Helmet";
@@ -19,7 +19,7 @@ import SlideCardTravel from "../../../components/Carousel/CarouselCardTravel";
 import SlideCardRating from "../../../components/Carousel/CarouselCardRating";
 import CarouselBanner from "../../../components/Carousel/CarouselBanner";
 import Banner from "../../../components/banner/banner";
-import { to_slug } from "../../../utils/utils";
+import { to_slug, get_random } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
 import Loading from "../../../components/loading";
 import "../../App.scss";
@@ -28,6 +28,7 @@ import "./travel.scss";
 import { Paris } from "../../../assets/img";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { useHistory } from "react-router-dom";
+import { ScoreRating } from "../../../config/scoreRating";
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_home_travel");
 const getVideoData = VideoData.filter((e) => e.id === "video_home_travel");
@@ -47,24 +48,22 @@ const content2 = {
 };
 
 const HomeTravel = () => {
-  const { cards } = useSelector((state) => state.cards);
+  const { cards, isLoading } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+  const [cardData, setCardData] = useState(cards);
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    try {
+    if (!cards.length) {
       dispatch(getCards);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
+    } else {
+      setCardData(cards);
     }
-  }, [dispatch]);
+  }, [cards]);
   return (
     <Helmet title="Home Travel Agency" className="component">
       {/* banner */}
@@ -79,9 +78,9 @@ const HomeTravel = () => {
       {/* sub title */}
       <CustomTitle content={content1.content} title={content1.title} subTitle={content1.subTitle} />
       {/* selection item  */}
-      {Boolean(cards.length) && (
+      {Boolean(cardData.length) && (
         <Selections>
-          {cards.map((item, index) => (
+          {cardData.map((item, index) => (
             <Link to={`#`} onClick={() => onRedirect(item)} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
               <CardSelection
                 img={item.img}
@@ -135,23 +134,48 @@ const HomeTravel = () => {
       {/* selection item slide show */}
       <div className="area-slide-show-item-card">
         <CustomTitle content={content2.content} title={content2.title} subTitle={content2.subTitle} />
-        <SlideCardTravel>
-          {cardData.getCards_random(12).map((item, index) => (
-            <Link key={index} to={"/tour-item/" + to_slug(item.title)}>
-              <CardDetails
-                img={item.img}
-                calendar={item.calendar}
-                custom={item.custom}
-                location={item.location}
-                title={item.title}
-                subTitle={item.subTitle}
-                cost={Number(item.cost)}
-                rating={item.rating}
-                icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
-              />
-            </Link>
-          ))}
-        </SlideCardTravel>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <SlideCardTravel>
+            {get_random(cardData, 10).map((item, index) => (
+              <Link key={index} to={"/tour-item/" + item._id}>
+                <CardDetails
+                  img={item.img}
+                  calendar={new Date(item.calendar).getMonth()}
+                  custom={item.custom}
+                  location={item.location}
+                  title={item.title}
+                  description={item.description}
+                  cost={Number(item.cost)}
+                  rating={item.rating}
+                  icon={
+                    Number(item.rating) === 0 ? "far fa-star" : Number(item.rating) <= ScoreRating.GOOD.value ? "fas fa-star-half-alt" : "fas fa-star"
+                  }
+                />
+              </Link>
+            ))}
+          </SlideCardTravel>
+          // <SlideCardTravel>
+          //   {cardData.getCards_random(10).map((item, index) => (
+          //     <Link key={index} to={"/tour-item/" + item._id}>
+          //       <CardDetails
+          //         img={item.img}
+          //         calendar={new Date(item.calendar).getMonth()}
+          //         custom={item.custom}
+          //         location={item.location}
+          //         title={item.title}
+          //         subTitle={item.subTitle}
+          //         cost={Number(item.cost)}
+          //         rating={item.rating}
+          //         icon={
+          //           Number(item.rating) === 0 ? "far fa-star" : Number(item.rating) <= ScoreRating.GOOD.value ? "fas fa-star-half-alt" : "fas fa-star"
+          //         }
+          //       />
+          //     </Link>
+          //   ))}
+          // </SlideCardTravel>
+        )}
       </div>
       {/* rating */}
       <SlideCardRating />

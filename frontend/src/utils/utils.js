@@ -126,6 +126,25 @@ const get_random = (arr, count) => {
   const start = Math.floor(Math.random() * (max - min) + min);
   return arr.slice(start, start + count);
 };
+
+//sort low to high
+const getSortCards = (arr) =>
+  arr.sort(function (a, b) {
+    return Number(a.cost) - Number(b.cost);
+  });
+
+// sort high to low
+const getSortParseCards = (arr) =>
+  arr.sort(function (a, b) {
+    return Number(b.cost) - Number(a.cost);
+  });
+
+// sort flow name A- Z
+const getSortStringCards = (arr) =>
+  arr.sort(function (a, b) {
+    return ("" + a.title).localeCompare(b.title);
+  });
+
 // parallax bg
 const parallaxBackground = (ref) => {
   window.addEventListener("scroll", () => {
@@ -141,4 +160,15 @@ const numberWithCommas = (num, type = undefined) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export { RatingStarInput, RatingStar, to_slug, Pagination, get_random, parallaxBackground, numberWithCommas };
+export {
+  RatingStarInput,
+  RatingStar,
+  to_slug,
+  Pagination,
+  get_random,
+  parallaxBackground,
+  numberWithCommas,
+  getSortCards,
+  getSortParseCards,
+  getSortStringCards,
+};

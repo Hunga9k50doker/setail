@@ -32,7 +32,7 @@ const ItemDetail = () => {
   let { slug } = useParams();
   const cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
   const { card, isLoading } = useSelector((state) => state.cards);
-  const [cardDataInit, setcardDataInit] = useState(card);
+  const [cardDataInit, setcardDataInit] = useState(cardItem ?? card);
 
   useEffect(() => {
     dispatch(getCardById(slug));
@@ -41,7 +41,7 @@ const ItemDetail = () => {
   useEffect(() => {
     if (!card) {
       // dispatch(getCardById(slug));
-    } else {
+    } else if (!cardItem) {
       setcardDataInit(card);
     }
   }, [card, dispatch]);

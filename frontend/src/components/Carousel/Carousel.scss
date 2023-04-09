@@ -117,7 +117,9 @@
     // padding-left: 100px;
     // margin-right: 140px;
   }
-
+  .slick-track {
+    min-width: 5000px !important;
+  }
   .card__stamp {
     position: relative;
     width: -webkit-fit-content;

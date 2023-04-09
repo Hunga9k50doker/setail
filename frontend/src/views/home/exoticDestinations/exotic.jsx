@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getCards } from "../../../actions/cards";
+
 // import data
 import BannerArr from "../../../assets/fake-data/Banner";
-import cardData from "../../../assets/fake-data/CardDetails";
+// import cardData from "../../../assets/fake-data/CardDetails";
 // import components
 import Helmet from "../../../components/Helmet/Helmet";
 import CustomTitle from "../../../components/customTitle/customTitle";
@@ -15,17 +19,17 @@ import SlideStamp from "../../../components/Carousel/CarouselPostMark";
 
 import CardSelection from "../../../components/cards/cardSelection/cardSelection";
 import Selections from "../../../components/selections/selections";
-import { to_slug } from "../../../utils/utils";
+import { to_slug, get_random } from "../../../utils/utils";
 import SlideCardRating from "../../../components/Carousel/CarouselCardRating";
 import Sub from "../../../components/Subscribe/sub";
 import Banner from "../../../components/banner/banner";
 import "../../App.scss";
 import "./exotic.scss";
-
+import Loading from "../../../components/loading";
+import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
+import { ScoreRating } from "../../../config/scoreRating";
 //get data
-const getImgBanner = BannerArr.filter(
-  (e) => e.types === "banner_exotic_travel"
-);
+const getImgBanner = BannerArr.filter((e) => e.types === "banner_exotic_travel");
 
 const NewStyleSlick = styled.div`
   .slide__card-slick .slick-list {
@@ -123,20 +127,29 @@ export const NewStyleTourFilter = styled.div`
   }
 `;
 const HomeExotic = () => {
-   
+  const { cards, isLoading } = useSelector((state) => state.cards);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [cardData, setCardData] = useState(cards);
+
+  const onRedirect = (item) => {
+    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
+    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+  };
+  useEffect(() => {
+    if (!cards.length) {
+      dispatch(getCards);
+    } else {
+      setCardData(cards);
+    }
+  }, [cards]);
   return (
     <Helmet title="Home Exotic Holiday" className="component exotic">
       {/* banner */}
       <NewStyleSlick>
         <CarouselBanner>
           {getImgBanner.map((item, index) => (
-            <Banner
-              key={index}
-              img={item.img}
-              title={item.title}
-              subTitle={item.subTitle}
-              description={item.description}
-            ></Banner>
+            <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
           ))}
         </CarouselBanner>
         {/* filter date, time, location */}
@@ -144,9 +157,7 @@ const HomeExotic = () => {
           <TourFilter>
             <li className="tour__filter-item tour__filter-title">
               <h3 className="tour__filter-item-title">Exporler and Travvel</h3>
-              <p className="tour__filter-item-title">
-                Discover the world today. Find your perfect far destinations
-              </p>
+              <p className="tour__filter-item-title">Discover the world today. Find your perfect far destinations</p>
             </li>
           </TourFilter>
         </NewStyleTourFilter>
@@ -159,59 +170,58 @@ const HomeExotic = () => {
       />
 
       {/* selection item  */}
-      <NewStyleSelection>
-        <Selections>
-          {cardData
-            .getAllCards()
-            .filter(
-              (e) =>
-                e.title !== "Slovenia" &&
-                e.title !== "France" &&
-                e.title !== "Switgerland"
-            )
-            .slice(0, 3)
-            .map((item, index) => (
-              <div
-                key={index}
-                className="col col-xxl-4 col-lg-6 col-md-6 col-12"
-              >
-                <NewStyleItem>
-                  <Link to={"/tour-item/" + to_slug(item.title)}>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {!cardData.length ? (
+            <p className="fs-3 text-center">No data</p>
+          ) : (
+            <NewStyleSelection>
+              <Selections>
+                {cardData
+                  .filter((e) => e.title !== "Slovenia" && e.title !== "France" && e.title !== "Switgerland")
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
+                      <NewStyleItem>
+                        <Link to={`#`} onClick={() => onRedirect(item)}>
+                          <CardSelection
+                            img={item.img}
+                            title={item.title}
+                            rating={item.rating}
+                            cost={Number(item.cost)}
+                            // icon={Number(item.rating) < 6 ?"fas fa-star-half-alt" : "fas fa-star"}
+                          />
+                        </Link>
+                      </NewStyleItem>
+                    </div>
+                  ))}
+              </Selections>
+
+              <Selections>
+                {get_random(cardData, 6).map((item, index) => (
+                  <Link to={`#`} onClick={() => onRedirect(item)} key={index} className="col col-xxl-4 col-lg-4 col-md-6 col-12">
                     <CardSelection
                       img={item.img}
                       title={item.title}
                       rating={item.rating}
                       cost={Number(item.cost)}
-                      // icon={Number(item.rating) < 6 ?"fas fa-star-half-alt" : "fas fa-star"}
+                      icon={
+                        Number(item.rating) === 0
+                          ? "far fa-star"
+                          : Number(item.rating) <= ScoreRating.GOOD.value
+                          ? "fas fa-star-half-alt"
+                          : "fas fa-star"
+                      }
                     />
                   </Link>
-                </NewStyleItem>
-              </div>
-            ))}
-        </Selections>
-
-        <Selections>
-          {cardData.getCards_random(6).map((item, index) => (
-            <Link
-              to={"/tour-item/" + to_slug(item.title)}
-              key={index}
-              className="col col-xxl-4 col-lg-4 col-md-6 col-12"
-            >
-              <CardSelection
-                img={item.img}
-                title={item.title}
-                rating={item.rating}
-                cost={Number(item.cost)}
-                icon={
-                  Number(item.rating) < 6
-                    ? "fas fa-star-half-alt"
-                    : "fas fa-star"
-                }
-              />
-            </Link>
-          ))}
-        </Selections>
-      </NewStyleSelection>
+                ))}
+              </Selections>
+            </NewStyleSelection>
+          )}
+        </>
+      )}
       {/* rating */}
       <SlideCardRating />
       {/* slide postmark */}

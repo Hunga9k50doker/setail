@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import styled from "styled-components";
 
 import card__data__postmark from "../../assets/fake-data/Postmark";
 
@@ -10,6 +11,12 @@ import { to_slug, parallaxBackground } from "../../utils/utils";
 
 import "./Carousel.scss";
 const SlideStamp = (props) => {
+  const NewStyle = styled.div`
+    .slick-track {
+      margin-top: 100px;
+      padding-bottom: 100px;
+    }
+  `;
   const settings = {
     className: "center",
     centerMode: true,
@@ -48,7 +55,7 @@ const SlideStamp = (props) => {
     ],
   };
   const refBg = useRef();
-  const [imgs, setImgs] = useState([]);
+  // const [imgs, setImgs] = useState([]);
   if (refBg.current) {
     parallaxBackground(refBg.current);
   }
@@ -56,17 +63,19 @@ const SlideStamp = (props) => {
   return (
     <div className=" slide__card__review " style={{ backgroundImage: `url(${props.bgUrl})` }}>
       <div ref={refBg} className="slide__card-slick selection__postmark">
-        <Slider {...settings} ref={(c) => c}>
-          {card__data__postmark.getAllCards().map((item, index) => (
-            <Link key={index} to={"/tour-item/" + to_slug(item.title)} className="card__stamp">
-              <img className="card__stamp__img" src={item.img} alt={item.title} />
-              <div className="card__stamp__content">
-                <h3 className="card__stamp__title">{item.title}</h3>
-                <p className="card__stamp__subTitle">{item.subTitle}</p>
+        <NewStyle>
+          <Slider {...settings} ref={(c) => c}>
+            {card__data__postmark.getAllCards().map((item, index) => (
+              <div className="card__stamp">
+                <img className="card__stamp__img" src={item.img} alt={item.title} />
+                <div className="card__stamp__content">
+                  <h3 className="card__stamp__title">{item.title}</h3>
+                  <p className="card__stamp__subTitle">{item.subTitle}</p>
+                </div>
               </div>
-            </Link>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </NewStyle>
       </div>
     </div>
   );

@@ -12,13 +12,7 @@ const FormResponed = (props) => {
           <span className="input-group-text" id="inputGroupPrepend">
             <i className="far fa-comments"></i>
           </span>
-          <textarea
-            type="text"
-            className="form-control"
-            id="validationCustom03"
-            placeholder="Comment"
-            rows="10"
-          ></textarea>
+          <textarea type="text" className="form-control" id="validationCustom03" placeholder="Comment" rows="10"></textarea>
         </div>
       </div>
       <div className="col-md-6">
@@ -26,13 +20,7 @@ const FormResponed = (props) => {
           <span className="input-group-text" id="inputGroupPrepend">
             <i className="fas fa-user"></i>
           </span>
-          <input
-            type="text"
-            className="form-control"
-            id="validationCustom02"
-            placeholder="Name*"
-            required
-          />
+          <input type="text" className="form-control" id="validationCustom02" placeholder="Name*" required />
         </div>
         <div className="valid-feedback">Looks good!</div>
       </div>
@@ -57,16 +45,13 @@ const FormResponed = (props) => {
         <div className="form-check">
           <input type="checkbox" value="" id="invalidCheck" required />
           <label className="form-check-label" htmlFor="invalidCheck">
-            Save my name, email, and website in this browser for the next time I
-            comment.
+            Save my name, email, and website in this browser for the next time I comment.
           </label>
-          <div className="invalid-feedback">
-            You must agree before submitting.
-          </div>
+          <div className="invalid-feedback">You must agree before submitting.</div>
         </div>
       </div>
       <div className="col-12">
-        <button className="btn btn-primary" type="submit">
+        <button disabled className="btn btn-primary" type="submit">
           Submit
         </button>
       </div>
@@ -81,9 +66,8 @@ const FormDescription = (props) => {
       <div className="form__description">
         <h2 className="form__title">Good To Know</h2>
         <h3 className="form__subtitle">
-          Good to Know Read the basic info and also some fun facts about
-          Australia! Here you will find everything you should know about the
-          ‘’Land of Plenty’’!
+          Good to Know Read the basic info and also some fun facts about Australia! Here you will find everything you should know about the ‘’Land of
+          Plenty’’!
         </h3>
         <table>
           <tr>
@@ -147,23 +131,14 @@ const FormFollow = () => {
     >
       <div className="form__follow">
         <h2 className="form__title">Newsleter</h2>
-        <p className="form__subtitle">
-          Rebum sit takimata ea amet est, est no sea sadipscing magna voluptua
-          nonumy et labore,.
-        </p>
+        <p className="form__subtitle">Rebum sit takimata ea amet est, est no sea sadipscing magna voluptua nonumy et labore,.</p>
         <div className=" footer__form-name">
           <i className="fas fa-user"></i>
           <input maxLength="50" type="text" placeholder="Name" name="" id="" />
         </div>
         <div className=" footer__form-email">
           <i className="far fa-envelope"></i>
-          <input
-            maxLength="50"
-            type="email"
-            placeholder="Email"
-            name=""
-            id=""
-          />
+          <input maxLength="50" type="email" placeholder="Email" name="" id="" />
         </div>
         <button type="submit" className=" footer__form-submit">
           Subscribe
