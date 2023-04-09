@@ -2,10 +2,6 @@ import React, { useState } from "react";
 
 const RatingStarInput = ({ name, onChange, defaultValue, ...props }) => {
   let [star, setStar] = useState(defaultValue ?? 3);
-  // const [value, setValue] = useState(3);
-  // const onChange = (e) => {
-  //   console.log(e);
-  // };
   var $ = [];
   for (let i = 0; i <= 4; i++) {
     $ = [
@@ -138,11 +134,11 @@ const parallaxBackground = (ref) => {
   });
 };
 
-const numberWithCommas = (num) => {
-  if (num === Math.floor(num)) {
+const numberWithCommas = (num, type = undefined) => {
+  if (num === Math.floor(num) && !type) {
     return `${num}.0`;
   }
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export { RatingStarInput, RatingStar, to_slug, Pagination, get_random, parallaxBackground, numberWithCommas };

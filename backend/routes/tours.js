@@ -6,7 +6,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 //http://localhost:5000/cards
-router.post("/", auth, getTours);
+router.post("/my-tour", auth, getTours);
 router.get("/:id", auth, getTourById);
 router.post("/", auth, createTour);
 // router.patch("/:id", auth, updateTour);

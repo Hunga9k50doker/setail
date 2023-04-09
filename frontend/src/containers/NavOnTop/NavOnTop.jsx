@@ -19,6 +19,8 @@ const NavOnTop = () => {
   const [dataUser, setDataUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const comfirmPasswordRef = useRef(null);
   const modalAccoutRef = useRef(null);
+  const rememberImputRef = useRef(null);
+  const [isRemenber, setIsRemenber] = useState(JSON.parse(localStorage.getItem("isRemenber")) ?? false);
   const { authData } = useSelector((state) => state.authReducer);
   const location = useLocation();
   const [formLogin, setFormLogin] = useState({
@@ -39,6 +41,7 @@ const NavOnTop = () => {
       const decodeToken = decode(token);
       if (decodeToken.exp * 100000 < new Date().getTime()) logout();
     }
+
     setDataUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
   const handleEvents = {
@@ -47,16 +50,23 @@ const NavOnTop = () => {
     },
     registerAcc(e) {
       if (comfirmPasswordRef.current.value !== formRegister.password) {
-        console.log(comfirmPasswordRef.current.value, formRegister.password);
         toast.warning("Password not match!");
       } else {
         dispatch(register(formRegister, history));
       }
     },
     loginAcc() {
+      if (rememberImputRef.current.checked) {
+        localStorage.setItem("isRemember", JSON.stringify(true));
+        setIsRemenber(true);
+      } else {
+        localStorage.removeItem("isRemember");
+        setIsRemenber(false);
+      }
       dispatch(login(formLogin, history));
     },
   };
+
   const logout = () => {
     dispatch({ type: LOGOUT });
     window.location.replace("/");
@@ -266,6 +276,7 @@ const NavOnTop = () => {
                           type="text"
                           placeholder="Username"
                           name="username"
+                          autoComplete={isRemenber.toString()}
                           onChange={(e) => setFormLogin({ ...formLogin, username: e.target.value })}
                         />
                       </div>
@@ -276,11 +287,12 @@ const NavOnTop = () => {
                           type="password"
                           placeholder="Password"
                           name="password"
+                          autoComplete={isRemenber.toString()}
                           onChange={(e) => setFormLogin({ ...formLogin, password: e.target.value })}
                         />
                       </div>
                       <div className="form__body__input__radio">
-                        <input name="remember_login" id="remember_login" type="checkbox" />
+                        <input ref={rememberImputRef} name="remember_login" id="remember_login" type="checkbox" />
                         <label htmlFor="remember_login">Remember me</label>
                       </div>
                       <h5>

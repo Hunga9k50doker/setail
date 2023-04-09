@@ -4,13 +4,11 @@ import mongoose from "mongoose";
 
 export const getTours = async (req, res) => {
   const { userId } = req.body;
-  console.log(userId);
   try {
-    const tours = await ToursBooked.aggregate([{ $match: { userId: userId } }]);
+    const tours = await ToursBooked.find({ userId: userId });
     if (!tours) {
       return res.status(200).json([]);
     }
-    console.log(tours);
     return res.status(200).json(tours);
   } catch (error) {
     return res.status(500).json({ error: error.message });

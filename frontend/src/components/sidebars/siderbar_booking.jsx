@@ -34,10 +34,8 @@ const SidebarBooking = () => {
       ...formData,
       userId: authData.result.id,
       cardId: card._id,
-      total: formData.numberTikets * card.cost,
-      // user: authData.result.id,
+      total: +(formData.numberTikets * card.cost),
     };
-    console.log(dataSubmit);
     dispatch(createTour(dataSubmit));
   };
 
@@ -160,5 +158,6 @@ const initialvalues = {
   date: "",
   description: "",
   numberTikets: 0,
+  total: 0,
 };
 export default SidebarBooking;

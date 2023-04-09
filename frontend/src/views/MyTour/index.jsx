@@ -17,6 +17,8 @@ import { getTours } from "../../actions/tours";
 import Loading from "../../components/loading";
 import { GET_TOUR_BY_ID } from "../../constants/actionTypes";
 import { TypeUser } from "../../config/auth.js";
+import moment from "moment";
+
 const MyTour = () => {
   const { authData } = useSelector((state) => state.authReducer);
   const { tours, isLoading } = useSelector((state) => state.tours);
@@ -43,15 +45,15 @@ const MyTour = () => {
       headerName: "Phone number",
       flex: 1,
     },
-    // {
-    //   field: "dateOfBirth",
-    //   headerName: "Date of Birth",
-    //   flex: 1,
-
-    // },
+    {
+      field: "date",
+      headerName: "Departure date",
+      flex: 1,
+      renderCell: (value) => moment(value).format("DD-MM-YYYY"),
+    },
     {
       field: "numberTikets",
-      headerName: "Tikets",
+      headerName: "Number tikets",
       headerAlign: "center",
       align: "center",
       flex: 1,
@@ -62,6 +64,9 @@ const MyTour = () => {
       headerAlign: "center",
       align: "center",
       flex: 1,
+      renderCell: (value) => {
+        return numberWithCommas(+value.value, "TOTAL");
+      },
     },
     // {
     //   field: "actions",
@@ -105,7 +110,7 @@ const MyTour = () => {
 
   useEffect(() => {
     dispatch(getTours({ userId: authData.result.id }));
-  }, [dispatch]);
+  }, []);
 
   return (
     <Helmet title="My tour">
@@ -129,25 +134,24 @@ const MyTour = () => {
               borderBottom: "none",
             },
             "& .name-column--cell": {
-              color: colors.cyan[800],
+              color: colors.cyan[50],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.cyan[700],
+              backgroundColor: colors.cyan[100],
               borderBottom: "none",
             },
             "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.cyan[100],
+              backgroundColor: colors.cyan[50],
             },
             "& .MuiDataGrid-footerContainer": {
               borderTop: "none",
-              backgroundColor: colors.cyan[700],
+              backgroundColor: colors.cyan[100],
             },
             "& .MuiCheckbox-root": {
               color: `${colors.common["white"]} !important`,
             },
           }}
         >
-          {console.log(tours)}
           {isLoading ? (
             <Loading />
           ) : (

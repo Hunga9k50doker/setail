@@ -19,7 +19,6 @@ const FormEditProduct = () => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
-  // console.log(authData);
   const handleFormSubmit = (data) => {
     if (images.length && imagesPreview.length) {
       const dataSumbit = {

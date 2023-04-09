@@ -30,7 +30,6 @@ const BlogStandard = () => {
   const [itemOffset, setItemOffset] = useState(0);
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setCurrentItems(data.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(data.length / itemsPerPage));
   }, [itemOffset, itemsPerPage]);
@@ -39,8 +38,6 @@ const BlogStandard = () => {
     // window.scrollTo(0, 0);
     setItemOffset(newOffset);
   };
-  console.log(slug);
-  console.log(currentItems.map((c) => c));
   return (
     <Helmet title="Blog Standard">
       {ref === "/blog/without-sidebar" ? (
@@ -48,15 +45,7 @@ const BlogStandard = () => {
           {/* banner */}
           {getImgBanner.map(
             (item, index) =>
-              index === 0 && (
-                <Banner
-                  key={index}
-                  bgUrl={item.bgUrl}
-                  img={item.img}
-                  title="Without Sidebar"
-                  subTitle="Amazing tour"
-                ></Banner>
-              )
+              index === 0 && <Banner key={index} bgUrl={item.bgUrl} img={item.img} title="Without Sidebar" subTitle="Amazing tour"></Banner>
           )}
           <div className="container ">
             <div className="row ">
@@ -64,12 +53,8 @@ const BlogStandard = () => {
                 <>
                   {currentItems.map((e, id) =>
                     to_slug(e.type) === slug
-                      ? to_slug(e.type) === slug && (
-                          <BlogItem key={id} blog={e} />
-                        )
-                      : to_slug(e.type) === "summer" && (
-                          <BlogItem key={id} blog={e} />
-                        )
+                      ? to_slug(e.type) === slug && <BlogItem key={id} blog={e} />
+                      : to_slug(e.type) === "summer" && <BlogItem key={id} blog={e} />
                   )}
                 </>
               </div>
@@ -81,15 +66,7 @@ const BlogStandard = () => {
           {/* banner */}
           {getImgBanner.map(
             (item, index) =>
-              index === 0 && (
-                <Banner
-                  key={index}
-                  bgUrl={item.bgUrl}
-                  img={item.img}
-                  title="Left Sidebar"
-                  subTitle="Amazing tour"
-                ></Banner>
-              )
+              index === 0 && <Banner key={index} bgUrl={item.bgUrl} img={item.img} title="Left Sidebar" subTitle="Amazing tour"></Banner>
           )}
           <div className="container ">
             <div className="row ">
@@ -100,12 +77,8 @@ const BlogStandard = () => {
                 <>
                   {currentItems.map((e, id) =>
                     to_slug(e.type) === slug
-                      ? to_slug(e.type) === slug && (
-                          <BlogItem key={id} blog={e} />
-                        )
-                      : to_slug(e.type) === "summer" && (
-                          <BlogItem key={id} blog={e} />
-                        )
+                      ? to_slug(e.type) === slug && <BlogItem key={id} blog={e} />
+                      : to_slug(e.type) === "summer" && <BlogItem key={id} blog={e} />
                   )}
                 </>
               </div>
@@ -117,15 +90,7 @@ const BlogStandard = () => {
           {/* banner */}
           {getImgBanner.map(
             (item, index) =>
-              index === 0 && (
-                <Banner
-                  key={index}
-                  bgUrl={item.bgUrl}
-                  img={item.img}
-                  title="Right Sidebar"
-                  subTitle="Amazing tour"
-                ></Banner>
-              )
+              index === 0 && <Banner key={index} bgUrl={item.bgUrl} img={item.img} title="Right Sidebar" subTitle="Amazing tour"></Banner>
           )}
           <div className="container ">
             <div className="row ">
@@ -133,12 +98,8 @@ const BlogStandard = () => {
                 <>
                   {currentItems.map((e, id) =>
                     to_slug(e.type) === slug
-                      ? to_slug(e.type) === slug && (
-                          <BlogItem key={id} blog={e} />
-                        )
-                      : to_slug(e.type) === "summer" && (
-                          <BlogItem key={id} blog={e} />
-                        )
+                      ? to_slug(e.type) === slug && <BlogItem key={id} blog={e} />
+                      : to_slug(e.type) === "summer" && <BlogItem key={id} blog={e} />
                   )}
                 </>
               </div>
@@ -152,16 +113,7 @@ const BlogStandard = () => {
         <div className="component">
           {/* banner */}
           {getImgBanner.map(
-            (item, index) =>
-              index === 0 && (
-                <Banner
-                  key={index}
-                  bgUrl={item.bgUrl}
-                  img={item.img}
-                  title={title}
-                  subTitle="Amazing tour"
-                ></Banner>
-              )
+            (item, index) => index === 0 && <Banner key={index} bgUrl={item.bgUrl} img={item.img} title={title} subTitle="Amazing tour"></Banner>
           )}
           <div className="container ">
             <div className="row ">
@@ -169,12 +121,8 @@ const BlogStandard = () => {
                 <>
                   {currentItems.map((e, id) =>
                     to_slug(e.type) === slug
-                      ? to_slug(e.type) === slug && (
-                          <BlogItem key={id} blog={e} />
-                        )
-                      : to_slug(e.type) === "summer" && (
-                          <BlogItem key={id} blog={e} />
-                        )
+                      ? to_slug(e.type) === slug && <BlogItem key={id} blog={e} />
+                      : to_slug(e.type) === "summer" && <BlogItem key={id} blog={e} />
                   )}
                 </>
               </div>

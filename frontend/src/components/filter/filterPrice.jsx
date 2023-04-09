@@ -39,7 +39,6 @@ const FilterPrice = (props) => {
         priceInput[1].value = maxVal;
         range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
         range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
-        console.log(priceInput[0].value);
       }
     });
   });
@@ -49,30 +48,14 @@ const FilterPrice = (props) => {
       <div className="range__sidebar">
         <div className="range__progress"></div>
         <div className="range__input">
-          <input
-            type="range"
-            name="range_price"
-            className="e range__min "
-            defaultValue={12}
-            min={12}
-            step="1"
-            max={3600}
-          />
+          <input type="range" name="range_price" className="e range__min " defaultValue={12} min={12} step="1" max={3600} />
 
-          <input
-            type="range"
-            name="range_price"
-            className=" range__max "
-            defaultValue={3600}
-            min={12}
-            step="1"
-            max={3600}
-          />
+          <input type="range" name="range_price" className=" range__max " defaultValue={3600} min={12} step="1" max={3600} />
         </div>
       </div>
 
       <p className="sidebar__item-price price-input">
-        Price: $<input type="number" className="input__min" value="12"  /> - $
+        Price: $<input type="number" className="input__min" value="12" /> - $
         <input type="number" className="input__max" value="3600" />
         {props.children}
       </p>

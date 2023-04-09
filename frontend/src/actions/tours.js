@@ -42,7 +42,7 @@ export const createTour = (tour) => async (dispatch) => {
     dispatch({ type: START_LOADING });
     const { data } = await api.createTour(tour);
     dispatch({ type: END_LOADING });
-    dispatch({ type: CREATE_TOUR, payload: { data } });
+    dispatch({ type: CREATE_TOUR, payload: data });
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
