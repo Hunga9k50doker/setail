@@ -36,6 +36,9 @@ const NewStyle = styled.div`
       width: 100%;
       color: #fff;
     }
+    .card-title {
+      bottom: 20px;
+    }
   }
 `;
 

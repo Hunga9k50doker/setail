@@ -5,21 +5,28 @@ import { NavLink, Link, useHistory } from "react-router-dom";
 import LogoHeader from "../../assets/img/logo/logo-header.png";
 import { CustomTitle, map, CardEmpty } from "../../assets/img";
 import CardSelection from "../../components/cards/cardSelection/cardSelection";
-import cardData from "../../assets/fake-data/CardDetails";
-import { to_slug } from "../../utils/utils";
-import { useDispatch } from "react-redux";
 import { LOGOUT } from "../../constants/actionTypes";
+import { useSelector, useDispatch } from "react-redux";
+import { GET_CARD_BY_ID } from "../../constants/actionTypes";
+
 const Nav = () => {
+  const { cards, isLoading } = useSelector((state) => state.cards);
   const [showModal, setShowModal] = useState(false);
   const [showAncordion, setShowAncordion] = useState(false);
   const [searchItem, setSearchItem] = useState("");
-  const [data, setData] = useState(cardData.getAllCards());
+  const [data, setData] = useState(cards);
   const [dataUser, setDataUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const history = useHistory();
   const dispatch = useDispatch();
+
   let item = 8;
   let count = 0;
   const modalRef = useRef();
+  const onRedirect = (item) => {
+    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
+    history.push(`/tour-item/${item._id}`);
+    setShowModal(false);
+  };
   useEffect(() => {
     const clickOutSide = (e) => {
       if (e.target === modalRef.current) setShowModal(false);
@@ -30,6 +37,9 @@ const Nav = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setData(cards);
+  }, [cards]);
   const logout = () => {
     dispatch({ type: LOGOUT });
     window.location.replace("/");
@@ -365,12 +375,7 @@ const Nav = () => {
               })
               .slice(0, item)
               .map((item, id) => (
-                <Link
-                  key={id}
-                  to={"/tour-item/" + to_slug(item.title)}
-                  className="col col-xxl-3 col-lg-6 col-md-6 col-12"
-                  onClick={() => setShowModal(false)}
-                >
+                <div key={id} onClick={() => onRedirect(item)} className="col col-xxl-3 col-lg-6 col-md-6 col-12 cursor-pointer">
                   <CardSelection
                     img={item.img}
                     title={item.title}
@@ -378,7 +383,7 @@ const Nav = () => {
                     cost={Number(item.cost)}
                     icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
                   />
-                </Link>
+                </div>
               ))}
           </div>
         </form>

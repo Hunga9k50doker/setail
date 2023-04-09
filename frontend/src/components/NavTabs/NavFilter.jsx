@@ -9,8 +9,9 @@ import NavContentDate from "./NavTabsContent/date";
 import NavContentLowToHigh from "./NavTabsContent/lowToHigh";
 import NavContentHighToLow from "./NavTabsContent/highToLow";
 import NavContentAZ from "./NavTabsContent/stringA_Z";
+import Loading from "../loading";
 
-const NavTabFilter = () => {
+const NavTabFilter = ({ data, isLoading, onRedirect }) => {
   return (
     <>
       <nav>
@@ -75,40 +76,24 @@ const NavTabFilter = () => {
       </nav>
 
       <div className="col col-xxl-9 col-lg-12 col-md-12 col-12">
-        <div className="tab-content" id="nav-tabContent">
-          <div
-            className="tab-pane fade show active"
-            id="nav-date"
-            role="tabpanel"
-            aria-labelledby="nav-date-tab"
-          >
-            <NavContentDate />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="tab-content" id="nav-tabContent">
+            <div className="tab-pane fade show active" id="nav-date" role="tabpanel" aria-labelledby="nav-date-tab">
+              <NavContentDate data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            </div>
+            <div className="tab-pane fade" id="nav-low-to-high" role="tabpanel" aria-labelledby="nav-low-to-high-tab">
+              <NavContentLowToHigh data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            </div>
+            <div className="tab-pane fade" id="nav-high-to-low" role="tabpanel" aria-labelledby="nav-high-to-low-tab">
+              <NavContentHighToLow data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            </div>
+            <div className="tab-pane fade" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
+              <NavContentAZ data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            </div>
           </div>
-          <div
-            className="tab-pane fade"
-            id="nav-low-to-high"
-            role="tabpanel"
-            aria-labelledby="nav-low-to-high-tab"
-          >
-            <NavContentLowToHigh />
-          </div>
-          <div
-            className="tab-pane fade"
-            id="nav-high-to-low"
-            role="tabpanel"
-            aria-labelledby="nav-high-to-low-tab"
-          >
-            <NavContentHighToLow />
-          </div>
-          <div
-            className="tab-pane fade"
-            id="nav-name"
-            role="tabpanel"
-            aria-labelledby="nav-name-tab"
-          >
-            <NavContentAZ />
-          </div>
-        </div>
+        )}
       </div>
       {/* sidebar */}
       <div className="col col-xxl-3 col-lg-12 col-md-12 col-12">

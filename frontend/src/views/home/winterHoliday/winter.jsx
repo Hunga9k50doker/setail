@@ -146,7 +146,7 @@ const HomeWinter = () => {
               {cardData
                 .filter((c) => c.type === "winter")
                 .map((item, index) => (
-                  <Link to={`#`} onClick={() => onRedirect(item)}>
+                  <div className="cursor-pointer" onClick={() => onRedirect(item)}>
                     <CardDetails
                       img={item.img}
                       calendar={new Date(item.calendar).getMonth()}
@@ -164,7 +164,7 @@ const HomeWinter = () => {
                           : "fas fa-star"
                       }
                     />
-                  </Link>
+                  </div>
                 ))}
             </SlideCardTravel>
           )}
@@ -210,7 +210,7 @@ const HomeWinter = () => {
             .map((item, index) => (
               <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
                 <NewStyleItem>
-                  <Link to={"/destinations/" + to_slug(item.title)}>
+                  <Link to={"/destinations/item/" + to_slug(item.title)}>
                     <CardSelection
                       img={item.img}
                       title={item.title}

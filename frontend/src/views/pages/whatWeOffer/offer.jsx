@@ -91,15 +91,7 @@ const WhatWeOffer = () => {
         <CarouselBanner>
           {getImgBanner.map(
             (item, index) =>
-              index === 1 && (
-                <Banner
-                  key={index}
-                  img={item.img}
-                  title={item.title}
-                  subTitle={item.subTitle}
-                  description={item.description}
-                ></Banner>
-              )
+              index === 1 && <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
           )}
         </CarouselBanner>
       </NewStyleSlick>
@@ -110,38 +102,20 @@ const WhatWeOffer = () => {
         <div className="offer__subscribe__item">
           <form action="" className=" footer__form">
             <h3 className=" footer__title">Newsletter</h3>
-            <h5 className=" footer__content  footer__text">
-              Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho
-            </h5>
+            <h5 className=" footer__content  footer__text">Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho</h5>
             <div className=" footer__form-name">
               <i className="fas fa-user"></i>
-              <input
-                maxLength="50"
-                type="text"
-                placeholder="Name"
-                name=""
-                id=""
-              />
+              <input maxLength="50" type="text" placeholder="Name" name="" id="" />
             </div>
             <div className=" footer__form-email">
               <i className="far fa-envelope"></i>
-              <input
-                maxLength="50"
-                type="email"
-                placeholder="Email"
-                name=""
-                id=""
-              />
+              <input maxLength="50" type="email" placeholder="Email" name="" id="" />
             </div>
             <button className=" footer__form-submit">Subscribe</button>
           </form>
         </div>
         <div className="offer__subscribe__item">
-          <img
-            className="offer__subscribe__img"
-            src={BgOffer2}
-            alt="Not found"
-          ></img>
+          <img className="offer__subscribe__img" src={BgOffer2} alt="Not found"></img>
           <p>50% Off Adventure on Sale</p>
         </div>
       </div>
@@ -161,11 +135,7 @@ const WhatWeOffer = () => {
                 subTitle={item.subTitle}
                 cost={Number(item.cost)}
                 rating={item.rating}
-                icon={
-                  Number(item.rating) < 6
-                    ? "fas fa-star-half-alt"
-                    : "fas fa-star"
-                }
+                icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
               />
             </Link>
           ))}
@@ -182,20 +152,12 @@ const WhatWeOffer = () => {
         <Selections>
           {cardData
             .getAllCards()
-            .filter(
-              (e) =>
-                e.title !== "Slovenia" &&
-                e.title !== "France" &&
-                e.title !== "Switgerland"
-            )
+            .filter((e) => e.title !== "Slovenia" && e.title !== "France" && e.title !== "Switgerland")
             .slice(0, 3)
             .map((item, index) => (
-              <div
-                key={index}
-                className="col col-xxl-4 col-lg-6 col-md-6 col-12"
-              >
+              <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
                 <NewStyleItem>
-                  <Link to={"/tour-item/" + to_slug(item.title)}>
+                  <Link to={"/destinations/item/" + to_slug(item.title)}>
                     <CardSelection
                       img={item.img}
                       title={item.title}

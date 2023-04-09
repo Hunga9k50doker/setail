@@ -81,7 +81,7 @@ const HomeTravel = () => {
       {Boolean(cardData.length) && (
         <Selections>
           {cardData.map((item, index) => (
-            <Link to={`#`} onClick={() => onRedirect(item)} key={index} className="col col-xxl-3 col-lg-6 col-md-6 col-12">
+            <div onClick={() => onRedirect(item)} key={index} className="cursor-pointer col col-xxl-3 col-lg-6 col-md-6 col-12">
               <CardSelection
                 img={item.img}
                 title={item.title}
@@ -89,7 +89,7 @@ const HomeTravel = () => {
                 cost={Number(item.cost)}
                 icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
               />
-            </Link>
+            </div>
           ))}
         </Selections>
       )}

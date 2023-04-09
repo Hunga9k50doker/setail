@@ -185,7 +185,7 @@ const HomeExotic = () => {
                   .map((item, index) => (
                     <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
                       <NewStyleItem>
-                        <Link to={`#`} onClick={() => onRedirect(item)}>
+                        <div className="cursor-pointer" onClick={() => onRedirect(item)}>
                           <CardSelection
                             img={item.img}
                             title={item.title}
@@ -193,7 +193,7 @@ const HomeExotic = () => {
                             cost={Number(item.cost)}
                             // icon={Number(item.rating) < 6 ?"fas fa-star-half-alt" : "fas fa-star"}
                           />
-                        </Link>
+                        </div>
                       </NewStyleItem>
                     </div>
                   ))}
@@ -201,7 +201,7 @@ const HomeExotic = () => {
 
               <Selections>
                 {get_random(cardData, 6).map((item, index) => (
-                  <Link to={`#`} onClick={() => onRedirect(item)} key={index} className="col col-xxl-4 col-lg-4 col-md-6 col-12">
+                  <div onClick={() => onRedirect(item)} key={index} className="col col-xxl-4 col-lg-4 col-md-6 col-12 cursor-pointer">
                     <CardSelection
                       img={item.img}
                       title={item.title}
@@ -215,7 +215,7 @@ const HomeExotic = () => {
                           : "fas fa-star"
                       }
                     />
-                  </Link>
+                  </div>
                 ))}
               </Selections>
             </NewStyleSelection>

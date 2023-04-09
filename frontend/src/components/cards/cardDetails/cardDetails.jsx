@@ -29,7 +29,6 @@ const CardDetails = (props) => {
           </p>
         </div>
         <h3 className="card-title">{props.title}</h3>
-
         <div className="container__text">
           <p className="card-text">{props.description}</p>
         </div>

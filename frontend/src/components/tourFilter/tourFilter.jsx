@@ -42,7 +42,7 @@ const TourFilter = ({ children }) => {
             </select>
           </li>
           <li className="tour__filter-item">
-            <input type="submit" value="Find now" />
+            <input type="button" value="Find now" />
           </li>
         </ul>
       </form>

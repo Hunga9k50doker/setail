@@ -7,36 +7,19 @@ const SidebarSearch = () => {
       <div className="sidebar">
         <div className="sidebar__item">
           <h3 className="sidebar__item-title">Plan your trip</h3>
-          <p className="sidebar__item-subTitle">
-            It’s time to plan just the perfect vacation!
-          </p>
+          <p className="sidebar__item-subTitle">It’s time to plan just the perfect vacation!</p>
           <ul className="sidebar__item-inputs">
             <li className="sidebar__item-input">
               <i className="fab fa-searchengin"></i>
-              <input
-                type="text"
-                name="name_tour"
-                id="name_tour"
-                placeholder="Search tour"
-              />
+              <input type="text" name="name_tour" id="name_tour" placeholder="Search tour" />
             </li>
             <li className="sidebar__item-input">
               <i className="far fa-compass"></i>
-              <input
-                type="text"
-                name="where_tour"
-                id="where_tour"
-                placeholder="Where tour"
-              />
+              <input type="text" name="where_tour" id="where_tour" placeholder="Where tour" />
             </li>
             <li className="sidebar__item-input">
               <i className="fas fa-calendar-week"></i>
-              <input
-                type="text"
-                name="time_tour"
-                id="time_tour"
-                placeholder="Month"
-              />
+              <input type="text" name="time_tour" id="time_tour" placeholder="Month" />
             </li>
           </ul>
         </div>
@@ -75,15 +58,11 @@ const SidebarSearch = () => {
           </ul>
         </div>
         <div className="siderbar__item">
-          <button>Search</button>
+          <button disabled>Search</button>
         </div>
       </div>
       <Link to="/shop/product-list" style={{ width: "100%" }} className="img">
-        <img
-          style={{ width: "100%", marginTop: "40px" }}
-          src={require("../../assets/img/other/sidebar-img-1.jpg").default}
-          alt="not found"
-        />
+        <img style={{ width: "100%", marginTop: "40px" }} src={require("../../assets/img/other/sidebar-img-1.jpg").default} alt="not found" />
       </Link>
     </>
   );

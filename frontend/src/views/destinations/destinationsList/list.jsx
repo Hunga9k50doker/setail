@@ -59,24 +59,15 @@ const List = () => {
     <Helmet title="Destination List">
       <div className="component destination__list">
         {getImgBanner.map((item, index) => (
-          <Banner
-            key={index}
-            img={item.img}
-            title={item.title}
-            subTitle={item.subTitle}
-            description={item.description}
-          ></Banner>
+          <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
         ))}
         {/* selection item  */}
         <NewStyleSelection>
           <Selections>
             {cardData.getCards_random(12).map((item, index) => (
-              <div
-                key={index}
-                className="col col-xxl-4 col-lg-6 col-md-6 col-12"
-              >
+              <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
                 <NewStyleItem>
-                  <Link to={"/tour-item/" + to_slug(item.title)}>
+                  <Link to={"/destinations/item/" + to_slug(item.title)}>
                     <CardSelection
                       img={item.img}
                       title={item.title}

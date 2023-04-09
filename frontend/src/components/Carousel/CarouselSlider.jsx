@@ -1,9 +1,9 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { Link } from "react-router-dom";
 import cardData from "../../assets/fake-data/CardDetails";
-
+import { to_slug } from "../../utils/utils";
 import "./Carousel.scss";
 
 const CarouselSlider = () => {
@@ -48,11 +48,11 @@ const CarouselSlider = () => {
           .getAllCards()
           .filter((e) => e.type === "carousel__slider")
           .map((item, index) => (
-            <div key={index} className="card__slider">
+            <Link to={`/destinations/item/${to_slug(item.title)}`} key={index} className="card__slider">
               <img className="card__slider__img" src={item.img} alt={item.title} />
               <h3 className="card__slider__title">{item.title}</h3>
               <p className="card__slider__subtitle">{item.subTitle}</p>
-            </div>
+            </Link>
           ))}
       </Slider>
     </div>

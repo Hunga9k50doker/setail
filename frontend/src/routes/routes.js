@@ -70,7 +70,7 @@ const PublishRoute = [
 
   { path: "/destinations/list", component: List },
   { path: "/destinations/slider", component: Slider },
-  { path: "/destinations/:slug", component: Item },
+  { path: "/destinations/item/:slug", component: Item },
 
   { path: "/tours/gallery-list", component: Gallery },
   { path: "/tours/standard-list", component: Standard },
