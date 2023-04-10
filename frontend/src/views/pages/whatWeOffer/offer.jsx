@@ -95,7 +95,7 @@ const WhatWeOffer = () => {
   const [cardData, setCardData] = React.useState(cards);
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
-    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+    history.push(`/tour-item/${item?._id}`);
   };
 
   React.useEffect(() => {
@@ -109,6 +109,7 @@ const WhatWeOffer = () => {
   React.useEffect(() => {
     if (ref.current) parallaxBackground(ref.current);
   }, []);
+
   return (
     <Helmet title="What We Offer" className="component">
       {/* banner */}
