@@ -1,7 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-
 /.history
 /node_modules
 /.pnp
@@ -27,3 +26,4 @@ yarn-error.log*
 /.vscode
 .eslintignore
 .env
+.gitignore
