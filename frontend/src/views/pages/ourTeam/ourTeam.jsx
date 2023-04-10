@@ -52,15 +52,7 @@ const OurTeam = () => {
         <CarouselBanner>
           {getImgBanner.map(
             (item, index) =>
-              index === 2 && (
-                <Banner
-                  key={index}
-                  img={item.img}
-                  title={item.title}
-                  subTitle={item.subTitle}
-                  description={item.description}
-                ></Banner>
-              )
+              index === 2 && <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
           )}
         </CarouselBanner>
       </NewStyleSlick>
@@ -74,7 +66,7 @@ const OurTeam = () => {
       </NewStyleCustomTitle>
 
       {/* team selection */}
-      <section className="team-holder row row__team">
+      <section className="team-holder row row__team p-0">
         {teamData
           .filter((e) => !!e.content)
           .slice(0, 4)
@@ -87,13 +79,7 @@ const OurTeam = () => {
       {/* sub content */}
       <NewStyleCustomContent>
         {getContent1.map((item, index) => (
-          <CustomContent
-            key={index}
-            img={item.img}
-            title={item.title}
-            subTitle={item.subTitle}
-            description={item.description}
-          ></CustomContent>
+          <CustomContent key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></CustomContent>
         ))}
       </NewStyleCustomContent>
       <Sub />

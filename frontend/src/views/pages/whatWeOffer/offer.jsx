@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { getCards } from "../../../actions/cards";
 // import data
 import BannerArr from "../../../assets/fake-data/Banner";
-import cardData from "../../../assets/fake-data/CardDetails";
+import cardDataTemplate from "../../../assets/fake-data/CardDetails";
 import { BgOffer2 } from "../../../assets/img";
 // import components
 import Helmet from "../../../components/Helmet/Helmet";
@@ -20,7 +22,10 @@ import Sub from "../../../components/Subscribe/sub";
 import Banner from "../../../components/banner/banner";
 import "../../App.scss";
 import "./offer.scss";
-
+import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
+import { useHistory } from "react-router-dom";
+import { ScoreRating } from "../../../config/scoreRating";
+import Loading from "../../../components/loading";
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_pages");
 
@@ -32,7 +37,7 @@ const NewStyleSlick = styled.div`
 
 const NewStyleCustomTitle = styled.div`
   .customTitle {
-    margin-top: 0;
+    margin-top: 20px;
   }
   p {
     max-width: 600px;
@@ -83,7 +88,27 @@ const NewStyleCustomDetails = styled.div`
 
 const WhatWeOffer = () => {
   const ref = React.useRef();
-  ref.current ? parallaxBackground(ref.current) : "";
+
+  const { cards, isLoading } = useSelector((state) => state.cards);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [cardData, setCardData] = React.useState(cards);
+  const onRedirect = (item) => {
+    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
+    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+  };
+
+  React.useEffect(() => {
+    if (!cards.length) {
+      dispatch(getCards);
+    } else {
+      setCardData(cards);
+    }
+  }, [cards]);
+
+  React.useEffect(() => {
+    if (ref.current) parallaxBackground(ref.current);
+  }, []);
   return (
     <Helmet title="What We Offer" className="component">
       {/* banner */}
@@ -119,27 +144,35 @@ const WhatWeOffer = () => {
           <p>50% Off Adventure on Sale</p>
         </div>
       </div>
-
-      <SlideCardTravel>
-        {cardData
-          .getAllCards()
-          .filter((c) => c.type === "winter")
-          .map((item, index) => (
-            <Link key={index} to={"/tour-item/" + to_slug(item.title)}>
-              <CardDetails
-                img={item.img}
-                calendar={item.calendar}
-                custom={item.custom}
-                location={item.location}
-                title={item.title}
-                subTitle={item.subTitle}
-                cost={Number(item.cost)}
-                rating={item.rating}
-                icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
-              />
-            </Link>
-          ))}
-      </SlideCardTravel>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {cardData.length ? (
+            <SlideCardTravel>
+              {cardData
+                .filter((c) => c.type === "winter")
+                .map((item, index) => (
+                  <div key={index} className="cursor-pointer" onClick={() => onRedirect(item)}>
+                    <CardDetails
+                      img={item.img}
+                      calendar={new Date(item.calendar).getMonth()}
+                      custom={item.custom}
+                      location={item.location}
+                      title={item.title}
+                      description={item.description}
+                      cost={Number(item.cost)}
+                      rating={item.rating}
+                      icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
+                    />
+                  </div>
+                ))}
+            </SlideCardTravel>
+          ) : (
+            <h3 className="text-center">No data</h3>
+          )}
+        </>
+      )}
       <NewStyleCustomTitle>
         <CustomTitle
           content="Choose Your"
@@ -150,7 +183,7 @@ const WhatWeOffer = () => {
       {/* selection item  */}
       <NewStyleSelection>
         <Selections>
-          {cardData
+          {cardDataTemplate
             .getAllCards()
             .filter((e) => e.title !== "Slovenia" && e.title !== "France" && e.title !== "Switgerland")
             .slice(0, 3)
