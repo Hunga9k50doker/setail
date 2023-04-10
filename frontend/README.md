@@ -33,7 +33,6 @@ reactjs, bootstrap.
 hook, sass,jsx
 
 # Preview: 
-Link: https://sleepy-boyd-387d81.netlify.app/
 
 ![p1](https://user-images.githubusercontent.com/66461092/155833289-5e5a3582-7c6e-425a-a7ee-429b42a9abd4.png)
 
