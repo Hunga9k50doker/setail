@@ -62,13 +62,13 @@ export const updateReviewCard = async (req, res) => {
   try {
     const cardDetail = await CardMessage.findById(id);
     if (!cardDetail) return res.status(404).json({ message: `No card with id: ${id}` });
-    cardDetail.count_rating === 0 ? (countRating = 1) : (countRating = cardDetail.count_rating);
+    cardDetail.count_rating === 0 ? countRating : (countRating = cardDetail.count_rating);
     const new__review__details = review__details.map((ele) => {
       const itemRating = cardDetail.review__details.find((item) => item.title === ele.title);
       if (itemRating) {
         return {
           title: itemRating.title,
-          percent: +((itemRating.percent * countRating + ele.percent) / (countRating + 1)).toFixed(1),
+          percent: +((itemRating.percent * countRating + ele.percent) / (cardDetail.count_rating + 1)).toFixed(1),
         };
       }
     });
@@ -81,8 +81,11 @@ export const updateReviewCard = async (req, res) => {
       {
         review__details: new__review__details,
         review__descriptions: cardDetail.review__descriptions,
-        rating: +(((cardDetail.rating === 0 ? 1 : cardDetail.rating) * countRating + +newRating.percent / 60) / (countRating + 1)).toFixed(1),
-        count_rating: countRating + 1,
+        rating: +(
+          ((cardDetail.rating === 0 ? 1 : cardDetail.rating) * countRating + +newRating.percent / 60) /
+          (cardDetail.count_rating + 1)
+        ).toFixed(1),
+        count_rating: cardDetail.count_rating + 1,
       },
       { new: true }
     );
