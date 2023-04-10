@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import "./VideoDemo.scss";
 import { PosterBtn } from "../../assets/img";
 import { parallaxBackground } from "../../utils/utils";
@@ -12,7 +12,9 @@ const handleEvents = {
 
 const VideoDemo = (props) => {
   let refVideo = useRef();
-  refVideo.current ? parallaxBackground(refVideo.current) : "";
+  useEffect(() => {
+    if (refVideo.current) parallaxBackground(refVideo.current);
+  }, []);
   return (
     <div className="grid">
       <div

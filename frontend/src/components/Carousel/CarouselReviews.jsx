@@ -45,7 +45,9 @@ const SlideCardReview = (props) => {
     ],
   };
   const ref = React.useRef();
-  ref.current ? parallaxBackground(ref.current) : "";
+  React.useEffect(() => {
+    if (ref.current) parallaxBackground(ref.current);
+  }, []);
   return (
     <div ref={ref} className=" slide__card__review " style={{ backgroundImage: `url(${props.bgUrl})` }}>
       <h2 className="review__title" style={{ marginTop: "100px" }}>
