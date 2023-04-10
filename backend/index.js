@@ -13,7 +13,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
-    origin: ["https://setail-92d8z84bg-hunga9k50doker.vercel.app/", "https://setail.onrender.com"],
+    origin: true,
   })
 );
 
