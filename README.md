@@ -4,10 +4,10 @@
 ## Setup: 
  - clone git: ```git clone https://github.com/Hunga9k50doker/setail.git```
  - install modules:
-  ***client: ```cd frontend && npm install --legacy-peer-deps```
-  ***sever: ```cd backend && npm install```
+ client: ```cd frontend && npm install --legacy-peer-deps```,
+ sever: ```cd backend && npm install```
                     
  - run app:  
-  ---client: ```npm start```
-  ---sever: ```npm run dev```
+  client: ```npm start```,
+  sever: ```npm run dev```
             
