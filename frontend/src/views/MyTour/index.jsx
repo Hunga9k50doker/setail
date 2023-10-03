@@ -117,10 +117,10 @@ const MyTour = () => {
       <Box m="20px">
         <Box mb="30px" mt={12}>
           <Typography variant="h3" color={colors.cyan["A700"]} fontWeight="bold" sx={{ m: "0 0 5px 0" }}>
-            My Tour
+            Your Tour
           </Typography>
           <Typography variant="h5" color={colors.cyan["A700"]}>
-            Managing the my tour
+            Managing your tour
           </Typography>
         </Box>
         <Box
