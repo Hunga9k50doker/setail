@@ -136,12 +136,14 @@ const HomeExotic = () => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
-  useEffect(() => {
+ useEffect(() => {
     if (!cards.length) {
       dispatch(getCards);
-    } else {
-      setCardData(cards);
-    }
+    } 
+  }, []);
+
+  useEffect(() => {
+    setCardData(cards);
   }, [cards]);
   return (
     <Helmet title="Home Exotic Holiday" className="component exotic">

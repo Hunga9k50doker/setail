@@ -170,7 +170,7 @@ const Product = () => {
               <Button sx={{ mb: "8px", background: colors.greenAccent[400] }} startIcon={<AddIcon />} onClick={handleAdd}>
                 Add Product
               </Button>
-              <DataGrid checkboxSelection rows={cards.cards} columns={columns} getRowId={(row) => row._id} />
+              <DataGrid checkboxSelection rows={cards.cards} columns={columns} getRowId={(row) => row._id||row.title} />
             </>
           )}
         </Box>

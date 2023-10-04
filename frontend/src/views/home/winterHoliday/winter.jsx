@@ -117,12 +117,14 @@ const HomeWinter = () => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
-  useEffect(() => {
+ useEffect(() => {
     if (!cards.length) {
       dispatch(getCards);
-    } else {
-      setCardData(cards);
-    }
+    } 
+  }, []);
+
+  useEffect(() => {
+    setCardData(cards);
   }, [cards]);
   return (
     <Helmet title="Home Winter Holiday" className="component">
@@ -149,8 +151,8 @@ const HomeWinter = () => {
                   <div className="cursor-pointer" onClick={() => onRedirect(item)}>
                     <CardDetails
                       img={item.img}
-                      calendar={new Date(item.calendar).getMonth()}
-                      custom={item.custom}
+                      calendar={new Date(item.calendar).getMonth().toString()}
+                      custom={+item.custom}
                       location={item.location}
                       title={item.title}
                       subTitle={item.subTitle}

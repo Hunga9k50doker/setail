@@ -2,36 +2,42 @@ import * as api from "../api";
 import { AUTH, START_LOADING, END_LOADING } from "../constants/actionTypes";
 import { toast } from "react-toastify";
 export const login = (formData, callback) => async (dispatch) => {
-  try {
-    const { data } = await api.signin(formData);
-    dispatch({ type: AUTH, data });
-    window.location.reload();
-    toast.success("Successfully!");
-  } catch (error) {
-    toast.error(error.response.data);
-  }
+  await api
+    .signin(formData)
+    .then((res) => {
+      dispatch({ type: AUTH, data: res.data });
+      window.location.reload();
+      toast.success("Successfully!");
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+    });
 };
 
 export const verifyUser = (formData, callback) => async (dispatch) => {
-  try {
-    const { data } = await api.verifyUser(formData);
-    dispatch({ type: AUTH, data });
-    toast.success("Successfully!");
-    window.location.reload();
-  } catch (error) {
-    toast.error(error.response.data);
-  }
+  await api
+    .verifyUser(formData)
+    .then((res) => {
+      dispatch({ type: AUTH, data: res.data });
+      toast.success("Successfully!");
+      window.location.reload();
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+    });
 };
 
 export const register = (formData, callback) => async (dispatch) => {
-  try {
-    const { data } = await api.signup(formData);
-    dispatch({ type: AUTH, data });
-    toast.success("Successfully!");
-    window.location.reload();
-  } catch (error) {
-    toast.error(error.response.data);
-  }
+  const { data } = await api
+    .signup(formData)
+    .then((res) => {
+      dispatch({ type: AUTH, data });
+      toast.success("Successfully!");
+      window.location.reload();
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+    });
 };
 
 export const updateProfile = (formData, callback) => async (dispatch) => {

@@ -60,10 +60,13 @@ const HomeTravel = () => {
   useEffect(() => {
     if (!cards.length) {
       dispatch(getCards);
-    } else {
-      setCardData(cards);
-    }
+    } 
+  }, []);
+
+  useEffect(() => {
+    setCardData(cards);
   }, [cards]);
+
   return (
     <Helmet title="Home Travel Agency" className="component">
       {/* banner */}
@@ -142,8 +145,8 @@ const HomeTravel = () => {
               <Link key={index} to={"/tour-item/" + item._id}>
                 <CardDetails
                   img={item.img}
-                  calendar={new Date(item.calendar).getMonth()}
-                  custom={item.custom}
+                  calendar={new Date(item.calendar).getMonth().toString()}
+                  custom={+item.custom}
                   location={item.location}
                   title={item.title}
                   description={item.description}
@@ -161,8 +164,8 @@ const HomeTravel = () => {
           //     <Link key={index} to={"/tour-item/" + item._id}>
           //       <CardDetails
           //         img={item.img}
-          //         calendar={new Date(item.calendar).getMonth()}
-          //         custom={item.custom}
+          //         calendar={new Date(item.calendar).getMonth().toString()}
+          //         custom={+item.custom}
           //         location={item.location}
           //         title={item.title}
           //         subTitle={item.subTitle}

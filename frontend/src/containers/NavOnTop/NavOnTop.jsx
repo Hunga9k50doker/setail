@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { gapi } from "gapi-script";
 import { login, register, verifyUser } from "../../actions/auth";
 const NavOnTop = () => {
-  const clientId = "212369444782-cqma440j1i0lu34ef4939ghsmfspse0d.apps.googleusercontent.com";
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const dispatch = useDispatch();
   const history = useHistory();
   const [active, setActive] = useState(false);

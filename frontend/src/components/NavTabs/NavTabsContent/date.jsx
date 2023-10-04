@@ -24,8 +24,8 @@ const NavContentDate = ({ data, isLoading, onRedirect }) => {
                 <CardDetails
                   key={index}
                   img={item.img}
-                  calendar={new Date(item.calendar).getMonth()}
-                  custom={item.custom}
+                  calendar={new Date(item.calendar).getMonth().toString()}
+                  custom={+item.custom}
                   location={item.location}
                   title={item.title}
                   description={item.description}
@@ -44,8 +44,8 @@ const NavContentDate = ({ data, isLoading, onRedirect }) => {
                 <CardDetails
                   key={index}
                   img={item.img}
-                  calendar={new Date(item.calendar).getMonth()}
-                  custom={item.custom}
+                  calendar={new Date(item.calendar).getMonth().toString()}
+                  custom={+item.custom}
                   location={item.location}
                   title={item.title}
                   description={item.description}

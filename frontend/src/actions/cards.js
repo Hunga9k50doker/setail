@@ -19,7 +19,6 @@ export const getCards = async (dispatch) => {
     dispatch({ type: GET_ALL_CARDS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -32,8 +31,7 @@ export const getCardById = (id) => async (dispatch) => {
     dispatch({ type: END_LOADING });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    // console.log(error);
-    // toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -46,8 +44,7 @@ export const createCard = (card) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -61,7 +58,6 @@ export const updateCard = (id, newData, callBack) => async (dispatch) => {
     callBack.goBack();
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -75,7 +71,6 @@ export const updateReviewCard = (id, newData) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -89,7 +84,6 @@ export const deleteCard = (id) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };

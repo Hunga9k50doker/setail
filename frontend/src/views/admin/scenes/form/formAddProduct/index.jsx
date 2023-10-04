@@ -6,12 +6,14 @@ import { TextareaAutosize } from "@mui/base";
 import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { createCard } from "../../../../../actions/cards";
 import { useDispatch, useSelector } from "react-redux";
 import { TypeUser } from "../../../../../config/auth.js";
 const FormEditProduct = () => {
+  const MAX_SIZE_IMG = 1024 * 1024 * 5; // 5MB
+  const MAX_SIZE_IMG_PREVIEW = 1024 * 1024 * 2; // 2MB
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -24,8 +26,15 @@ const FormEditProduct = () => {
       const dataSumbit = {
         ...data,
         avaliable: isAvalilable,
-        img: images?.[0].data_url,
-        img__grid: imagesPreview.map((item) => item.data_preview_url),
+        img: {
+          name: images?.[0].file.name,
+          type: images?.[0].file.type,
+          url:images?.[0].data_url},
+        img__grid: imagesPreview.map((item) => ({
+          url: item.data_preview_url,
+          name: item.file.name,
+          type: item.file.type,
+        })),
       };
       if (authData?.result?.role === TypeUser.SUPER_ADMIN) {
         dispatch(createCard(dataSumbit));
@@ -48,6 +57,21 @@ const FormEditProduct = () => {
   const handleChangeSelect = (select) => {
     setIsAvalilable(select.target.value);
   };
+
+  useEffect(() => {
+    if (images?.length && images[0].size > MAX_SIZE_IMG) {
+    toast.warning("Image size is too large. Max size is 5MB");
+    }
+    if (imagesPreview?.length) {
+      imagesPreview.forEach((item) => {
+        if (item.size > MAX_SIZE_IMG_PREVIEW) {
+          toast.warning("Image size is too large. Max size is 2MB");
+          return;
+        }
+      })
+    }
+  },[images,imagesPreview])
+
   return (
     <Box m="20px">
       <Header title="ADD PRODUCT" subtitle="Add new product" />
@@ -183,7 +207,8 @@ const FormEditProduct = () => {
                 style={{ gridColumn: "span 4", padding: "4px" }}
               />
               <Box style={{ gridColumn: "span 4" }}>
-                <ImageUploading acceptType={["jpg", "jpeg", "png"]} value={images} onChange={onChange} maxNumber={1} dataURLKey="data_url">
+                <ImageUploading
+                maxFileSize={MAX_SIZE_IMG}  acceptType={["jpg", "jpeg", "png"]} value={images} onChange={onChange} maxNumber={1} dataURLKey="data_url">
                   {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
                     <div className="upload__image-wrapper">
                       <Button onClick={onImageUpload} variant="contained" component="label" sx={{ background: colors.lightGreen }}>
@@ -209,6 +234,7 @@ const FormEditProduct = () => {
               </Box>
               <Box style={{ gridColumn: "span 4" }}>
                 <ImageUploading
+                  maxFileSize={MAX_SIZE_IMG_PREVIEW}
                   acceptType={["jpg", "jpeg", "png"]}
                   multiple
                   value={imagesPreview}

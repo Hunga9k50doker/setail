@@ -7,7 +7,7 @@ const cardSchema = mongoose.Schema({
   custom: { type: Number, default: 0 },
   age: { type: Number, required: true },
   location: { type: String, required: true },
-  title: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
   subTitle: { type: String },
   description: { type: String },
   cost: { type: Number, default: 0, require: true },

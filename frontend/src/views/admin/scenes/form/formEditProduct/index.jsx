@@ -21,11 +21,10 @@ const FormEditProduct = () => {
   const [dataInit, setDataInit] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
-  let { slug } = useParams();
+  let { id:slug } = useParams();
   const { card, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
-  const [isAvalilable, setIsAvalilable] = useState(card.avaliable);
-
+  const [isAvalilable, setIsAvalilable] = useState(card?.avaliable||false);
   const handleFormSubmit = (data) => {
     if (images.length && imagesPreview.length) {
       const dataSumbit = {
@@ -59,17 +58,18 @@ const FormEditProduct = () => {
   useEffect(() => {
     if (!card) {
       dispatch(getCardById(slug));
+      return;
     } else {
       setDataInit(card);
       setImages([{ data_url: card.img }]);
-      // setIsAvalilable(card.avaliable);
+      setIsAvalilable(card.avaliable);
       setImagesPreview(
         card.img__grid.map((item) => ({
           data_preview_url: item,
         }))
       );
     }
-  }, [card, isLoading, dispatch]);
+  }, [card]);
 
   return (
     <Box m="20px">

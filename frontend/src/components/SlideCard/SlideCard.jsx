@@ -40,7 +40,7 @@ const SlideCard = () => {
                       <CardDetails
                         img={item.img}
                         calendar={item.calendar}
-                        custom={item.custom}
+                        custom={+item.custom}
                         location={item.location}
                         title={item.title}
                         subTitle={item.subTitle}

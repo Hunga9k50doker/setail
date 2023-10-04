@@ -19,7 +19,6 @@ export const getTours = (userId) => async (dispatch) => {
     dispatch({ type: GET_ALL_TOURS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -32,7 +31,6 @@ export const getTourById = (id) => async (dispatch) => {
     dispatch({ type: END_LOADING });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -46,7 +44,6 @@ export const createTour = (tour) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    console.log(error);
     toast.error(error?.response?.data);
   }
 };
@@ -61,7 +58,6 @@ export const createTour = (tour) => async (dispatch) => {
 //     callBack.goBack();
 //   } catch (error) {
 //     dispatch({ type: END_LOADING });
-//     console.log(error);
 //     toast.error(error?.response?.data);
 //   }
 // };
@@ -75,7 +71,6 @@ export const createTour = (tour) => async (dispatch) => {
 //     toast.success("Successfully!");
 //   } catch (error) {
 //     dispatch({ type: END_LOADING });
-//     console.log(error);
 //     toast.error(error?.response?.data);
 //   }
 // };
@@ -89,7 +84,6 @@ export const createTour = (tour) => async (dispatch) => {
 //     toast.success("Successfully!");
 //   } catch (error) {
 //     dispatch({ type: END_LOADING });
-//     console.log(error);
 //     toast.error(error?.response?.data);
 //   }
 // };
