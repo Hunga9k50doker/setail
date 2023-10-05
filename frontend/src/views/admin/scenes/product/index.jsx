@@ -90,12 +90,29 @@ const Product = () => {
       cellClassName: "actions",
       renderCell: ({ row }) => {
         return (
-          <Box width="60%" m="0 auto" p="5px" display="flex" justifyContent="center" borderRadius="4px">
-            <Box color={colors.grey[100]} sx={{ ml: "5px", fontSize: "20px" }} className="d-flex gap-2">
-              <div onClick={() => handleEditClick(row)} style={{ cursor: "pointer" }}>
+          <Box
+            width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            borderRadius="4px"
+          >
+            <Box
+              color={colors.grey[100]}
+              sx={{ ml: "5px", fontSize: "20px" }}
+              className="d-flex gap-2"
+            >
+              <div
+                onClick={() => handleEditClick(row)}
+                style={{ cursor: "pointer" }}
+              >
                 <EditIcon />
               </div>
-              <div onClick={() => handleOpen(row)} style={{ cursor: "pointer" }}>
+              <div
+                onClick={() => handleOpen(row)}
+                style={{ cursor: "pointer" }}
+              >
                 <DeleteIcon />
               </div>
             </Box>
@@ -129,7 +146,8 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getCards);
-  }, [dispatch]);
+  }, []);
+
   return (
     <>
       <Box m="20px">
@@ -167,15 +185,29 @@ const Product = () => {
             <Loading />
           ) : (
             <>
-              <Button sx={{ mb: "8px", background: colors.greenAccent[400] }} startIcon={<AddIcon />} onClick={handleAdd}>
+              <Button
+                sx={{ mb: "8px", background: colors.greenAccent[400] }}
+                startIcon={<AddIcon />}
+                onClick={handleAdd}
+              >
                 Add Product
               </Button>
-              <DataGrid checkboxSelection rows={cards.cards} columns={columns} getRowId={(row) => row._id||row.title} />
+              <DataGrid
+                checkboxSelection
+                rows={cards.cards}
+                columns={columns}
+                getRowId={(row) => row?._id || row?.title}
+              />
             </>
           )}
         </Box>
       </Box>
-      <Modal open={open} onClose={handleClose} aria-labelledby="parent-modal-title" aria-describedby="parent-modal-description">
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
         <Box sx={{ ...style, width: 400 }}>
           <h3 id="parent-modal-title " className="text-center mb-4">
             Do you want delete?

@@ -41,7 +41,7 @@ import FormUser from "../views/user";
 import MyTour from "../views/MyTour";
 
 import ItemDetail from "../components/tourItem/item";
-
+import SearchPage from "../views/search";
 // =====================admin================================
 import Dashboard from "../views/admin/scenes/dashboard";
 import Team from "../views/admin/scenes/team";
@@ -104,6 +104,7 @@ const PublishRoute = [
   { path: "/elements/columns", component: TypographyColumns },
   { path: "/elements/headings", component: TypographyHeadings },
   { path: "/elements/section-title", component: TypographySectionTitle },
+  { path: "/search", component: SearchPage },
 ];
 
 const PrivateRoute = [

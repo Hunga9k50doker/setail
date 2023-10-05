@@ -1,9 +1,17 @@
-import { Box, Button, TextField, colors, Select } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  colors,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { TextareaAutosize } from "@mui/base";
-import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
@@ -22,27 +30,29 @@ const FormEditProduct = () => {
   const { isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
   const handleFormSubmit = (data) => {
-    if (images.length && imagesPreview.length) {
+    if (images.length) {
       const dataSumbit = {
         ...data,
         avaliable: isAvalilable,
         img: {
           name: images?.[0].file.name,
           type: images?.[0].file.type,
-          url:images?.[0].data_url},
-        img__grid: imagesPreview.map((item) => ({
-          url: item.data_preview_url,
-          name: item.file.name,
-          type: item.file.type,
-        })),
+          url: images?.[0].data_url,
+        },
+        img__grid:
+          imagesPreview.length > 0
+            ? imagesPreview.map((item) => ({
+                url: item.data_preview_url,
+                name: item.file.name,
+                type: item.file.type,
+              }))
+            : [],
       };
       if (authData?.result?.role === TypeUser.SUPER_ADMIN) {
         dispatch(createCard(dataSumbit));
       } else {
         toast.warning("Only super admin can do this, you are admin");
       }
-    } else {
-      toast.warning("Image and Preview images are required.");
     }
   };
 
@@ -60,7 +70,7 @@ const FormEditProduct = () => {
 
   useEffect(() => {
     if (images?.length && images[0].size > MAX_SIZE_IMG) {
-    toast.warning("Image size is too large. Max size is 5MB");
+      toast.warning("Image size is too large. Max size is 5MB");
     }
     if (imagesPreview?.length) {
       imagesPreview.forEach((item) => {
@@ -68,16 +78,27 @@ const FormEditProduct = () => {
           toast.warning("Image size is too large. Max size is 2MB");
           return;
         }
-      })
+      });
     }
-  },[images,imagesPreview])
+  }, [images, imagesPreview]);
 
   return (
     <Box m="20px">
       <Header title="ADD PRODUCT" subtitle="Add new product" />
 
-      <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
-        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+        validationSchema={checkoutSchema}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
@@ -113,6 +134,25 @@ const FormEditProduct = () => {
                 helperText={touched.subTitle && errors.subTitle}
                 sx={{ gridColumn: "span 2" }}
               />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={values.type}
+                  label="Type"
+                  onChange={handleChange}
+                  variant="filled"
+                  fullWidth
+                >
+                  <MenuItem value={"spring"}>Spring</MenuItem>
+                  <MenuItem defaultChecked value={"summer"}>
+                    Summer
+                  </MenuItem>
+                  <MenuItem value={"autumn"}>Autumn</MenuItem>
+                  <MenuItem value={"winter"}>Winter</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 fullWidth
                 variant="filled"
@@ -208,21 +248,50 @@ const FormEditProduct = () => {
               />
               <Box style={{ gridColumn: "span 4" }}>
                 <ImageUploading
-                maxFileSize={MAX_SIZE_IMG}  acceptType={["jpg", "jpeg", "png"]} value={images} onChange={onChange} maxNumber={1} dataURLKey="data_url">
-                  {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+                  maxFileSize={MAX_SIZE_IMG}
+                  acceptType={["jpg", "jpeg", "png"]}
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={1}
+                  dataURLKey="data_url"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageUpdate,
+                    onImageRemove,
+                  }) => (
                     <div className="upload__image-wrapper">
-                      <Button onClick={onImageUpload} variant="contained" component="label" sx={{ background: colors.lightGreen }}>
+                      <Button
+                        onClick={onImageUpload}
+                        variant="contained"
+                        component="label"
+                        sx={{ background: colors.lightGreen }}
+                      >
                         Upload Brand Image
                       </Button>
                       &nbsp;
                       {imageList.map((image, index) => (
                         <div key={index} className="image-item">
-                          <img src={image["data_url"]} alt="" width="100" className="my-2" />
+                          <img
+                            src={image["data_url"]}
+                            alt=""
+                            width="100"
+                            className="my-2"
+                          />
                           <div className="image-item__btn-wrapper gap-2 d-flex">
-                            <Button onClick={() => onImageUpdate(index)} color="secondary" variant="outlined">
+                            <Button
+                              onClick={() => onImageUpdate(index)}
+                              color="secondary"
+                              variant="outlined"
+                            >
                               Change
                             </Button>
-                            <Button onClick={() => onImageRemove(index)} color="secondary" variant="outlined">
+                            <Button
+                              onClick={() => onImageRemove(index)}
+                              color="secondary"
+                              variant="outlined"
+                            >
                               Remove
                             </Button>
                           </div>
@@ -242,25 +311,46 @@ const FormEditProduct = () => {
                   maxNumber={8}
                   dataURLKey="data_preview_url"
                 >
-                  {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageUpdate,
+                    onImageRemove,
+                  }) => (
                     <div className="upload__image-wrapper">
                       <Button
                         onClick={onImageUpload}
                         variant="contained"
                         component="label"
-                        sx={{ whiteSpace: "nowrap", background: colors.lightGreen }}
+                        sx={{
+                          whiteSpace: "nowrap",
+                          background: colors.lightGreen,
+                        }}
                       >
                         Upload Preview Images
                       </Button>
                       &nbsp;
                       {imageList.map((image, index) => (
                         <div key={index} className="image-item">
-                          <img src={image["data_preview_url"]} alt="" width="100" className="my-2" />
+                          <img
+                            src={image["data_preview_url"]}
+                            alt=""
+                            width="100"
+                            className="my-2"
+                          />
                           <div className="image-item__btn-wrapper gap-2 d-flex">
-                            <Button onClick={() => onImageUpdate(index)} color="secondary" variant="outlined">
+                            <Button
+                              onClick={() => onImageUpdate(index)}
+                              color="secondary"
+                              variant="outlined"
+                            >
                               Change
                             </Button>
-                            <Button onClick={() => onImageRemove(index)} color="secondary" variant="outlined">
+                            <Button
+                              onClick={() => onImageRemove(index)}
+                              color="secondary"
+                              variant="outlined"
+                            >
                               Remove
                             </Button>
                           </div>
@@ -272,7 +362,12 @@ const FormEditProduct = () => {
               </Box>
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button disabled={isLoading} type="submit" color="secondary" variant="contained">
+              <Button
+                disabled={isLoading}
+                type="submit"
+                color="secondary"
+                variant="contained"
+              >
                 Add product
               </Button>
             </Box>

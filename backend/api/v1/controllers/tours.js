@@ -27,10 +27,20 @@ export const getTourById = async (req, res) => {
 
 export const createTour = async (req, res) => {
   const tour = req.body;
-  const newTour = new ToursBooked({ ...tour, createdAt: new Date().toISOString() });
   try {
+    const cardTour = await CardMessage.findById(tour.cardId);
+    if (!cardTour) {
+      // Handle case when the cardTourId is not found
+      return res.status(404).json({ error: "Card tour not found" });
+    }
+    cardTour.amount_booking += 1; // Increment amountBooking by 1
+    await cardTour.save();
+    const newTour = new ToursBooked({
+      ...tour,
+      createdAt: new Date().toISOString(),
+    });
     await newTour.save();
-    return res.status(201).json(newTour);
+    return res.status(201).json({ message: "Create tour successfully" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

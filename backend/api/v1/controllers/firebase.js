@@ -9,61 +9,58 @@ import {
 } from "firebase/storage";
 import config from "../config/firebase.config.js";
 
-const router = express.Router();
-
 //Initialize a firebase application
 initializeApp(config.firebaseConfig);
 
 // Initialize Cloud Storage and get a reference to the service
 export const storage = getStorage();
+
 // Setting up multer as a middleware to grab photo uploads
 export const uploadFile = async (req, res) => {
   try {
-    const storageRef = ref(storage, `tours/${req.id}_${req.img.name}`);
-
     // Create file metadata including the content type
     const metadata = {
-      contentType: req.img.type,
+      contentType: req.type,
     };
 
     // Upload the file in the bucket storage
-    await uploadBytesResumable(
+    const storageRef = ref(storage, `tours/${req.name}`);
+    //check existing upload file
+    await getDownloadURL(storageRef)
+      .then((download) => ({
+        status: 200,
+        name: req.name,
+        type: req.type,
+        url: download,
+        message: "File uploaded successfully.",
+      }))
+      .catch((error) => ({
+        status: 500,
+        message:
+          "Error handle file: " + error.message + " Please try again later.",
+      }));
+
+    const snapshot = await uploadBytesResumable(
       storageRef,
-      Buffer.from(
-        req.img.url.replace(/^data:image\/\w+;base64,/, ""),
-        "base64"
-      ),
+      Buffer.from(req.url.replace(/^data:image\/\w+;base64,/, ""), "base64"),
       metadata
     );
-
-    // Upload preview files the file in the bucket storage
-    for (let i = 0; i < req.img__grid.length; i++) {
-      const storageRefPreview = ref(
-        storage,
-        `tours/${req.id}_${req.img__grid[i].name}`
-      );
-      const metadataPreview = {
-        contentType: req.img__grid[i].type,
-      };
-      await uploadBytesResumable(
-        storageRefPreview,
-        Buffer.from(
-          req.img__grid[i].url.replace(/^data:image\/\w+;base64,/, ""),
-          "base64"
-        ),
-        metadataPreview
-      );
-    }
-    //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
-
     // Grab the public url
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
     return {
       status: 200,
-      name: req.img.name,
-      type: req.img.type,
+      name: req.name,
+      type: req.type,
+      url: downloadURL,
+      message: "File uploaded successfully.",
     };
   } catch (error) {
-    return "error";
+    return {
+      status: 500,
+      message:
+        "Error handle file: " + error.message + " Please try again later.",
+    };
   }
 };
 
@@ -85,18 +82,8 @@ export const getAllFiles = async (req, res) => {
 export const getFile = (itemRef) =>
   getDownloadURL(itemRef)
     .then((downloadURL) => {
-      console.log("Download URL:", itemRef);
+      return downloadURL;
     })
     .catch((error) => {
-      console.log("Error getting download URL:", error);
+      return false;
     });
-
-const giveCurrentDateTime = () => {
-  const today = new Date();
-  const date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  const time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  const dateTime = date + " " + time;
-  return dateTime;
-};

@@ -11,7 +11,7 @@ const cardSchema = mongoose.Schema({
   subTitle: { type: String },
   description: { type: String },
   cost: { type: Number, default: 0, require: true },
-  img__grid: { type: Array, required: true },
+  img__grid: { type: Array },
   rating: { type: Number, default: 0 },
   count_rating: { type: Number, default: 0 },
   type: {

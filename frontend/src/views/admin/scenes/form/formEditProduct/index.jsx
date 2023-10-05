@@ -1,11 +1,21 @@
-import { Box, Button, TextField, Typography, colors, Select, Input } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  colors,
+  Select,
+  Input,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { TextareaAutosize } from "@mui/base";
 import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
-import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getCardById, updateCard } from "../../../../../actions/cards";
@@ -21,25 +31,41 @@ const FormEditProduct = () => {
   const [dataInit, setDataInit] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
-  let { id:slug } = useParams();
+  let { id: slug } = useParams();
   const { card, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
-  const [isAvalilable, setIsAvalilable] = useState(card?.avaliable||false);
+  const [isAvalilable, setIsAvalilable] = useState(card?.avaliable || false);
   const handleFormSubmit = (data) => {
-    if (images.length && imagesPreview.length) {
+    if (images.length) {
       const dataSumbit = {
         ...data,
         avaliable: isAvalilable,
-        img: images?.[0].data_url,
-        img__grid: imagesPreview.map((item) => item.data_preview_url),
+        img: images?.[0].file
+          ? {
+              name: images?.[0].file.name,
+              type: images?.[0].file.type,
+              url: images?.[0].data_url,
+            }
+          : images?.[0].data_url,
+        img__grid:
+          imagesPreview.length > 0
+            ? imagesPreview.map((item) => {
+                if (item?.file)
+                  return {
+                    url: item.data_preview_url,
+                    name: item.file.name,
+                    type: item.file.type,
+                  };
+                else return item.data_preview_url;
+              })
+            : [],
       };
+
       if (authData?.result?.role === TypeUser.SUPER_ADMIN) {
         dispatch(updateCard(dataInit._id, dataSumbit, history));
       } else {
         toast.warning("Only super admin can do this, you are admin");
       }
-    } else {
-      toast.warning("Image and Preview images are required.");
     }
   };
 
@@ -77,8 +103,19 @@ const FormEditProduct = () => {
       {!dataInit ? (
         <Loading />
       ) : (
-        <Formik onSubmit={handleFormSubmit} initialValues={dataInit} validationSchema={checkoutSchema}>
-          {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={dataInit}
+          validationSchema={checkoutSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
             <form onSubmit={handleSubmit}>
               <Box
                 display="grid"
@@ -105,6 +142,19 @@ const FormEditProduct = () => {
                   fullWidth
                   variant="filled"
                   type="text"
+                  label="Sub title"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.subTitle}
+                  name="subTitle"
+                  error={!!touched.subTitle && !!errors.subTitle}
+                  helperText={touched.subTitle && errors.subTitle}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="text"
                   label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -114,6 +164,25 @@ const FormEditProduct = () => {
                   helperText={touched.location && errors.location}
                   sx={{ gridColumn: "span 2" }}
                 />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={values.type}
+                    label="Type"
+                    variant="filled"
+                    onChange={handleChange}
+                    fullWidth
+                  >
+                    <MenuItem value={"spring"}>Spring</MenuItem>
+                    <MenuItem defaultChecked value={"summer"}>
+                      Summer
+                    </MenuItem>
+                    <MenuItem value={"autumn"}>Autumn</MenuItem>
+                    <MenuItem value={"winter"}>Winter</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   fullWidth
                   variant="filled"
@@ -146,7 +215,7 @@ const FormEditProduct = () => {
                   type="date"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={new Date(values.calendar)}
+                  value={values.calendar}
                   name="calendar"
                   error={!!touched.calendar && !!errors.calendar}
                   helperText={touched.calendar && errors.calendar}
@@ -194,21 +263,50 @@ const FormEditProduct = () => {
                   style={{ gridColumn: "span 4", padding: "4px" }}
                 />
                 <Box style={{ gridColumn: "span 4" }}>
-                  <ImageUploading acceptType={["jpg", "jpeg", "png"]} value={images} onChange={onChange} maxNumber={1} dataURLKey="data_url">
-                    {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+                  <ImageUploading
+                    acceptType={["jpg", "jpeg", "png"]}
+                    value={images}
+                    onChange={onChange}
+                    maxNumber={1}
+                    dataURLKey="data_url"
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                    }) => (
                       <div className="upload__image-wrapper">
-                        <Button onClick={onImageUpload} variant="contained" component="label" sx={{ background: colors.lightGreen }}>
+                        <Button
+                          onClick={onImageUpload}
+                          variant="contained"
+                          component="label"
+                          sx={{ background: colors.lightGreen }}
+                        >
                           Upload Brand Image
                         </Button>
                         &nbsp;
                         {imageList.map((image, index) => (
                           <div key={index} className="image-item">
-                            <img src={image["data_url"]} alt="" width="100" className="my-2" />
+                            <img
+                              src={image["data_url"]}
+                              alt=""
+                              width="100"
+                              className="my-2"
+                            />
                             <div className="image-item__btn-wrapper gap-2 d-flex">
-                              <Button onClick={() => onImageUpdate(index)} color="secondary" variant="outlined">
+                              <Button
+                                onClick={() => onImageUpdate(index)}
+                                color="secondary"
+                                variant="outlined"
+                              >
                                 Change
                               </Button>
-                              <Button onClick={() => onImageRemove(index)} color="secondary" variant="outlined">
+                              <Button
+                                onClick={() => onImageRemove(index)}
+                                color="secondary"
+                                variant="outlined"
+                              >
                                 Remove
                               </Button>
                             </div>
@@ -227,25 +325,46 @@ const FormEditProduct = () => {
                     maxNumber={8}
                     dataURLKey="data_preview_url"
                   >
-                    {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                    }) => (
                       <div className="upload__image-wrapper">
                         <Button
                           onClick={onImageUpload}
                           variant="contained"
                           component="label"
-                          sx={{ whiteSpace: "nowrap", background: colors.lightGreen }}
+                          sx={{
+                            whiteSpace: "nowrap",
+                            background: colors.lightGreen,
+                          }}
                         >
                           Upload Preview Images
                         </Button>
                         &nbsp;
                         {imageList.map((image, index) => (
                           <div key={index} className="image-item">
-                            <img src={image["data_preview_url"]} alt="" width="100" className="my-2" />
+                            <img
+                              src={image["data_preview_url"]}
+                              alt=""
+                              width="100"
+                              className="my-2"
+                            />
                             <div className="image-item__btn-wrapper gap-2 d-flex">
-                              <Button onClick={() => onImageUpdate(index)} color="secondary" variant="outlined">
+                              <Button
+                                onClick={() => onImageUpdate(index)}
+                                color="secondary"
+                                variant="outlined"
+                              >
                                 Change
                               </Button>
-                              <Button onClick={() => onImageRemove(index)} color="secondary" variant="outlined">
+                              <Button
+                                onClick={() => onImageRemove(index)}
+                                color="secondary"
+                                variant="outlined"
+                              >
                                 Remove
                               </Button>
                             </div>
@@ -257,7 +376,12 @@ const FormEditProduct = () => {
                 </Box>
               </Box>
               <Box display="flex" justifyContent="end" mt="20px">
-                <Button disabled={isLoading} type="submit" color="secondary" variant="contained">
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                  color="secondary"
+                  variant="contained"
+                >
                   Update product
                 </Button>
               </Box>

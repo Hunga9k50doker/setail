@@ -16,11 +16,8 @@ export const getCards = async (req, res) => {
 
 export const getCardById = async (req, res) => {
   const { id } = req.params;
-  const fileRef = ref(storage, "path/to/file.jpg");
   try {
     const cardDetail = await CardMessage.findById(id);
-    await getAllFiles();
-
     return res.status(200).json(cardDetail);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -29,26 +26,46 @@ export const getCardById = async (req, res) => {
 
 export const createCard = async (req, res) => {
   const card = req.body;
-  const id = uuidv4();
-  const imagePreviews = card.img__grid.map((ele) => ele.name);
   const newCard = new CardMessage({
     ...card,
     img: card.img.name,
-    img__grid: imagePreviews,
+    img__grid: [],
     creator: req.userId,
     createdAt: new Date().toISOString(),
   });
 
-  await Promise.all([uploadFile({ ...card, id: id }), newCard.save()])
-    .then(() => {
-      return res.status(201).json(newCard);
-    })
-    .catch((err) => {
-      if (err.code === 11000) {
-        return res.status(500).json({ message: "Name tour already exists" });
-      }
-      return res.status(500).json({ message: err.message });
-    });
+  if (newCard) {
+    await uploadFile(card.img)
+      .then((response) => {
+        newCard.img = response.url;
+      })
+      .catch((err) => {
+        return res.status(500).json({ message: "Upload image failed!" });
+      });
+    await Promise.all(
+      card.img__grid.map(async (ele) => {
+        return await uploadFile(ele)
+          .then((response) => {
+            if (response.url) newCard.img__grid.push(response.url);
+          })
+          .catch((err) => {
+            return res.status(500).json({ message: "Upload image failed!" });
+          });
+      })
+    );
+
+    await newCard
+      .save()
+      .then(() => {
+        return res.status(201).json(newCard);
+      })
+      .catch((err) => {
+        if (err.code === 11000) {
+          return res.status(500).json({ message: "Name tour already exists" });
+        }
+        return res.status(500).json({ message: err.message });
+      });
+  }
 };
 
 export const updateCard = async (req, res) => {
@@ -74,17 +91,45 @@ export const updateCard = async (req, res) => {
       age,
       location,
       img,
-      img__grid,
+      img__grid: [],
       calendar,
       avaliable,
       custom,
       cost,
       _id: id,
     };
+
+    if (img?.name) {
+      await uploadFile(img)
+        .then((response) => {
+          if (response.url) updatedPost.img = response.url;
+        })
+        .catch((err) => {
+          return res.status(500).json({ message: "Upload image failed!" });
+        });
+    }
+
+    if (img__grid.length > 0) {
+      await Promise.all(
+        img__grid.map((ele) => {
+          if (ele?.name)
+            return uploadFile(ele)
+              .then((response) => {
+                if (response.url) updatedPost.img__grid.push(response.url);
+              })
+              .catch((err) => {
+                return res
+                  .status(500)
+                  .json({ message: "Upload image failed!" });
+              });
+          else return updatedPost.img__grid.push(ele);
+        })
+      );
+    }
+
     const result = await CardMessage.findByIdAndUpdate(id, updatedPost, {
       new: true,
     });
-    await getAllFiles();
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
