@@ -8,6 +8,7 @@ import {
   START_LOADING,
   END_LOADING,
   UPDATE_REVIEW_CARD,
+  SEARCH_CARDS,
 } from "../constants/actionTypes";
 import { toast } from "react-toastify";
 
@@ -17,6 +18,18 @@ export const getCards = async (dispatch) => {
     const { data } = await api.fetchCards();
     dispatch({ type: END_LOADING });
     dispatch({ type: GET_ALL_CARDS, payload: { data } });
+  } catch (error) {
+    dispatch({ type: END_LOADING });
+    toast.error(error?.response?.data);
+  }
+};
+
+export const searchCard = (params) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.searchCard(params);
+    dispatch({ type: END_LOADING });
+    dispatch({ type: SEARCH_CARDS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
     toast.error(error?.response?.data);

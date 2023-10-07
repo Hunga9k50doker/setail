@@ -29,7 +29,9 @@ import Loading from "../../../components/loading";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { ScoreRating } from "../../../config/scoreRating";
 //get data
-const getImgBanner = BannerArr.filter((e) => e.types === "banner_exotic_travel");
+const getImgBanner = BannerArr.filter(
+  (e) => e.types === "banner_exotic_travel"
+);
 
 const NewStyleSlick = styled.div`
   .slide__card-slick .slick-list {
@@ -86,7 +88,7 @@ export const NewStyleTourFilter = styled.div`
       position: absolute;
       left: 160px;
       display: flex;
-      transform: translateY(calc(-100% - 160px));
+      transform: translateY(calc(-100% - 40px));
       align-items: center;
       justify-content: center;
       flex-direction: column;
@@ -136,10 +138,10 @@ const HomeExotic = () => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
- useEffect(() => {
+  useEffect(() => {
     if (!cards.length) {
       dispatch(getCards);
-    } 
+    }
   }, []);
 
   useEffect(() => {
@@ -151,15 +153,23 @@ const HomeExotic = () => {
       <NewStyleSlick>
         <CarouselBanner>
           {getImgBanner.map((item, index) => (
-            <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
+            <Banner
+              key={index}
+              img={item.img}
+              title={item.title}
+              subTitle={item.subTitle}
+              description={item.description}
+            ></Banner>
           ))}
         </CarouselBanner>
         {/* filter date, time, location */}
         <NewStyleTourFilter>
           <TourFilter>
             <li className="tour__filter-item tour__filter-title">
-              <h3 className="tour__filter-item-title">Exporler and Travvel</h3>
-              <p className="tour__filter-item-title">Discover the world today. Find your perfect far destinations</p>
+              <h3 className="tour__filter-item-title">Exporler and Travel</h3>
+              <p className="tour__filter-item-title">
+                Discover the world today. Find your perfect far destinations
+              </p>
             </li>
           </TourFilter>
         </NewStyleTourFilter>
@@ -182,12 +192,23 @@ const HomeExotic = () => {
             <NewStyleSelection>
               <Selections>
                 {cardData
-                  .filter((e) => e.title !== "Slovenia" && e.title !== "France" && e.title !== "Switgerland")
+                  .filter(
+                    (e) =>
+                      e.title !== "Slovenia" &&
+                      e.title !== "France" &&
+                      e.title !== "Switgerland"
+                  )
                   .slice(0, 3)
                   .map((item, index) => (
-                    <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
+                    <div
+                      key={index}
+                      className="col col-xxl-4 col-lg-6 col-md-6 col-12"
+                    >
                       <NewStyleItem>
-                        <div className="cursor-pointer" onClick={() => onRedirect(item)}>
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => onRedirect(item)}
+                        >
                           <CardSelection
                             img={item.img}
                             title={item.title}
@@ -203,7 +224,11 @@ const HomeExotic = () => {
 
               <Selections>
                 {get_random(cardData, 6).map((item, index) => (
-                  <div onClick={() => onRedirect(item)} key={index} className="col col-xxl-4 col-lg-4 col-md-6 col-12 cursor-pointer">
+                  <div
+                    onClick={() => onRedirect(item)}
+                    key={index}
+                    className="col col-xxl-4 col-lg-4 col-md-6 col-12 cursor-pointer"
+                  >
                     <CardSelection
                       img={item.img}
                       title={item.title}

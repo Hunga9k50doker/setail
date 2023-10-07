@@ -8,7 +8,11 @@ const CardDetails = (props) => {
       <div className="card-header">
         <picture className="card-img">
           <source media="(min-width:1200px)" srcSet={props.img} />
-          <source media="(min-width:768px)" srcSet={props.img} style={{ width: "328px", height: "193px" }} />
+          <source
+            media="(min-width:768px)"
+            srcSet={props.img}
+            style={{ width: "328px", height: "193px" }}
+          />
           <img src={props.img} className="card-img-top" alt="not found" />
         </picture>
         <h5 className="card__header__text">Special offer</h5>
@@ -36,7 +40,9 @@ const CardDetails = (props) => {
           <p className="card-cost">{"$" + props.cost}</p>
           <p className="card-rating">
             <i className={props.icon}></i>
-            {Number(props.rating) <= 7 ? props.rating + " Good" : props.rating + " Superb"}
+            {Number(props.rating) <= 7
+              ? props.rating + " Good"
+              : props.rating + " Superb"}
           </p>
         </div>
       </div>
@@ -46,7 +52,7 @@ const CardDetails = (props) => {
 CardDetails.propTypes = {
   img: PropTypes.string.isRequired,
   calendar: PropTypes.string.isRequired,
-  custom: PropTypes.string.isRequired,
+  custom: PropTypes.number.isRequired,
   location: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string,

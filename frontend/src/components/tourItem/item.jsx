@@ -3,17 +3,14 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCardById } from "../../actions/cards";
-import cardData from "../../assets/fake-data/CardDetails";
 import Loading from "../loading";
 // import components
 import Helmet from "../Helmet/Helmet";
 import Banner from "../../components/banner/banner";
 import Selections from "../../components/selections/selections";
-import { BgSydneyOpera } from "../../assets/img";
 
 import NavTabInfo from "../NavTabs/NavInfo";
 import Sub from "../Subscribe/sub";
-import { to_slug } from "../../utils/utils";
 
 const NewStyleSelection = styled.div`
   .selections {
@@ -30,18 +27,15 @@ const NewStyleSelection = styled.div`
 const ItemDetail = () => {
   const dispatch = useDispatch();
   let { slug } = useParams();
-  const cardItem = cardData.getAllCards().find((item) => to_slug(item.title) === slug);
-  const { card, isLoading } = useSelector((state) => state.cards);
-  const [cardDataInit, setcardDataInit] = useState(cardItem ?? card);
+  const { card } = useSelector((state) => state.cards);
+  const [cardDataInit, setcardDataInit] = useState(card);
 
   useEffect(() => {
     dispatch(getCardById(slug));
   }, []);
 
   useEffect(() => {
-    if (!card) {
-      // dispatch(getCardById(slug));
-    } else if (!cardItem) {
+    if (card) {
       setcardDataInit(card);
     }
   }, [card, dispatch]);

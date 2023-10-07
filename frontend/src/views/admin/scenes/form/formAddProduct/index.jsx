@@ -134,23 +134,28 @@ const FormEditProduct = () => {
                 helperText={touched.subTitle && errors.subTitle}
                 sx={{ gridColumn: "span 2" }}
               />
-              <FormControl fullWidth>
+
+              <FormControl sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
+                  sx={{ gridColumn: "span 2" }}
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="type"
+                  name="type"
                   value={values.type}
                   label="Type"
                   onChange={handleChange}
+                  error={!!touched.type && !!errors.type}
                   variant="filled"
                   fullWidth
                 >
-                  <MenuItem value={"spring"}>Spring</MenuItem>
-                  <MenuItem defaultChecked value={"summer"}>
-                    Summer
-                  </MenuItem>
-                  <MenuItem value={"autumn"}>Autumn</MenuItem>
-                  <MenuItem value={"winter"}>Winter</MenuItem>
+                  <MenuItem value={"Wines"}>Wines</MenuItem>
+                  <MenuItem value={"Europe"}>Europe</MenuItem>
+                  <MenuItem value={"Latest"}>Latest</MenuItem>
+                  <MenuItem value={"NY"}>NY</MenuItem>
+                  <MenuItem value={"Skiing"}>Skiing</MenuItem>
+                  <MenuItem value={"PoPular"}>PoPular</MenuItem>
+                  <MenuItem value={"Trendy"}>Trendy</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -389,6 +394,7 @@ const checkoutSchema = yup.object().shape({
   cost: yup.number().required("required"),
   custom: yup.number().required("required"),
   description: yup.string().required("required"),
+  type: yup.string().required("required"),
 });
 const initialValues = {
   title: "",
@@ -402,6 +408,7 @@ const initialValues = {
   img: "",
   img__grid: "",
   avaliable: true,
+  type: "",
 };
 
 export default FormEditProduct;

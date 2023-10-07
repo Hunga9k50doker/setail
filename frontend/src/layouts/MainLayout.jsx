@@ -7,7 +7,7 @@ const MainLayout = ({ children }) => (
   <div className="main__layout">
     <NavOnTop />
     <Nav />
-    {children}
+    <div style={{ minHeight: "100vh" }}>{children}</div>
     <Footer />
   </div>
 );

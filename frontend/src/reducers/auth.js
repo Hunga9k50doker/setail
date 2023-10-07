@@ -1,5 +1,10 @@
-import { AUTH, LOGOUT, START_LOADING, END_LOADING } from "../constants/actionTypes";
-
+import {
+  AUTH,
+  LOGOUT,
+  START_LOADING,
+  END_LOADING,
+} from "../constants/actionTypes";
+import Cookie from "js-cookie";
 const authReducer = (state = { authData: null, isLoading: true }, action) => {
   switch (action.type) {
     case START_LOADING:
@@ -7,10 +12,16 @@ const authReducer = (state = { authData: null, isLoading: true }, action) => {
     case END_LOADING:
       return { ...state, isLoading: false };
     case AUTH:
-      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+      if (action?.data?.token) {
+        Cookie.set("jwt", action?.data?.token);
+      }
+      if (action?.data?.refreshToken) {
+        Cookie.set("refresh", action?.data?.refreshToken);
+      }
       return { ...state, authData: action?.data };
     case LOGOUT:
-      localStorage.removeItem("profile");
+      Cookie.remove("jwt");
+      Cookie.remove("refresh");
       return { ...state, authData: action?.data };
     default:
       return state;

@@ -7,7 +7,40 @@ import { v4 as uuidv4 } from "uuid";
 export const getCards = async (req, res) => {
   try {
     const cardMessages = await CardMessage.find();
+    return res.status(200).json(cardMessages);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
+export const searchCard = async (req, res) => {
+  const { destination, time, type } = req.query;
+  const query = {};
+  if (destination) {
+    const destinationRegex = new RegExp(destination, "i");
+    query.title = { $regex: destinationRegex };
+  }
+
+  if (time) {
+    const month = parseInt(time);
+    const startDate = new Date(
+      Date.UTC(new Date().getFullYear(), month - 1, 1)
+    );
+    const endDate = new Date(
+      Date.UTC(new Date().getFullYear(), month, 0, 23, 59, 59, 999)
+    );
+
+    query.calendar = {
+      $gte: startDate,
+      $lte: endDate,
+    };
+  }
+  if (type) {
+    query.type = type;
+  }
+
+  try {
+    const cardMessages = await CardMessage.find(query);
     return res.status(200).json(cardMessages);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -81,6 +114,7 @@ export const updateCard = async (req, res) => {
     custom,
     cost,
     avaliable,
+    type,
   } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
@@ -97,6 +131,7 @@ export const updateCard = async (req, res) => {
       custom,
       cost,
       _id: id,
+      type,
     };
 
     if (img?.name) {

@@ -10,7 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { TextareaAutosize } from "@mui/base";
@@ -164,23 +164,26 @@ const FormEditProduct = () => {
                   helperText={touched.location && errors.location}
                   sx={{ gridColumn: "span 2" }}
                 />
-                <FormControl fullWidth>
+                <FormControl sx={{ gridColumn: "span 2" }}>
                   <InputLabel id="demo-simple-select-label">Type</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
-                    id="demo-simple-select"
                     value={values.type}
                     label="Type"
+                    id="type"
+                    name="type"
                     variant="filled"
                     onChange={handleChange}
+                    error={!!touched.type && !!errors.type}
                     fullWidth
                   >
-                    <MenuItem value={"spring"}>Spring</MenuItem>
-                    <MenuItem defaultChecked value={"summer"}>
-                      Summer
-                    </MenuItem>
-                    <MenuItem value={"autumn"}>Autumn</MenuItem>
-                    <MenuItem value={"winter"}>Winter</MenuItem>
+                    <MenuItem value={"Wines"}>Wines</MenuItem>
+                    <MenuItem value={"Europe"}>Europe</MenuItem>
+                    <MenuItem value={"Latest"}>Latest</MenuItem>
+                    <MenuItem value={"NY"}>NY</MenuItem>
+                    <MenuItem value={"Skiing"}>Skiing</MenuItem>
+                    <MenuItem value={"PoPular"}>PoPular</MenuItem>
+                    <MenuItem value={"Trendy"}>Trendy</MenuItem>
                   </Select>
                 </FormControl>
                 <TextField
@@ -401,6 +404,7 @@ const checkoutSchema = yup.object().shape({
   calendar: yup.date().required("required"),
   cost: yup.number().required("required"),
   custom: yup.number().required("required"),
+  type: yup.string().required("required"),
 });
 
 export default FormEditProduct;

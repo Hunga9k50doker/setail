@@ -31,7 +31,10 @@ export const createTour = async (req, res) => {
     const cardTour = await CardMessage.findById(tour.cardId);
     if (!cardTour) {
       // Handle case when the cardTourId is not found
-      return res.status(404).json({ error: "Card tour not found" });
+      return res.status(404).json({ error: "Tour not found" });
+    }
+    if (!cardTour.avaliable) {
+      return res.status(204).json({ error: "Tour not avaliable!" });
     }
     cardTour.amount_booking += 1; // Increment amountBooking by 1
     await cardTour.save();

@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCards } from "../../../actions/cards";
 // import data
 import BannerArr from "../../../assets/fake-data/Banner";
-import cardDataTemplate from "../../../assets/fake-data/CardDetails";
 import { BgOffer2 } from "../../../assets/img";
 // import components
 import Helmet from "../../../components/Helmet/Helmet";
@@ -16,7 +15,7 @@ import SlideCardTravel from "../../../components/Carousel/CarouselCardTravel";
 import CarouselBanner from "../../../components/Carousel/CarouselBanner";
 import CardSelection from "../../../components/cards/cardSelection/cardSelection";
 import Selections from "../../../components/selections/selections";
-import { to_slug, parallaxBackground } from "../../../utils/utils";
+import { parallaxBackground, get_random, to_slug } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
 import Sub from "../../../components/Subscribe/sub";
 import Banner from "../../../components/banner/banner";
@@ -24,7 +23,6 @@ import "../../App.scss";
 import "./offer.scss";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { useHistory } from "react-router-dom";
-import { ScoreRating } from "../../../config/scoreRating";
 import Loading from "../../../components/loading";
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_pages");
@@ -117,7 +115,15 @@ const WhatWeOffer = () => {
         <CarouselBanner>
           {getImgBanner.map(
             (item, index) =>
-              index === 1 && <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
+              index === 1 && (
+                <Banner
+                  key={index}
+                  img={item.img}
+                  title={item.title}
+                  subTitle={item.subTitle}
+                  description={item.description}
+                ></Banner>
+              )
           )}
         </CarouselBanner>
       </NewStyleSlick>
@@ -128,20 +134,38 @@ const WhatWeOffer = () => {
         <div className="offer__subscribe__item">
           <form action="" className=" footer__form">
             <h3 className=" footer__title">Newsletter</h3>
-            <h5 className=" footer__content  footer__text">Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho</h5>
+            <h5 className=" footer__content  footer__text">
+              Etiam rhoncus. Maecenas temp us, tellus eget condimentum rho
+            </h5>
             <div className=" footer__form-name">
               <i className="fas fa-user"></i>
-              <input maxLength="50" type="text" placeholder="Name" name="" id="" />
+              <input
+                maxLength="50"
+                type="text"
+                placeholder="Name"
+                name=""
+                id=""
+              />
             </div>
             <div className=" footer__form-email">
               <i className="far fa-envelope"></i>
-              <input maxLength="50" type="email" placeholder="Email" name="" id="" />
+              <input
+                maxLength="50"
+                type="email"
+                placeholder="Email"
+                name=""
+                id=""
+              />
             </div>
             <button className=" footer__form-submit">Subscribe</button>
           </form>
         </div>
         <div className="offer__subscribe__item">
-          <img className="offer__subscribe__img" src={BgOffer2} alt="Not found"></img>
+          <img
+            className="offer__subscribe__img"
+            src={BgOffer2}
+            alt="Not found"
+          ></img>
           <p>50% Off Adventure on Sale</p>
         </div>
       </div>
@@ -152,9 +176,13 @@ const WhatWeOffer = () => {
           {cardData.length ? (
             <SlideCardTravel>
               {cardData
-                .filter((c) => c.type === "winter")
+                .filter((c) => c.type === "Skiing")
                 .map((item, index) => (
-                  <div key={index} className="cursor-pointer" onClick={() => onRedirect(item)}>
+                  <div
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => onRedirect(item)}
+                  >
                     <CardDetails
                       img={item.img}
                       calendar={new Date(item.calendar).getMonth().toString()}
@@ -164,7 +192,11 @@ const WhatWeOffer = () => {
                       description={item.description}
                       cost={Number(item.cost)}
                       rating={item.rating}
-                      icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
+                      icon={
+                        Number(item.rating) < 6
+                          ? "fas fa-star-half-alt"
+                          : "fas fa-star"
+                      }
                     />
                   </div>
                 ))}
@@ -184,25 +216,21 @@ const WhatWeOffer = () => {
       {/* selection item  */}
       <NewStyleSelection>
         <Selections>
-          {cardDataTemplate
-            .getAllCards()
-            .filter((e) => e.title !== "Slovenia" && e.title !== "France" && e.title !== "Switgerland")
-            .slice(0, 3)
-            .map((item, index) => (
-              <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
-                <NewStyleItem>
-                  <Link to={"/destinations/item/" + to_slug(item.title)}>
-                    <CardSelection
-                      img={item.img}
-                      title={item.title}
-                      rating={item.rating}
-                      cost={Number(item.cost)}
-                      // icon={Number(item.rating) < 6 ?"fas fa-star-half-alt" : "fas fa-star"}
-                    />
-                  </Link>
-                </NewStyleItem>
-              </div>
-            ))}
+          {get_random(cardData, 3).map((item, index) => (
+            <div key={index} className="col col-xxl-4 col-lg-6 col-md-6 col-12">
+              <NewStyleItem>
+                <Link to={"/destinations/item/" + to_slug(item.title)}>
+                  <CardSelection
+                    img={item.img}
+                    title={item.title}
+                    rating={item.rating}
+                    cost={Number(item.cost)}
+                    // icon={Number(item.rating) < 6 ?"fas fa-star-half-alt" : "fas fa-star"}
+                  />
+                </Link>
+              </NewStyleItem>
+            </div>
+          ))}
         </Selections>
       </NewStyleSelection>
       <Sub />

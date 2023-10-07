@@ -1,51 +1,31 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "./Nav.scss";
 import "../../styles/global.scss";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import LogoHeader from "../../assets/img/logo/logo-header.png";
 import { CustomTitle, map, CardEmpty } from "../../assets/img";
-import CardSelection from "../../components/cards/cardSelection/cardSelection";
 import { LOGOUT } from "../../constants/actionTypes";
 import { useSelector, useDispatch } from "react-redux";
-import { GET_CARD_BY_ID } from "../../constants/actionTypes";
 
 const Nav = () => {
-  const { cards, isLoading } = useSelector((state) => state.cards);
-  const [showModal, setShowModal] = useState(false);
+  const { authData } = useSelector((state) => state.authReducer);
+
   const [showAncordion, setShowAncordion] = useState(false);
-  const [searchItem, setSearchItem] = useState("");
-  const [data, setData] = useState(cards);
-  const [dataUser, setDataUser] = useState(
-    JSON.parse(localStorage.getItem("profile"))
-  );
+
   const history = useHistory();
   const dispatch = useDispatch();
 
-  let item = 8;
-  let count = 0;
-  const modalRef = useRef();
-  const onRedirect = (item) => {
-    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
-    history.push(`/tour-item/${item._id}`);
-    setShowModal(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    history.push(`/search/?destination=${e.target[0].value}`);
+    document.querySelector(".offcanvas").classList.remove("show");
+    document.querySelector(".offcanvas-backdrop").classList.remove("show");
+    document.querySelector(".offcanvas #search").value = "";
   };
-  useEffect(() => {
-    const clickOutSide = (e) => {
-      if (e.target === modalRef.current) setShowModal(false);
-    };
-    window.addEventListener("click", clickOutSide);
-    return () => {
-      window.removeEventListener("click", clickOutSide);
-    };
-  }, []);
 
-  useEffect(() => {
-    setData(cards);
-  }, [cards]);
   const logout = () => {
     dispatch({ type: LOGOUT });
     window.location.replace("/");
-    setDataUser(null);
   };
 
   return (
@@ -336,7 +316,7 @@ const Nav = () => {
 
       {/* =======account on <=low pc (1024px) */}
       <div className="nav-account">
-        {dataUser ? (
+        {authData ? (
           <div className="displayName__account">
             <p>
               <i className="far fa-user"></i>
@@ -394,14 +374,14 @@ const Nav = () => {
             justo et sed sea clita tempor diam,.
           </h5>
           <h3 className="offcanvas__title">Find Your Destination</h3>
-          <form action="#" className="canvas__search">
+          <form onSubmit={handleSubmit} className="canvas__search">
             <input
               placeholder="Search..."
               type="text"
               name="search"
               id="search"
             />
-            <button>
+            <button type="submit">
               <i className="fab fa-searchengin"></i>
             </button>
           </form>
@@ -445,79 +425,6 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-      </div>
-      {/* ================search modal=========================== */}
-      <div
-        ref={modalRef}
-        style={{ zIndex: "777" }}
-        className={`search-modal ${showModal ? "active" : ""}`}
-      >
-        <i
-          onClick={() => setShowModal(false)}
-          className="fas fa-times close "
-        ></i>
-        <form
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-          action={"#"}
-          onClick={(e) => e.stopPropagation()}
-          className="form-search"
-        >
-          <div
-            style={{ width: "100%", justifyContent: "center", display: "flex" }}
-          >
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search..."
-              onChange={(e) => setSearchItem(e.target.value)}
-            />
-            {/* <button className="btn-search" disabled={true}>
-              Find now
-            </button> */}
-          </div>
-          <div
-            className="row form__show__list__item"
-            style={{ width: "100%", overflowX: "auto", flexWrap: "nowrap" }}
-          >
-            {data
-              .filter((val) => {
-                if (searchItem === "") {
-                  return val;
-                } else if (
-                  val.title.toLowerCase().includes(searchItem.toLowerCase())
-                ) {
-                  count++;
-                  item = count;
-                  return val;
-                }
-              })
-              .slice(0, item)
-              .map((item, id) => (
-                <div
-                  key={id}
-                  onClick={() => onRedirect(item)}
-                  className="col col-xxl-3 col-lg-6 col-md-6 col-12 cursor-pointer"
-                >
-                  <CardSelection
-                    img={item.img}
-                    title={item.title}
-                    rating={item.rating}
-                    cost={Number(item.cost)}
-                    icon={
-                      Number(item.rating) < 6
-                        ? "fas fa-star-half-alt"
-                        : "fas fa-star"
-                    }
-                  />
-                </div>
-              ))}
-          </div>
-        </form>
       </div>
 
       {/* ======ancordion category=========== */}

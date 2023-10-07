@@ -3,11 +3,15 @@ import "../../App.scss";
 import "./tourList.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { getCards } from "../../../actions/cards";
-import { Link } from "react-router-dom";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
 import { Baner1, banData } from "../../../components/blogItem/BlogItem";
 import Helmet from "../../../components/Helmet/Helmet";
-import { featureTourData, FeatureTour, TourGalleryItem, TourMasonryItem } from "../../../components/cards/cardTourList/cardTourList";
+import {
+  featureTourData,
+  FeatureTour,
+  TourGalleryItem,
+  TourMasonryItem,
+} from "../../../components/cards/cardTourList/cardTourList";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import Loading from "../../../components/loading";
 import { useHistory } from "react-router-dom";
@@ -38,7 +42,11 @@ const TourList = () => {
           ) : (
             <section className="tour-card-list row grey py-5">
               {cardData.slice(0, 3).map((item, index) => (
-                <div onClick={() => onRedirect(item)} key={index} className="col col-xxl-3 col-lg-6 col-md-12 col-sm-12 cursor-pointer">
+                <div
+                  onClick={() => onRedirect(item)}
+                  key={index}
+                  className="col col-xxl-3 col-lg-6 col-md-12 col-sm-12 cursor-pointer"
+                >
                   <CardDetails
                     key={index}
                     img={item.img}
@@ -49,7 +57,11 @@ const TourList = () => {
                     description={item.description}
                     cost={Number(item.cost)}
                     rating={item.rating}
-                    icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
+                    icon={
+                      Number(item.rating) < 6
+                        ? "fas fa-star-half-alt"
+                        : "fas fa-star"
+                    }
                   />
                 </div>
               ))}

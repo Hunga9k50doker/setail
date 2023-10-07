@@ -39,7 +39,8 @@ const imgArea = {
 const content1 = {
   content: "Choose your",
   title: "Perfect holiday",
-  subTitle: "Dare convenevole senza vostro niuna credere mentre impermutabile forse al, essilio cose tale sua novellare,.",
+  subTitle:
+    "Dare convenevole senza vostro niuna credere mentre impermutabile forse al, essilio cose tale sua novellare,.",
 };
 const content2 = {
   content: " Plan the",
@@ -58,9 +59,7 @@ const HomeTravel = () => {
   };
 
   useEffect(() => {
-    if (!cards.length) {
-      dispatch(getCards);
-    } 
+    dispatch(getCards);
   }, []);
 
   useEffect(() => {
@@ -72,25 +71,43 @@ const HomeTravel = () => {
       {/* banner */}
       <CarouselBanner>
         {getImgBanner.map((item, index) => (
-          <Banner key={index} img={item.img} title={item.title} subTitle={item.subTitle} description={item.description}></Banner>
+          <Banner
+            key={index}
+            img={item.img}
+            title={item.title}
+            subTitle={item.subTitle}
+            description={item.description}
+          ></Banner>
         ))}
       </CarouselBanner>
 
       {/* filter date, time, location */}
       <TourFilter />
       {/* sub title */}
-      <CustomTitle content={content1.content} title={content1.title} subTitle={content1.subTitle} />
+      <CustomTitle
+        content={content1.content}
+        title={content1.title}
+        subTitle={content1.subTitle}
+      />
       {/* selection item  */}
       {Boolean(cardData.length) && (
         <Selections>
           {cardData.map((item, index) => (
-            <div onClick={() => onRedirect(item)} key={index} className="cursor-pointer col col-xxl-3 col-lg-6 col-md-6 col-12">
+            <div
+              onClick={() => onRedirect(item)}
+              key={index}
+              className="cursor-pointer col col-xxl-3 col-lg-6 col-md-6 col-12"
+            >
               <CardSelection
                 img={item.img}
                 title={item.title}
                 rating={item.rating}
                 cost={Number(item.cost)}
-                icon={Number(item.rating) < 6 ? "fas fa-star-half-alt" : "fas fa-star"}
+                icon={
+                  Number(item.rating) < 6
+                    ? "fas fa-star-half-alt"
+                    : "fas fa-star"
+                }
               />
             </div>
           ))}
@@ -109,7 +126,12 @@ const HomeTravel = () => {
       {/* img sub */}
       <div className="row img-side-area">
         <div className="col col-lg-12 col-md-12 col-sm-0">
-          <img className="img" src={imgArea.img} alt="not found" style={{ display: "flex", margin: "40px auto" }} />
+          <img
+            className="img"
+            src={imgArea.img}
+            alt="not found"
+            style={{ display: "flex", margin: "40px auto" }}
+          />
         </div>
       </div>
 
@@ -122,7 +144,10 @@ const HomeTravel = () => {
               <>
                 <h3>Go & Discover</h3>
                 <h2>Breathtaking Cities</h2>
-                <p>Sollst geliebet es helle trübhell heimat, stillestehn du warum nicht heut hast mein heut im.</p>
+                <p>
+                  Sollst geliebet es helle trübhell heimat, stillestehn du warum
+                  nicht heut hast mein heut im.
+                </p>
               </>
             }
             poster={item.img}
@@ -136,7 +161,11 @@ const HomeTravel = () => {
       <RowDetails />
       {/* selection item slide show */}
       <div className="area-slide-show-item-card">
-        <CustomTitle content={content2.content} title={content2.title} subTitle={content2.subTitle} />
+        <CustomTitle
+          content={content2.content}
+          title={content2.title}
+          subTitle={content2.subTitle}
+        />
         {isLoading ? (
           <Loading />
         ) : (
@@ -146,14 +175,18 @@ const HomeTravel = () => {
                 <CardDetails
                   img={item.img}
                   calendar={new Date(item.calendar).getMonth().toString()}
-                  custom={+item.custom}
+                  custom={Number(item.custom)}
                   location={item.location}
                   title={item.title}
                   description={item.description}
                   cost={Number(item.cost)}
                   rating={item.rating}
                   icon={
-                    Number(item.rating) === 0 ? "far fa-star" : Number(item.rating) <= ScoreRating.GOOD.value ? "fas fa-star-half-alt" : "fas fa-star"
+                    Number(item.rating) === 0
+                      ? "far fa-star"
+                      : Number(item.rating) <= ScoreRating.GOOD.value
+                      ? "fas fa-star-half-alt"
+                      : "fas fa-star"
                   }
                 />
               </Link>

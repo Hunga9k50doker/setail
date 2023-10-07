@@ -3,34 +3,46 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { HttpError } from "http-errors";
 import helmet from "helmet";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import cardRoutes from "./api/v1/routes/cards.js";
 import tourRoutes from "./api/v1/routes/tours.js";
 import userRoutes from "./api/v1/routes/users.js";
+import searchRoutes from "./api/v1/routes/search.js";
 
 dotenv.config();
 const app = express();
-app.set("view engine", "ejs");
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(helmet());
+app.use(cookieParser(process.env.SECRET));
 app.use(morgan("common"));
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://setail.onrender.com",
+      "https://apis.google.com",
+    ],
+    credentials: true,
+  })
+);
 
-app.use("/api/cards", cardRoutes);
-app.use("/api/tours", tourRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/v1/cards", cardRoutes);
+app.use("/api/v1/search", searchRoutes);
+app.use("/api/v1/tours", tourRoutes);
+app.use("/api/v1/user", userRoutes);
 app.get("/", (req, res) => {
   res.send("ok!");
 });
-app.use((err, req, res, next) => {
-  next(new HttpError(404, "Not found"));
+
+app.use((req, res, next) => {
+  res.status(404).send("API Not found!");
 });
 
-app.use((err, req, res, next) => {
-  next(new HttpError(err.status || 500, "Internal Server Error"));
+app.use((req, res, next) => {
+  res.status(err.status || 500).send("Internal Server Error");
 });
 
 const CONNECT_URL = process.env.CONNECT_URL;
@@ -52,7 +64,6 @@ mongoose
 
 process.on("SIGINT", () => {
   mongoose.connection.close(() => {
-    console.log("Mongoose is disconnected");
     process.exit(0);
   });
 });

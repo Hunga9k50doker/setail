@@ -1,5 +1,11 @@
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
-import { CREATE_TOUR, GET_ALL_TOURS, GET_TOUR_BY_ID, END_LOADING, START_LOADING } from "../constants/actionTypes";
+import {
+  CREATE_TOUR,
+  GET_ALL_TOURS,
+  GET_TOUR_BY_ID,
+  END_LOADING,
+  START_LOADING,
+} from "../constants/actionTypes";
 
 export default (state = { isLoading: true, tours: [], tour: null }, action) => {
   switch (action.type) {

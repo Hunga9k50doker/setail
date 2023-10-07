@@ -1,24 +1,31 @@
 import axios from "axios";
-
-// axios.defaults.withCredentials = true;
+import Cookies from "js-cookie";
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-  // timeout: 3000,
+  baseURL: "http://localhost:5000/api/v1",
+  timeout: 6000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem("profile")) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem("profile")).token
-    }`;
+  const token = Cookies.get("jwt");
+  const refresh = Cookies.get("refresh");
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+    req.headers.refresh = refresh;
   }
   return req;
 });
 
+API.interceptors.response.use((res) => {
+  console.log(res.headers["Set-Cookie"], res.headers);
+  return res;
+});
+
 export const fetchCards = () => API.get("/cards");
+export const searchCard = (params) => API.get("/search", { params });
 export const getCardById = (id) => API.get(`/cards/${id}`);
 export const createCard = (newCard) => API.post("/cards", newCard);
 export const deleteCard = (id) => API.delete(`/cards/${id}`);
@@ -33,6 +40,7 @@ export const createTour = (newTour) => API.post("/tours", newTour);
 export const signin = (formData) => API.post("/user/signin", formData);
 export const signup = (formData) => API.post("/user/signup", formData);
 export const verifyUser = (formData) => API.post("/user/verify/user", formData);
+export const getProfile = () => API.get("/user/getProfile");
 export const updateProfile = (formData) =>
   API.post("/user/update/profile", formData);
 export const updatePassword = (formData) =>

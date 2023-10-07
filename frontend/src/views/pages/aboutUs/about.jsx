@@ -7,7 +7,6 @@ import "./about.scss";
 import BannerArr from "../../../assets/fake-data/Banner";
 import ContentData from "../../../assets/fake-data/Content";
 import getVideoData from "../../../assets/fake-data/Video";
-import cardData from "../../../assets/fake-data/CardDetails";
 import CardSelection from "../../../components/cards/cardSelection/cardSelection";
 // import components
 import Helmet from "../../../components/Helmet/Helmet";
@@ -17,7 +16,9 @@ import VideoDemo from "../../../components/VideoDemo/VideoDemo";
 import Selections from "../../../components/selections/selections";
 import SlideCardRating from "../../../components/Carousel/CarouselCardRating";
 import Sub from "../../../components/Subscribe/sub";
-import { to_slug } from "../../../utils/utils";
+import { get_random, to_slug } from "../../../utils/utils";
+import { useSelector, useDispatch } from "react-redux";
+import { getCards } from "../../../actions/cards";
 
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_pages");
@@ -47,6 +48,13 @@ const NewStyleCard = styled.div`
 `;
 
 const AboutUs = () => {
+  const { cards: cardData, isLoading } = useSelector((state) => state.cards);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getCards);
+  }, []);
+
   return (
     <Helmet title="About Us">
       <div className="component about__us">
@@ -139,7 +147,7 @@ const AboutUs = () => {
         ))}
         {/* selection item */}
         <Selections>
-          {cardData.getCards_random(12).map((item, index) => (
+          {get_random(cardData, 12).map((item, index) => (
             <Link
               to={"/tour-item/" + to_slug(item.title)}
               key={index}

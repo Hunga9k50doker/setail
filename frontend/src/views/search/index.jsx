@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getCards } from "../../actions/cards";
-// import data
-import BannerArr from "../../assets/fake-data/Banner";
-import VideoData from "../../assets/fake-data/Video";
-// import cardData from "../../assets/fake-data/CardDetails";
-
 // import components
 import Helmet from "../../components/Helmet/Helmet";
 import TourFilter from "../../components/tourFilter/tourFilter";
@@ -14,6 +7,7 @@ import CustomTitle from "../../components/customTitle/customTitle";
 import Selections from "../../components/selections/selections";
 import CardSelection from "../../components/cards/cardSelection/cardSelection";
 import { to_slug } from "../../utils/utils";
+import { searchCard } from "../../actions/cards";
 
 import "../App.scss";
 import "./index.scss";
@@ -29,7 +23,8 @@ const content1 = {
 };
 
 const SearchPage = () => {
-  const { cards } = useSelector((state) => state.cards);
+  const { cards, isLoading } = useSelector((state) => state.cards);
+  const searchParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   const history = useHistory();
   const [cardData, setCardData] = useState(cards);
@@ -38,16 +33,19 @@ const SearchPage = () => {
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
 
-  useEffect(() => {
-    if (!cards.length) {
-      dispatch(getCards);
-    }
-  }, []);
+  React.useEffect(() => {
+    dispatch(
+      searchCard({
+        destination: searchParams.get("destination") || "",
+        time: searchParams.get("time") || "",
+        type: searchParams.get("type") || "",
+      })
+    );
+  }, [history.location.search]);
 
   useEffect(() => {
     setCardData(cards);
   }, [cards]);
-
   return (
     <Helmet title="Home Travel Agency" className="component">
       <div style={{ marginTop: "120px", height: "40px" }}></div>
@@ -80,6 +78,11 @@ const SearchPage = () => {
               />
             </div>
           ))}
+        </Selections>
+      )}
+      {!cards.length && !isLoading && (
+        <Selections>
+          <h3 className="text-center">No cards found</h3>
         </Selections>
       )}
     </Helmet>

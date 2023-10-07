@@ -6,12 +6,18 @@ import { useSelector, useDispatch } from "react-redux";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import { TypeUser } from "../config/auth.js";
-import { PublishRoute, PrivateRoute, SuperPrivateRoute } from "../routes/routes";
+import {
+  PublishRoute,
+  PrivateRoute,
+  SuperPrivateRoute,
+} from "../routes/routes";
 import NotFound from "./NotFound/notfound";
 import "./App.scss";
-import { AUTH } from "../constants/actionTypes";
+import { getMyProfile } from "../actions/auth";
+import Cookies from "js-cookie";
 
 function App() {
+  const jwt = Cookies.get("jwt");
   // handleEvent btn back top
   // The back-to-top button is hidden at the beginning
   const [showButton, setShowButton] = useState(false);
@@ -19,6 +25,7 @@ function App() {
   const user = useSelector((state) => {
     return state.authReducer.authData;
   });
+
   useEffect(() => {
     window.addEventListener("scroll", () => {
       scrollFunction();
@@ -30,22 +37,26 @@ function App() {
   }, []);
 
   const verifyToken = () => {
-    if (localStorage.getItem("profile")) {
-      dispatch({ type: AUTH, data: JSON.parse(localStorage.getItem("profile")) });
+    if (jwt) {
+      dispatch(getMyProfile);
     }
   };
 
   function scrollFunction() {
     if (window.scrollY > 30) {
       const nav = document.querySelector(".nav.nav__category");
-      const navItem = document.querySelector(".nav__list-item-Elements .nav__list-item-selections");
+      const navItem = document.querySelector(
+        ".nav__list-item-Elements .nav__list-item-selections"
+      );
       if (nav && navItem) {
         nav.style.top = "0";
         navItem.style.top = "75px";
       }
     } else {
       const nav = document.querySelector(".nav.nav__category");
-      const navItem = document.querySelector(".nav__list-item-Elements .nav__list-item-selections");
+      const navItem = document.querySelector(
+        ".nav__list-item-Elements .nav__list-item-selections"
+      );
       if (nav && navItem) {
         nav.style.top = "42px";
         navItem.style.top = "117px";
@@ -60,6 +71,7 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -72,7 +84,14 @@ function App() {
                 </button>
               )}
               {PublishRoute.map((route, key) => {
-                return <Route exact key={key} path={route.path} component={route.component}></Route>;
+                return (
+                  <Route
+                    exact
+                    key={key}
+                    path={route.path}
+                    component={route.component}
+                  ></Route>
+                );
               })}
             </MainLayout>
           </Route>
@@ -80,7 +99,14 @@ function App() {
             <Route exact path={PrivateRoute.map((e) => e.path)}>
               <MainLayout>
                 {PrivateRoute.map((route, key) => {
-                  return <Route exact key={key} path={route.path} component={route.component}></Route>;
+                  return (
+                    <Route
+                      exact
+                      key={key}
+                      path={route.path}
+                      component={route.component}
+                    ></Route>
+                  );
                 })}
               </MainLayout>
             </Route>
@@ -89,7 +115,14 @@ function App() {
             <Route exact path={SuperPrivateRoute.map((e) => e.path)}>
               <AdminLayout>
                 {SuperPrivateRoute.map((route, key) => {
-                  return <Route exact key={key} path={route.path} component={route.component}></Route>;
+                  return (
+                    <Route
+                      exact
+                      key={key}
+                      path={route.path}
+                      component={route.component}
+                    ></Route>
+                  );
                 })}
               </AdminLayout>
             </Route>
