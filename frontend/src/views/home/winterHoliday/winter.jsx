@@ -21,7 +21,7 @@ import CarouselTeam from "../../../components/Carousel/CarouselTeam";
 import CardSelection from "../../../components/cards/cardSelection/cardSelection";
 import Selections from "../../../components/selections/selections";
 import { BgWinter } from "../../../assets/img";
-import { to_slug } from "../../../utils/utils";
+import { get_random, to_slug } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
 
 import Banner from "../../../components/banner/banner";
@@ -31,7 +31,7 @@ import Loading from "../../../components/loading";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { ScoreRating } from "../../../config/scoreRating";
 import { searchCard } from "../../../actions/cards";
-
+import { getCards } from "../../../actions/cards";
 //get data
 const getImgBanner = BannerArr.filter(
   (e) => e.types === "banner_winter_travel"
@@ -118,23 +118,14 @@ const HomeWinter = () => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
   };
-  // useEffect(() => {
-  //   if (!cards.length) {
-  //     dispatch(getCards);
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    dispatch(getCards);
+  }, []);
 
   useEffect(() => {
     setCardData(cards);
   }, [cards]);
-
-  React.useEffect(() => {
-    dispatch(
-      searchCard({
-        type: "Skiing",
-      })
-    );
-  }, []);
 
   return (
     <Helmet title="Home Winter Holiday" className="component">
@@ -161,30 +152,34 @@ const HomeWinter = () => {
             <p className="fs-3 text-center">No data</p>
           ) : (
             <SlideCardTravel>
-              {cardData.map((item, index) => (
-                <div
-                  className="cursor-pointer"
-                  onClick={() => onRedirect(item)}
-                >
-                  <CardDetails
-                    img={item.img}
-                    calendar={new Date(item.calendar).getMonth().toString()}
-                    custom={+item.custom}
-                    location={item.location}
-                    title={item.title}
-                    subTitle={item.subTitle}
-                    cost={Number(item.cost)}
-                    rating={item.rating}
-                    icon={
-                      Number(item.rating) === 0
-                        ? "far fa-star"
-                        : Number(item.rating) <= ScoreRating.GOOD.value
-                        ? "fas fa-star-half-alt"
-                        : "fas fa-star"
-                    }
-                  />
-                </div>
-              ))}
+              {cardData
+                .filter((item) => item.type === "Skiing")
+                .slice(0, 12)
+                .map((item, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => onRedirect(item)}
+                  >
+                    <CardDetails
+                      img={item.img}
+                      calendar={new Date(item.calendar).getMonth().toString()}
+                      custom={+item.custom}
+                      location={item.location}
+                      title={item.title}
+                      description={item.subTitle}
+                      cost={Number(item.cost)}
+                      rating={item.rating}
+                      icon={
+                        Number(item.rating) === 0
+                          ? "far fa-star"
+                          : Number(item.rating) <= ScoreRating.GOOD.value
+                          ? "fas fa-star-half-alt"
+                          : "fas fa-star"
+                      }
+                    />
+                  </div>
+                ))}
             </SlideCardTravel>
           )}
         </>

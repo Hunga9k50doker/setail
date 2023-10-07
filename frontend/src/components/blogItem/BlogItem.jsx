@@ -102,7 +102,9 @@ const BlogItem = (props) => {
       </Link>
       <div className="blog__body__item">
         <h3 className="type__category">{props.blog.type}</h3>
-        <h4 className="title">{props.blog.title}</h4>
+        <Link to={"/detail/" + to_slug(props.blog.title)}>
+          <h4 className="title">{props.blog.title}</h4>
+        </Link>
         <p className="blog__content">{props.blog.content}</p>
         <p className="description">
           Al elit omnes impedit ius, vel et hinc agam fabulas. Ut audiam
@@ -148,7 +150,8 @@ const BlogItem = (props) => {
               {props.blog.time}
             </Link>
             <Link to="#comment__blog" className="comment-count a--sub">
-              <i className="far fa-comment mx-1"></i>2 Comments
+              <i className="far fa-comment mx-1"></i>
+              {props.blog.numComments || ""} Comments
             </Link>
           </div>
           <div className="post-info-right">
@@ -219,6 +222,7 @@ const postTextData = [
     icon: "fas fa-link",
   },
 ];
+
 const PostText = (props) => {
   return (
     <div className="post-text">

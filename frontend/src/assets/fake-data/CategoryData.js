@@ -21,6 +21,7 @@ const card_img_02 = require("../img/user/user2.png").default;
 const card_data_category = [
   {
     id: 1,
+    numComments: 2,
     type: "Summer",
     img: blog_img_01,
     title: "Beautiful China",
@@ -49,6 +50,7 @@ const card_data_category = [
   },
   {
     id: 2,
+    numComments: 2,
     type: "Summer",
     img: blog_img_02,
     title: "Food Travelist",
@@ -76,6 +78,7 @@ const card_data_category = [
   },
   {
     id: 3,
+    numComments: 2,
     type: "Summer",
     img: blog_img_20,
     title: "Travel In Europe",
@@ -102,7 +105,7 @@ const card_data_category = [
     ],
   },
   {
-    id: 4,
+    numComments: 2,
     type: "Travel",
     img: blog_img_05,
     title: "Inspired By Food",
@@ -130,6 +133,7 @@ const card_data_category = [
   },
   {
     id: 5,
+    numComments: 2,
     type: "Travel",
     img: blog_img_07,
     title: "Hiking",
@@ -157,6 +161,7 @@ const card_data_category = [
   },
   {
     id: 6,
+    numComments: 2,
     type: "Travel",
     img: blog_img_06,
     title: "Old Town",
@@ -184,6 +189,7 @@ const card_data_category = [
   },
   {
     id: 7,
+    numComments: 2,
     type: "Travel",
     img: blog_img_08,
     title: "Charming Murals",
@@ -211,6 +217,7 @@ const card_data_category = [
   },
   {
     id: 8,
+    numComments: 2,
     type: "Food",
     img: blog_img_08,
     title: "Your Vacation",
@@ -238,6 +245,7 @@ const card_data_category = [
   },
   {
     id: 9,
+    numComments: 2,
     type: "Food",
     img: blog_img_09,
     title: "Amazing Tour",
@@ -265,6 +273,7 @@ const card_data_category = [
   },
   {
     id: 20,
+    numComments: 2,
     type: "Adventure",
     img: blog_img_20,
     title: "Adventure Is Here",
@@ -292,6 +301,7 @@ const card_data_category = [
   },
   {
     id: 21,
+    numComments: 2,
     type: "Adventure",
     img: blog_img_21,
     title: "New Experience",
@@ -319,6 +329,7 @@ const card_data_category = [
   },
   {
     id: 23,
+    numComments: 2,
     type: "Adventure",
     img: blog_img_23,
     title: "Our Nature",
@@ -346,6 +357,7 @@ const card_data_category = [
   },
   {
     id: 24,
+    numComments: 2,
     type: "Adventure",
     img: blog_img_24,
     title: "Food Blogger",
@@ -373,6 +385,7 @@ const card_data_category = [
   },
   {
     id: 18,
+    numComments: 2,
     type: "New Year",
     img: blog_img_18,
     title: "7 New Year Party Ideas",
@@ -400,6 +413,7 @@ const card_data_category = [
   },
   {
     id: 19,
+    numComments: 2,
     type: "New Year",
     img: blog_img_19,
     title: "New Year, New Resolutions!",
@@ -427,6 +441,7 @@ const card_data_category = [
   },
   {
     id: 20,
+    numComments: 2,
     type: "Travel",
     img: blog_img_01,
     title: "Letters From Florida",
@@ -454,6 +469,7 @@ const card_data_category = [
   },
   {
     id: 21,
+    numComments: 2,
     type: "Travel",
     img: blog_img_02,
     title: "Down Town",
@@ -481,6 +497,7 @@ const card_data_category = [
   },
   {
     id: 3,
+    numComments: 2,
     type: "Travel",
     img: blog_img_03,
     title: "Photography",
@@ -507,7 +524,7 @@ const card_data_category = [
     ],
   },
   {
-    id: 4,
+    numComments: 2,
     type: "Travel",
     img: blog_img_04,
     title: "It’s Time To Travel",
@@ -532,6 +549,42 @@ const card_data_category = [
         time: "October 29, 2018 at 2:33 pm",
       },
     ],
+  },
+  {
+    numComments: 0,
+    type: "Travel",
+    img: blog_img_02,
+    title: "Visit ThaiLan, Bali and China",
+    content:
+      "Dolor ut diam clita lorem ea ut sadipscing, justo erat dolores sit justo dolores consetetur lorem eirmod gubergren, ipsum ipsum.",
+    time: "September 7, 2018",
+    blogImg2: blog_img_02,
+    blogImg1: blog_img_02,
+    comments: [],
+  },
+  {
+    numComments: 0,
+    type: "Travel",
+    img: blog_img_19,
+    title: "The Sound Of Our Jungle",
+    content:
+      "Dolor ut diam clita lorem ea ut sadipscing, justo erat dolores sit justo dolores consetetur lorem eirmod gubergren, ipsum ipsum.",
+    time: "September 7, 2018",
+    blogImg2: blog_img_19,
+    blogImg1: blog_img_19,
+    comments: [],
+  },
+  {
+    numComments: 0,
+    type: "Travel",
+    img: blog_img_23,
+    title: "New Year, New Resolutions!",
+    content:
+      "Dolor ut diam clita lorem ea ut sadipscing, justo erat dolores sit justo dolores consetetur lorem eirmod gubergren, ipsum ipsum.",
+    time: "September 7, 2018",
+    blogImg2: blog_img_23,
+    blogImg1: blog_img_23,
+    comments: [],
   },
 ];
 

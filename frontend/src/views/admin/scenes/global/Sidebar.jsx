@@ -17,13 +17,19 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { user4, avartDefault } from "../../../../assets/img";
+import { avartDefault } from "../../../../assets/img";
 import { useSelector } from "react-redux";
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <Link to={to} className={`w-100 rounded position-relative`} style={{ background: selected === title ? `${colors.greenAccent[400]}` : "" }}>
+    <Link
+      to={to}
+      className={`w-100 rounded position-relative`}
+      style={{
+        background: selected === title ? `${colors.greenAccent[400]}` : "",
+      }}
+    >
       <MenuItem
         active={selected === title}
         style={{
@@ -78,7 +84,12 @@ const Sidebar = () => {
             }}
           >
             {!isCollapsed && (
-              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
                 <Typography variant="h3" color={colors.grey[100]}>
                   ADMINIS
                 </Typography>
@@ -102,7 +113,12 @@ const Sidebar = () => {
                 />
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "10px 0 0 0" }}>
+                <Typography
+                  variant="h2"
+                  color={colors.grey[100]}
+                  fontWeight="bold"
+                  sx={{ m: "10px 0 0 0" }}
+                >
                   {user.result.name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
@@ -113,9 +129,20 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "0"}>
-            <Item isCollapsed={isCollapsed} title="Dashboard" to="/admin" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            <Item
+              isCollapsed={isCollapsed}
+              title="Dashboard"
+              to="/admin"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
               Data
             </Typography>
             <Item
@@ -151,7 +178,11 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
               Pages
             </Typography>
             <Item
@@ -179,7 +210,11 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
               Charts
             </Typography>
             <Item

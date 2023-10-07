@@ -20,7 +20,7 @@ export const verifyUser = (formData) => async (dispatch) => {
     .then((res) => {
       dispatch({ type: AUTH, data: res.data });
       toast.success("Successfully!");
-      // window.location.reload();
+      window.location.reload();
     })
     .catch((err) => {
       toast.error(err.response.data.message);

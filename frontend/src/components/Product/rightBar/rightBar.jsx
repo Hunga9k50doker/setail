@@ -1,16 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./rightBar.scss";
-
+import { useHistory } from "react-router-dom";
 const SearchBar = () => {
+  const history = useHistory();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    history.push(`/search/?destination=${e.target[0].value}`);
+  };
+
   return (
     <div className="search">
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           className="ip-search"
           type="text"
           placeholder="Search Product..."
         />
-        <button>
+        <button type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -29,7 +36,6 @@ const SearchBar = () => {
 };
 
 const Categories = ({ children }) => {
-
   return (
     <div className="category-list">
       <h5 className="sidebar__item__title">Categories</h5>

@@ -10,6 +10,7 @@ import cardRoutes from "./api/v1/routes/cards.js";
 import tourRoutes from "./api/v1/routes/tours.js";
 import userRoutes from "./api/v1/routes/users.js";
 import searchRoutes from "./api/v1/routes/search.js";
+import commentsRoutes from "./api/v1/routes/comments.js";
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,8 @@ app.use("/api/v1/cards", cardRoutes);
 app.use("/api/v1/search", searchRoutes);
 app.use("/api/v1/tours", tourRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/comments", commentsRoutes);
+
 app.get("/", (req, res) => {
   res.send("ok!");
 });

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 // ip data
 import { img_side_01 } from "../../assets/img";
-import data__blog from "../../assets/fake-data/CardBlogs";
+import data__cate from "../../assets/fake-data/CategoryData";
 // ip components
 import { SearchBar, Categories } from "../Product/rightBar/rightBar";
 import { FormFollow } from "../forms/forms";
@@ -33,24 +33,23 @@ const Sidebar = () => {
       <div className="sidebar__item">
         <h2 className="sidebar__item__title">Lastest Posts</h2>
         <ul className="sidebar__list">
-          {data__blog.getCards_random(3).map((e, id) => (
-            <li key={id + 1} className="sidebar__list__item">
-              <img src={e.img} alt="Not found" />
-              <Link
-                to={
-                  id === 2
-                    ? "/new-year-new-resolutions"
-                    : `${id === 1 ? "/hiking" : "/beautiful-china"}`
-                }
-                className="sidebar__list__item__content"
-              >
-                <h3 className="sidebar__list__item__content__title">
-                  {e.title}
-                </h3>
-                <p className="sidebar__list__item__content__time">{e.time}</p>
-              </Link>
-            </li>
-          ))}
+          {data__cate
+            .getAllCards()
+            .slice(-3)
+            .map((e, id) => (
+              <li key={id} className="sidebar__list__item">
+                <img src={e.img} alt="Not found" />
+                <Link
+                  to={`/detail/${to_slug(e.title)}`}
+                  className="sidebar__list__item__content"
+                >
+                  <h3 className="sidebar__list__item__content__title">
+                    {e.title}
+                  </h3>
+                  <p className="sidebar__list__item__content__time">{e.time}</p>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
       <div className="sidebar__item">

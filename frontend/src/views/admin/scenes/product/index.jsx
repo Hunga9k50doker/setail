@@ -13,6 +13,7 @@ import Loading from "../../../../components/loading";
 import { GET_CARD_BY_ID } from "../../../../constants/actionTypes";
 import { TypeUser } from "../../../../config/auth.js";
 import { toast } from "react-toastify";
+import moment from "moment";
 const Product = () => {
   const dispatch = useDispatch();
   const cards = useSelector((state) => state.cards);
@@ -37,7 +38,24 @@ const Product = () => {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID" },
+    {
+      headerName: "",
+
+      renderCell: ({ row }) => {
+        return (
+          <Box
+            width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            borderRadius="4px"
+          >
+            <img src={row.img} alt="" width={40} height={40} loading="lazy" />
+          </Box>
+        );
+      },
+    },
     {
       field: "title",
       headerName: "Title",
@@ -60,22 +78,37 @@ const Product = () => {
     {
       field: "custom",
       headerName: "Amount Custom",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "cost",
       headerName: "Cost",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "rating",
       headerName: "Rating",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "calendar",
       headerName: "Calendar",
-      flex: 1,
+      flex: 0.5,
+
+      renderCell: ({ row }) => {
+        return (
+          <Box
+            width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            borderRadius="4px"
+          >
+            {moment(row.calendar).format("DD/MM/YYYY")}
+          </Box>
+        );
+      },
     },
     {
       field: "subTitle",

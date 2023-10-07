@@ -11,6 +11,15 @@ const userSchema = mongoose.Schema({
   role: { type: Number, default: 0 },
   createdAt: { type: Date, default: new Date() },
   updateddAt: { type: Date, default: new Date() },
+  socialLinks: {
+    type: Array,
+    default: [
+      { facebook: "" },
+      { twitter: "" },
+      { instagram: "" },
+      { printest: "" },
+    ],
+  },
 });
 const User = mongoose.model("User", userSchema);
 export default User;

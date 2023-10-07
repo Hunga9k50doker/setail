@@ -19,11 +19,6 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-API.interceptors.response.use((res) => {
-  console.log(res.headers["Set-Cookie"], res.headers);
-  return res;
-});
-
 export const fetchCards = () => API.get("/cards");
 export const searchCard = (params) => API.get("/search", { params });
 export const getCardById = (id) => API.get(`/cards/${id}`);
