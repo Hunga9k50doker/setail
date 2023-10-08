@@ -120,7 +120,7 @@ const HomeWinter = () => {
   };
 
   useEffect(() => {
-    dispatch(getCards);
+    dispatch(getCards());
   }, []);
 
   useEffect(() => {

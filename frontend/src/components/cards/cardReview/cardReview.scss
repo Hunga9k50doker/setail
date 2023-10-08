@@ -4,13 +4,11 @@
 .card__reviews {
   background: $white-color;
   display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 40px 0;
   margin: 40px 10px 0 10px;
   border-radius: 8px;
   .img__user {
-    margin: 0 20px;
+    // margin: 0 20px;
     overflow: hidden;
   }
   .card__content {

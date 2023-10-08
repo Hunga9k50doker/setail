@@ -58,6 +58,8 @@ const TypeStandard = () => {
                                 place={item.nameUser}
                                 description={item.content}
                                 time={item.time}
+                                width={20}
+                                height={20}
                               />
                             </NewStyleCardReview>
                           ))}
@@ -154,6 +156,7 @@ const NewStyleForm = styled.div`
     margin-bottom: 20px;
   }
 `;
+
 const NewStyleCardReview = styled.div`
   padding: 0;
   .card__place {

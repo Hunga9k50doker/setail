@@ -4,7 +4,7 @@ import "./cardSelection.scss";
 const CardSelection = (props) => {
   return (
     <div className="selections__item" data-aos="zoom-out">
-      <img src={props.img} alt="not found" />
+      <img loading="lazy" src={props.img} alt="not found" />
       <h3>{props.title}</h3>
       <h5>
         <div className="selections__rating">

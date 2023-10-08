@@ -21,6 +21,7 @@ import CarouselBanner from "../../../components/Carousel/CarouselBanner";
 import Banner from "../../../components/banner/banner";
 import { to_slug, get_random } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
+import CardLoading from "../../../components/loading/CardLoading";
 import Loading from "../../../components/loading";
 import "../../App.scss";
 import "./travel.scss";
@@ -29,6 +30,8 @@ import { Paris } from "../../../assets/img";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { useHistory } from "react-router-dom";
 import { ScoreRating } from "../../../config/scoreRating";
+import Pagination from "@mui/material/Pagination";
+import useSearchParam from "../../../hook/useSearchParam";
 //get data
 const getImgBanner = BannerArr.filter((e) => e.types === "banner_home_travel");
 const getVideoData = VideoData.filter((e) => e.id === "video_home_travel");
@@ -52,18 +55,27 @@ const HomeTravel = () => {
   const { cards, isLoading } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [cardData, setCardData] = useState(cards);
+  const [cardData, setCardData] = useState(cards.items);
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
-    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+    history.push(`/tour-item/${item?._id}`);
   };
 
+  const handleChange = (e, value) => {
+    history.push(`${history.location.pathname}?page=${value}`);
+  };
+
+  const page = useSearchParam("page");
   useEffect(() => {
-    dispatch(getCards);
-  }, []);
+    dispatch(
+      getCards({
+        page,
+      })
+    );
+  }, [history.location.search]);
 
   useEffect(() => {
-    setCardData(cards);
+    setCardData(cards.items);
   }, [cards]);
 
   return (
@@ -90,7 +102,7 @@ const HomeTravel = () => {
         subTitle={content1.subTitle}
       />
       {/* selection item  */}
-      {Boolean(cardData.length) && (
+      {Boolean(cardData.length) && !isLoading && (
         <Selections>
           {cardData.map((item, index) => (
             <div
@@ -111,14 +123,22 @@ const HomeTravel = () => {
               />
             </div>
           ))}
+          <Pagination
+            onChange={handleChange}
+            className="mx-auto mt-4"
+            count={cards.totalPages}
+            variant="outlined"
+            color="primary"
+            page={+page}
+          />
         </Selections>
       )}
       {isLoading && (
         <Selections>
-          <Loading />
+          <CardLoading />
         </Selections>
       )}
-      {!cards.length && !isLoading && (
+      {!cardData.length && !isLoading && (
         <Selections>
           <h3 className="text-center">No data</h3>
         </Selections>
@@ -192,28 +212,8 @@ const HomeTravel = () => {
               </Link>
             ))}
           </SlideCardTravel>
-          // <SlideCardTravel>
-          //   {cardData.getCards_random(10).map((item, index) => (
-          //     <Link key={index} to={"/tour-item/" + item._id}>
-          //       <CardDetails
-          //         img={item.img}
-          //         calendar={new Date(item.calendar).getMonth().toString()}
-          //         custom={+item.custom}
-          //         location={item.location}
-          //         title={item.title}
-          //         subTitle={item.subTitle}
-          //         cost={Number(item.cost)}
-          //         rating={item.rating}
-          //         icon={
-          //           Number(item.rating) === 0 ? "far fa-star" : Number(item.rating) <= ScoreRating.GOOD.value ? "fas fa-star-half-alt" : "fas fa-star"
-          //         }
-          //       />
-          //     </Link>
-          //   ))}
-          // </SlideCardTravel>
         )}
       </div>
-      {/* rating */}
       <SlideCardRating />
     </Helmet>
   );

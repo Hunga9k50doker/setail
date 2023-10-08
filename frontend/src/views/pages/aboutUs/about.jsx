@@ -52,7 +52,7 @@ const AboutUs = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getCards);
+    dispatch(getCards());
   }, []);
 
   return (

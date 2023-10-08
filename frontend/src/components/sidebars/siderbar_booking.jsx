@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { createTour } from "../../actions/tours";
 const SidebarBooking = () => {
-  // const isValid = document.querySelector(".check__valid");
   const [isvaliable, setIsValiable] = useState({
     status: true,
     title: "",

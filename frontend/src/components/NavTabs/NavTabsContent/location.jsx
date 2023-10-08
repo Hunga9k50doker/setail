@@ -1,22 +1,14 @@
-import { useParams } from "react-router-dom";
-// import { Link } from "react-router-dom";
-// import cardData from "../../../assets/fake-data/CardDetails";
-// import { to_slug } from "../../../utils/utils";
-
-import Helmet from "../../Helmet/Helmet";
-
 import "./navContent.scss";
 
 const Location = () => {
-  let { slug } = useParams();
-
   return (
     <div className="component nav__content">
       <div className="row">
         <div className="col ">
           <h2 className="item__title">Tour Location</h2> <br />
           <p className="item__subtitle">
-            Sadipscing amet voluptua at vero dolores rebum sadipscing nonumy takimata, dolor sed dolor dolore clita clita erat. Elitr at nonumy.
+            Sadipscing amet voluptua at vero dolores rebum sadipscing nonumy
+            takimata, dolor sed dolor dolore clita clita erat. Elitr at nonumy.
           </p>{" "}
           <br />
           <div className="item__map">
@@ -38,20 +30,32 @@ const Location = () => {
         <div className="col ">
           <h2 className="item__title">Hystory of the City</h2> <br />
           <p className="item__subtitle">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+            commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+            commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
             Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
             <br /> <br />
-            Phasellus viverra nulla ut metus varius. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
-            condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-            hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam
-            sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo
-            eget bibendum sodales, augue velit cursus nunc. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-            quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae,
-            justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+            Phasellus viverra nulla ut metus varius. Curabitur ullamcorper
+            ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus
+            eget condimentum rhoncus, sem quam semper libero, sit amet
+            adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
+            pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
+            tempus.Donec vitae sapien ut libero venenatis faucibus. Nullam quis
+            ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo.
+            Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
+            Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+            Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+            aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+            imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
+            mollis pretium. Integer tincidunt. Lorem ipsum dolor sit amet,
+            consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+            Aenean massa. Cum sociis Theme natoque penatibus et magnis dis
+            parturient montes, nascetur ridiculus mus. Aliquam lorem ante,
+            dapibus in, viverra quis, feugiat a, tellus.
           </p>{" "}
           <br />
           <br />

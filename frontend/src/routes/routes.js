@@ -78,19 +78,21 @@ const PublishRoute = [
   { path: "/tour-item/:slug", component: ItemDetail },
 
   { path: "/blog/masonry", component: Masonry },
-  { path: "/blog/gallery", component: BlogGallery },
-  { path: "/blog/NavLink", component: BlogLink },
-  { path: "/blog/standard", component: TypeStandard },
   { path: "/blog/right-sidebar", component: BlogStandard },
   { path: "/blog/left-sidebar", component: BlogStandard },
   { path: "/blog/without-sidebar", component: BlogStandard },
   { path: "/blog/category/:slug", component: BlogStandard },
 
-  { path: "/shop/product-list", component: ShopList },
-  { path: "/shop/product-single", component: ShopSingle },
-  { path: "/shop/three-columns", component: ShopLayout },
-  { path: "/shop/four-columns", component: ShopLayout },
-  { path: "/shop/full-width", component: ShopLayout },
+  { path: "/shop/products", component: ShopList },
+  { path: "/shop/products/:slug", component: ShopSingle },
+  // { path: "/shop/three-columns", component: ShopLayout },
+  // { path: "/shop/four-columns", component: ShopLayout },
+  // { path: "/shop/full-width", component: ShopLayout },
+];
+
+const PrivateRoute = [
+  { path: "/setting", component: FormUser },
+  { path: "/my-tour", component: MyTour },
 
   { path: "/elements/tour-carousel", component: Carousel },
   { path: "/elements/tour-list", component: TourList },
@@ -105,11 +107,6 @@ const PublishRoute = [
   { path: "/elements/headings", component: TypographyHeadings },
   { path: "/elements/section-title", component: TypographySectionTitle },
   { path: "/search", component: SearchPage },
-];
-
-const PrivateRoute = [
-  { path: "/setting", component: FormUser },
-  { path: "/my-tour", component: MyTour },
 ];
 
 const SuperPrivateRoute = [

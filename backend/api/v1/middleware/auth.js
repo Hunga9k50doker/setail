@@ -26,11 +26,10 @@ const auth = async (req, res, next) => {
           { expiresIn: "5m" }
         );
         req.headers.authorization = `Bearer ${token}`;
-        // res.setHeader("set-cookie", `jwt=${token}`);
         res.cookie("jwt", {
           maxAge: 1000 * 5 * 60, // 5m
-          httpOnly: true, // Restrict cookie access to HTTP only
-          path: "/", // Set the cookie for all paths
+          httpOnly: true,
+          path: "/",
         });
         next();
       } else {

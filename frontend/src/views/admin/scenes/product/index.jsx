@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 const Product = () => {
   const dispatch = useDispatch();
-  const cards = useSelector((state) => state.cards);
+  const { cards, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -178,7 +178,7 @@ const Product = () => {
   };
 
   useEffect(() => {
-    dispatch(getCards);
+    dispatch(getCards());
   }, []);
 
   return (
@@ -214,7 +214,7 @@ const Product = () => {
             },
           }}
         >
-          {cards?.isLoading ? (
+          {isLoading ? (
             <Loading />
           ) : (
             <>
@@ -227,7 +227,7 @@ const Product = () => {
               </Button>
               <DataGrid
                 checkboxSelection
-                rows={cards.cards}
+                rows={cards.items}
                 columns={columns}
                 getRowId={(row) => row?._id || row?.title}
               />

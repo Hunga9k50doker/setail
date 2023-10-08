@@ -15,7 +15,7 @@ import {
 } from "../../../components/Product/rightBar/rightBar";
 import { Baner1, banData } from "../../../components/blogItem/BlogItem";
 import { amazingTour } from "../../../assets/img";
-import { get_random } from "../../../utils/utils";
+import { get_random, to_slug } from "../../../utils/utils";
 import FilterPrice from "../../../components/filter/filterPrice";
 const ShopList = () => {
   const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
@@ -65,15 +65,20 @@ const ShopList = () => {
               </div>
               <div className="row">
                 {items.map((e, i) => (
-                  <div className="col col-xxl-4 col-xl-4 col-md-4 col-sm-12 py-4">
+                  <div
+                    key={i}
+                    className="col col-xxl-4 col-xl-4 col-md-4 col-sm-12 py-4"
+                  >
                     <div className="item">
-                      <ProductItem key={i} shopData={shopData[e - 1]} />
+                      <Link to={`/shop/products/` + to_slug("123")}>
+                        <ProductItem key={i} shopData={shopData[e - 1]} />
+                      </Link>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="bottom-content">
-                {page == 1 ? (
+                {page === 1 ? (
                   <div>
                     <span>1</span>
                     <button id="page" onClick={changePage}>

@@ -98,7 +98,7 @@ const WhatWeOffer = () => {
 
   React.useEffect(() => {
     if (!cards.length) {
-      dispatch(getCards);
+      dispatch(getCards());
     } else {
       setCardData(cards);
     }

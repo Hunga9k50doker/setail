@@ -6,6 +6,20 @@ import "../../App.scss";
 import Helmet from "../../../components/Helmet/Helmet";
 import Standard from "../standardList/standard";
 
+const Gallery = () => {
+  return (
+    <Helmet title="Tours Search Page">
+      <div className="component">
+        <NewStyle>
+          <Standard />
+        </NewStyle>
+      </div>
+    </Helmet>
+  );
+};
+
+export default Gallery;
+
 const NewStyle = styled.div`
   .card {
     position: relative;
@@ -41,17 +55,3 @@ const NewStyle = styled.div`
     }
   }
 `;
-
-const Gallery = () => {
-  return (
-    <Helmet title="Tours Search Page">
-      <div className="component">
-        <NewStyle>
-          <Standard />
-        </NewStyle>
-      </div>
-    </Helmet>
-  );
-};
-
-export default Gallery;

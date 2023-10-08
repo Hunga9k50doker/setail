@@ -12,10 +12,10 @@ import {
 } from "../constants/actionTypes";
 import { toast } from "react-toastify";
 
-export const getCards = async (dispatch) => {
+export const getCards = (params) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    const { data } = await api.fetchCards();
+    const { data } = await api.fetchCards(params);
     dispatch({ type: END_LOADING });
     dispatch({ type: GET_ALL_CARDS, payload: { data } });
   } catch (error) {

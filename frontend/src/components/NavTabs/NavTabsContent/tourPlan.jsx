@@ -1,23 +1,14 @@
-import { useParams } from "react-router-dom";
-// import { Link } from "react-router-dom";
-
-// import cardData from "../../../assets/fake-data/CardDetails";
-// import { to_slug } from "../../../utils/utils";
-
-import Helmet from "../../Helmet/Helmet";
-
 import "./navContent.scss";
 
 const TourPlan = () => {
-  let { slug } = useParams();
-
   return (
     <div className="component nav__content">
       <div className="row">
         <div className="col ">
           <h2 className="item__title">Tour Plan</h2> <br />
           <p className="item__subtitle">
-            Duo et tempor justo erat diam justo magna amet. Gubergren kasd rebum dolore nonumy dolore vero, justo lorem elitr eirmod.
+            Duo et tempor justo erat diam justo magna amet. Gubergren kasd rebum
+            dolore nonumy dolore vero, justo lorem elitr eirmod.
           </p>{" "}
           <br />
           <div className="plan__item">
@@ -28,8 +19,10 @@ const TourPlan = () => {
             </h3>
             <div className="plan__item__content">
               <p>
-                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata sadipscing aliquyam dolore, justo amet consetetur dolor diam voluptua
-                amet, diam sit dolores ipsum et stet kasd et et. Dolor et.
+                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata
+                sadipscing aliquyam dolore, justo amet consetetur dolor diam
+                voluptua amet, diam sit dolores ipsum et stet kasd et et. Dolor
+                et.
               </p>
               <br />
               <ul>
@@ -48,8 +41,10 @@ const TourPlan = () => {
             </h3>
             <div className="plan__item__content">
               <p>
-                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata sadipscing aliquyam dolore, justo amet consetetur dolor diam voluptua
-                amet, diam sit dolores ipsum et stet kasd et et. Dolor et.
+                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata
+                sadipscing aliquyam dolore, justo amet consetetur dolor diam
+                voluptua amet, diam sit dolores ipsum et stet kasd et et. Dolor
+                et.
               </p>
               <br />
               <ul>
@@ -68,8 +63,10 @@ const TourPlan = () => {
             </h3>
             <div className="plan__item__content">
               <p>
-                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata sadipscing aliquyam dolore, justo amet consetetur dolor diam voluptua
-                amet, diam sit dolores ipsum et stet kasd et et. Dolor et.
+                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata
+                sadipscing aliquyam dolore, justo amet consetetur dolor diam
+                voluptua amet, diam sit dolores ipsum et stet kasd et et. Dolor
+                et.
               </p>
               <br />
               <ul>
@@ -88,8 +85,10 @@ const TourPlan = () => {
             </h3>
             <div className="plan__item__content">
               <p>
-                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata sadipscing aliquyam dolore, justo amet consetetur dolor diam voluptua
-                amet, diam sit dolores ipsum et stet kasd et et. Dolor et.
+                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata
+                sadipscing aliquyam dolore, justo amet consetetur dolor diam
+                voluptua amet, diam sit dolores ipsum et stet kasd et et. Dolor
+                et.
               </p>
               <br />
               <ul>
@@ -108,8 +107,10 @@ const TourPlan = () => {
             </h3>
             <div className="plan__item__content">
               <p>
-                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata sadipscing aliquyam dolore, justo amet consetetur dolor diam voluptua
-                amet, diam sit dolores ipsum et stet kasd et et. Dolor et.
+                Lorem dolor nonumy gubergren dolor diam, accusam sit takimata
+                sadipscing aliquyam dolore, justo amet consetetur dolor diam
+                voluptua amet, diam sit dolores ipsum et stet kasd et et. Dolor
+                et.
               </p>
               <br />
               <ul>

@@ -19,7 +19,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchCards = () => API.get("/cards");
+export const fetchCards = (params) => API.get("/cards", { params });
 export const searchCard = (params) => API.get("/search", { params });
 export const getCardById = (id) => API.get(`/cards/${id}`);
 export const createCard = (newCard) => API.post("/cards", newCard);

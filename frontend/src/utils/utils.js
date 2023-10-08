@@ -21,11 +21,46 @@ const RatingStarInput = ({ name, onChange, defaultValue, ...props }) => {
 
   return (
     <div className="star-input">
-      <input type="radio" name={name} id={`${name}1`} value={20} hidden onChange={(e) => onChange(e.target.value, name)} />
-      <input type="radio" name={name} id={`${name}2`} value={40} hidden onChange={(e) => onChange(e.target.value, name)} />
-      <input type="radio" name={name} id={`${name}3`} value={60} hidden onChange={(e) => onChange(e.target.value, name)} />
-      <input type="radio" name={name} id={`${name}4`} value={80} hidden onChange={(e) => onChange(e.target.value, name)} />
-      <input type="radio" name={name} id={`${name}5`} value={100} hidden onChange={(e) => onChange(e.target.value, name)} />
+      <input
+        type="radio"
+        name={name}
+        id={`${name}1`}
+        value={20}
+        hidden
+        onChange={(e) => onChange(e.target.value, name)}
+      />
+      <input
+        type="radio"
+        name={name}
+        id={`${name}2`}
+        value={40}
+        hidden
+        onChange={(e) => onChange(e.target.value, name)}
+      />
+      <input
+        type="radio"
+        name={name}
+        id={`${name}3`}
+        value={60}
+        hidden
+        onChange={(e) => onChange(e.target.value, name)}
+      />
+      <input
+        type="radio"
+        name={name}
+        id={`${name}4`}
+        value={80}
+        hidden
+        onChange={(e) => onChange(e.target.value, name)}
+      />
+      <input
+        type="radio"
+        name={name}
+        id={`${name}5`}
+        value={100}
+        hidden
+        onChange={(e) => onChange(e.target.value, name)}
+      />
       {$}
     </div>
   );
@@ -38,7 +73,9 @@ const RatingStar = ({ rating }) => {
     if (i > score) star += `<i className="far fa-star"></i>`;
     else star += '<i class="fas fa-star"></i>';
   }
-  return <article className="star" dangerouslySetInnerHTML={{ __html: star }} />;
+  return (
+    <article className="star" dangerouslySetInnerHTML={{ __html: star }} />
+  );
 };
 
 // convert string to slug
@@ -103,15 +140,27 @@ function Pagination({ data, RenderComponent, pageLimit, dataLimit }) {
         ))}
       </div>
       <div className="pagination">
-        <button onClick={prePage} className={`btn_pre btn_pagi ${currentPage === 1 ? "disabled" : ""}`}>
+        <button
+          onClick={prePage}
+          className={`btn_pre btn_pagi ${currentPage === 1 ? "disabled" : ""}`}
+        >
           Pre
         </button>
         {getGroupPage().map((e, id) => (
-          <button key={id} onClick={changePage} className={`btn_pagi ${currentPage === e ? "active" : "null"}`}>
+          <button
+            key={id}
+            onClick={changePage}
+            className={`btn_pagi ${currentPage === e ? "active" : "null"}`}
+          >
             {e}
           </button>
         ))}
-        <button onClick={nextPage} className={`btn_next btn_pagi ${currentPage === pages ? "disabled" : ""}`}>
+        <button
+          onClick={nextPage}
+          className={`btn_next btn_pagi ${
+            currentPage === pages ? "disabled" : ""
+          }`}
+        >
           Next
         </button>
       </div>

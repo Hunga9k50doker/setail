@@ -5,6 +5,20 @@ import "../../App.scss";
 import Helmet from "../../../components/Helmet/Helmet";
 import Standard from "../standardList/standard";
 
+const Split = () => {
+  return (
+    <Helmet title="Tours Search Page">
+      <div className="component">
+        <NewStyle>
+          <Standard />
+        </NewStyle>
+      </div>
+    </Helmet>
+  );
+};
+
+export default Split;
+
 const NewStyle = styled.div`
   .card {
     flex-direction: row;
@@ -62,17 +76,3 @@ const NewStyle = styled.div`
     }
   }
 `;
-
-const Split = () => {
-  return (
-    <Helmet title="Tours Search Page">
-      <div className="component">
-        <NewStyle>
-          <Standard />
-        </NewStyle>
-      </div>
-    </Helmet>
-  );
-};
-
-export default Split;

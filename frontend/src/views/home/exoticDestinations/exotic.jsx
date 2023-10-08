@@ -140,7 +140,7 @@ const HomeExotic = () => {
   };
   useEffect(() => {
     if (!cards.length) {
-      dispatch(getCards);
+      dispatch(getCards());
     }
   }, []);
 

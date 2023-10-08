@@ -27,26 +27,28 @@ const NewStyleSelection = styled.div`
 const ItemDetail = () => {
   const dispatch = useDispatch();
   let { slug } = useParams();
-  const { card } = useSelector((state) => state.cards);
+  const { card, isLoading } = useSelector((state) => state.cards);
   const [cardDataInit, setcardDataInit] = useState(card);
 
   useEffect(() => {
-    dispatch(getCardById(slug));
-  }, []);
-
-  useEffect(() => {
-    if (card) {
+    if (!card) {
+      dispatch(getCardById(slug));
+    } else {
       setcardDataInit(card);
     }
-  }, [card, dispatch]);
+  }, [card]);
 
   return (
     <Helmet title={cardDataInit?.title ?? "Tour Item"}>
-      {!cardDataInit ? (
+      {!cardDataInit && (
         <div className="component mt-5 pt-5">
           <Loading />
         </div>
-      ) : (
+      )}
+      {!cardDataInit && !isLoading && (
+        <div className="component mt-5 pt-5">Tour not found!</div>
+      )}
+      {cardDataInit && !isLoading && (
         <div className="component">
           <Banner
             maxHeight={"800px"}

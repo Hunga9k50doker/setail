@@ -30,18 +30,21 @@ const Standard = () => {
   const { cards, isLoading } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
   const history = useHistory();
+  const search = new URLSearchParams(history.location.search);
   const [cardData, setCardData] = useState(cards);
+
   const onRedirect = (item) => {
-    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item._id}`);
   };
+
   useEffect(() => {
-    if (!cards.length) {
-      dispatch(getCards);
-    } else {
-      setCardData(cards);
-    }
+    dispatch(getCards({ sort: search.get("sort") || "" }));
+  }, [history.location.search]);
+
+  useEffect(() => {
+    setCardData(cards);
   }, [cards]);
+
   return (
     <Helmet title="Tours Search Page">
       <div className="component">

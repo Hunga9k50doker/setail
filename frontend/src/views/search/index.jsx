@@ -30,17 +30,15 @@ const SearchPage = () => {
   const [cardData, setCardData] = useState(cards);
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
-    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+    history.push(`/tour-item/${item?._id}`);
   };
 
   React.useEffect(() => {
-    dispatch(
-      searchCard({
-        destination: searchParams.get("destination") || "",
-        time: searchParams.get("time") || "",
-        type: searchParams.get("type") || "",
-      })
-    );
+    dispatch({
+      destination: searchParams.get("destination") || "",
+      time: searchParams.get("time") || "",
+      type: searchParams.get("type") || "",
+    });
   }, [history.location.search]);
 
   useEffect(() => {

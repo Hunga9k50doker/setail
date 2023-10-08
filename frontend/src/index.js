@@ -17,6 +17,7 @@ AOS.init({
 const store = configureStore({
   reducer: reducers,
 });
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>

@@ -6,26 +6,32 @@ import {
   END_LOADING,
   START_LOADING,
 } from "../constants/actionTypes";
+import { produce } from "immer";
 
-export default (state = { isLoading: true, tours: [], tour: null }, action) => {
-  switch (action.type) {
-    case START_LOADING:
-      return { ...state, isLoading: true };
-    case END_LOADING:
-      return { ...state, isLoading: false };
-    case GET_ALL_TOURS:
-      return { ...state, tours: action.payload.data };
-    case GET_TOUR_BY_ID:
-      return { ...state, tour: action.payload.tour };
-    case CREATE_TOUR:
-      return { ...state, tours: [...state.tours, action.payload] };
-    // case UPDATE_CARD:
-    //   return { ...state, tours: state.tours.filter((tour) => (tour._id === action.payload ? action.payload : tour)) };
-    // case UPDATE_REVIEW_CARD:
-    //   return { ...state, tour: action.payload.tour };
-    // case DELETE_CARD:
-    //   return { ...state, tours: state.tours.filter((tour) => tour._id !== action.payload) };
-    default:
-      return state;
-  }
+const initialState = { isLoading: true, tours: [], tour: null };
+
+const reducer = (state = initialState, action) => {
+  return produce(state, (draftState) => {
+    switch (action.type) {
+      case START_LOADING:
+        draftState.isLoading = true;
+        break;
+      case END_LOADING:
+        draftState.isLoading = false;
+        break;
+      case GET_ALL_TOURS:
+        draftState.tours = action.payload.data;
+        break;
+      case GET_TOUR_BY_ID:
+        draftState.tour = action.payload.tour;
+        break;
+      case CREATE_TOUR:
+        draftState.tours.push(action.payload);
+        break;
+      default:
+        break;
+    }
+  });
 };
+
+export default reducer;

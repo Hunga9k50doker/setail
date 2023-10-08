@@ -1,15 +1,9 @@
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import cardData from "../../../assets/fake-data/CardDetails";
-import { to_slug } from "../../../utils/utils";
-import { useDispatch, useSelector } from "react-redux";
-import Helmet from "../../Helmet/Helmet";
+import { useSelector } from "react-redux";
 const ContentItem = (props) => {
   const { data } = props;
-  let { slug } = useParams();
   const { card } = useSelector((state) => state.cards);
-  // const dispatch = useDispatch();
   const [cardItem, setCardItem] = useState(data);
   useEffect(() => {
     setCardItem(card);
@@ -47,7 +41,8 @@ const ContentItem = (props) => {
             </>
           )}
           <p>
-            ({cardItem.review__descriptions.length} {cardItem.review__descriptions.length < 2 ? "review" : "reviews"})
+            ({cardItem.review__descriptions.length}{" "}
+            {cardItem.review__descriptions.length < 2 ? "review" : "reviews"})
           </p>
         </h3>
         <p className="item__subtitle">{cardItem.description}</p>
@@ -142,14 +137,20 @@ const ContentItem = (props) => {
       <div className="content__item">
         <h2 className="item__title">From our gallery</h2>
         <p className="item__subtitle">
-          Elitr sed eos elitr elitr tempor. Gubergren no sit sadipscing duo at justo lorem sanctus. Ipsum ea accusam eirmod ut,.
+          Elitr sed eos elitr elitr tempor. Gubergren no sit sadipscing duo at
+          justo lorem sanctus. Ipsum ea accusam eirmod ut,.
         </p>
 
         <div className="row item__list__img ">
           {cardItem?.img__grid?.slice(8, 11).map((e, id) => (
             <div key={id} className="col col-lg-4 col-md-4 col-12">
               <div className="grid__item">
-                <img className="grid__item__img" style={{ width: "300px", height: "300px" }} src={e} alt="Not found" />
+                <img
+                  className="grid__item__img"
+                  style={{ width: "300px", height: "300px" }}
+                  src={e}
+                  alt="Not found"
+                />
               </div>
             </div>
           ))}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 // import { NavLink, Link } from "react-router-dom";
 
 import "./NavTabs.scss";
@@ -12,12 +13,16 @@ import NavContentAZ from "./NavTabsContent/stringA_Z";
 import Loading from "../loading";
 
 const NavTabFilter = ({ data, isLoading, onRedirect }) => {
+  const history = useHistory();
+  const onRouter = (sort) => {
+    history.push(`${window.location.pathname}?sort=${sort}`);
+  };
   return (
     <>
       <nav>
         <div className="nav__sidebar nav nav-tabs" id="nav-tab" role="tablist">
           <button
-            to
+            onClick={() => onRouter("date")}
             className="nav-link active"
             id="nav-date-tab"
             data-bs-toggle="tab"
@@ -31,7 +36,7 @@ const NavTabFilter = ({ data, isLoading, onRedirect }) => {
             Date
           </button>
           <button
-            to
+            onClick={() => onRouter("lowprice")}
             className="nav-link"
             id="nav-low-to-high-tab"
             data-bs-toggle="tab"
@@ -45,7 +50,7 @@ const NavTabFilter = ({ data, isLoading, onRedirect }) => {
             Price Low to High
           </button>
           <button
-            to
+            onClick={() => onRouter("highprice")}
             className="nav-link"
             id="nav-high-to-low-tab"
             data-bs-toggle="tab"
@@ -59,7 +64,7 @@ const NavTabFilter = ({ data, isLoading, onRedirect }) => {
             Price High to Low
           </button>
           <button
-            to
+            onClick={() => onRouter("name")}
             className="nav-link"
             id="nav-name-tab"
             data-bs-toggle="tab"
@@ -80,17 +85,53 @@ const NavTabFilter = ({ data, isLoading, onRedirect }) => {
           <Loading />
         ) : (
           <div className="tab-content" id="nav-tabContent">
-            <div className="tab-pane fade show active" id="nav-date" role="tabpanel" aria-labelledby="nav-date-tab">
-              <NavContentDate data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            <div
+              className="tab-pane fade show active"
+              id="nav-date"
+              role="tabpanel"
+              aria-labelledby="nav-date-tab"
+            >
+              <NavContentDate
+                data={data}
+                isLoading={isLoading}
+                onRedirect={onRedirect}
+              />
             </div>
-            <div className="tab-pane fade" id="nav-low-to-high" role="tabpanel" aria-labelledby="nav-low-to-high-tab">
-              <NavContentLowToHigh data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            <div
+              className="tab-pane fade"
+              id="nav-low-to-high"
+              role="tabpanel"
+              aria-labelledby="nav-low-to-high-tab"
+            >
+              <NavContentLowToHigh
+                data={data}
+                isLoading={isLoading}
+                onRedirect={onRedirect}
+              />
             </div>
-            <div className="tab-pane fade" id="nav-high-to-low" role="tabpanel" aria-labelledby="nav-high-to-low-tab">
-              <NavContentHighToLow data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            <div
+              className="tab-pane fade"
+              id="nav-high-to-low"
+              role="tabpanel"
+              aria-labelledby="nav-high-to-low-tab"
+            >
+              <NavContentHighToLow
+                data={data}
+                isLoading={isLoading}
+                onRedirect={onRedirect}
+              />
             </div>
-            <div className="tab-pane fade" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
-              <NavContentAZ data={data} isLoading={isLoading} onRedirect={onRedirect} />
+            <div
+              className="tab-pane fade"
+              id="nav-name"
+              role="tabpanel"
+              aria-labelledby="nav-name-tab"
+            >
+              <NavContentAZ
+                data={data}
+                isLoading={isLoading}
+                onRedirect={onRedirect}
+              />
             </div>
           </div>
         )}
