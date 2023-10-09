@@ -6,17 +6,17 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import Header from "../../components/Header";
-import { getProducts, deleteProduct } from "../../../../actions/products";
+import { getCards, deleteCard } from "../../../../actions/cards";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Loading from "../../../../components/loading";
-import { GET_PRODUCT_BY_ID } from "../../../../constants/actionTypes";
+import { GET_CARD_BY_ID } from "../../../../constants/actionTypes";
 import { TypeUser } from "../../../../config/auth.js";
 import { toast } from "react-toastify";
 import moment from "moment";
-const Product = () => {
+const Tour = () => {
   const dispatch = useDispatch();
-  const { products, isLoading } = useSelector((state) => state.products);
+  const { cards, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -39,14 +39,8 @@ const Product = () => {
 
   const columns = [
     {
-      field: "sku",
-      headerName: "SKU",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
       headerName: "",
-      flex: 0.5,
+
       renderCell: ({ row }) => {
         return (
           <Box
@@ -68,17 +62,23 @@ const Product = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
-
     {
-      field: "weight",
-      headerName: "Weight",
+      field: "age",
+      headerName: "Age",
+      type: "number",
       headerAlign: "left",
       align: "left",
     },
     {
-      field: "dismensions",
-      headerName: "Dismensions",
-      flex: 1,
+      field: "location",
+      headerName: "Location",
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "custom",
+      headerName: "Amount Custom",
+      flex: 0.5,
     },
     {
       field: "cost",
@@ -91,14 +91,9 @@ const Product = () => {
       flex: 0.5,
     },
     {
-      field: "category",
-      headerName: "Category",
+      field: "calendar",
+      headerName: "Calendar",
       flex: 0.5,
-    },
-    {
-      field: "updateAt",
-      headerName: "Update At",
-      flex: 1,
 
       renderCell: ({ row }) => {
         return (
@@ -110,10 +105,15 @@ const Product = () => {
             justifyContent="center"
             borderRadius="4px"
           >
-            {moment(row.calendar).format("DD/MM/YYYY HH:mm a")}
+            {moment(row.calendar).format("DD/MM/YYYY")}
           </Box>
         );
       },
+    },
+    {
+      field: "subTitle",
+      headerName: "Description",
+      flex: 1,
     },
     {
       field: "actions",
@@ -161,16 +161,16 @@ const Product = () => {
   };
   const handleClose = () => setOpen(false);
   const handleEditClick = (item) => {
-    dispatch({ type: GET_PRODUCT_BY_ID, payload: { product: item } });
-    history.push(`/admin/product/edit/${item._id}`);
+    dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
+    history.push(`/admin/tour/edit/${item._id}`);
   };
   const handleAdd = () => {
-    history.push("/admin/product/add");
+    history.push("/admin/tour/add");
   };
 
   const handleDeleteClick = () => {
     if (authData?.result?.role === TypeUser.SUPER_ADMIN) {
-      dispatch(deleteProduct(data._id));
+      dispatch(deleteCard(data._id));
     } else {
       toast.warning("Only super admin can do this, you are admin");
     }
@@ -179,7 +179,7 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(
-      getProducts({
+      getCards({
         itemsPerPage: 25,
       })
     );
@@ -188,7 +188,7 @@ const Product = () => {
   return (
     <>
       <Box m="20px">
-        <Header title="PRODUCT" subtitle="Managing the Products" />
+        <Header title="Tour" subtitle="Managing the Tours" />
         <Box
           m="40px 0 0 0"
           height="75vh"
@@ -227,11 +227,11 @@ const Product = () => {
                 startIcon={<AddIcon />}
                 onClick={handleAdd}
               >
-                Add Product
+                Add Tour
               </Button>
               <DataGrid
                 checkboxSelection
-                rows={products.items}
+                rows={cards.items}
                 columns={columns}
                 getRowId={(row) => row?._id || row?.title}
               />
@@ -263,4 +263,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Tour;

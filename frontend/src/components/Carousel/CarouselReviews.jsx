@@ -49,29 +49,35 @@ const SlideCardReview = (props) => {
     if (ref.current) parallaxBackground(ref.current);
   }, []);
   return (
-    <div ref={ref} className=" slide__card__review " style={{ backgroundImage: `url(${props.bgUrl})` }}>
+    <div
+      ref={ref}
+      className=" slide__card__review "
+      style={{ backgroundImage: `url(${props.bgUrl})` }}
+    >
       <h2 className="review__title" style={{ marginTop: "100px" }}>
         TOP REVIEWS
       </h2>
       <h3 className="review__subtitle">
-        Eirmod lorem et gubergren et diam erat consetetur et dolor, sit magna sanctus accusam invidunt dolor amet. Dolor sed et.
+        Eirmod lorem et gubergren et diam erat consetetur et dolor, sit magna
+        sanctus accusam invidunt dolor amet. Dolor sed et.
       </h3>
 
       <div className="slide__card-slick">
         <Slider {...settings}>
           {card__data.getCards_random(6).map((item, index) => (
-            <div key={index} className="row pb-4">
-              <div className="col ">
-                <CardReview
-                  width="100px"
-                  height="100px"
-                  img={item.img}
-                  place={item.rating__info.map((e, id) => `${id === 0 && e.rating__place}`)}
-                  name={item.name}
-                  star={item.rating__info.map((e, id) => id === 0 && <RatingStar key={id} rating={e.rating__score / 20} />)}
-                  description={item.rating__info.map((e, id) => `${id === 0 && e.rating}`)}
-                />
-              </div>
+            <div key={index} className="pb-4">
+              <CardReview
+                height="60px"
+                img={item.img}
+                place={item.rating__info.map(
+                  (e, id) => `${id === 0 && e.rating__place}`
+                )}
+                name={item.name}
+                star={() => <RatingStar rating={4} />}
+                description={item.rating__info.map(
+                  (e, id) => `${id === 0 && e.rating}`
+                )}
+              />
             </div>
           ))}
         </Slider>

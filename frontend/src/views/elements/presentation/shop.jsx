@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 // import data
 import BannerArr from "../../../assets/fake-data/Banner";
-import {
-  ProductItem,
-  shopData,
-} from "../../../components/Product/item/productItem";
+import ProductItem from "../../../components/Product/item/productItem";
 // ip component
 import Helmet from "../../../components/Helmet/Helmet";
 import Banner from "../../../components/banner/banner";
@@ -38,7 +35,7 @@ const ElementShop = () => {
                 key={id}
                 className="col col-xxl-4 col-xl-4 col-md-6 col-sm-12"
               >
-                <ProductItem shopData={shopData[e - 1]} />
+                {/* <ProductItem shopData={shopData[e - 1]} /> */}
               </div>
             ))}
           </div>
@@ -48,7 +45,7 @@ const ElementShop = () => {
                 key={id}
                 className="col col-xxl-3 col-xl-3 col-md-3 col-sm-12"
               >
-                <ProductItem shopData={shopData[e - 1]} />
+                {/* <ProductItem shopData={shopData[e - 1]} /> */}
               </div>
             ))}
           </div>
@@ -61,7 +58,7 @@ const ElementShop = () => {
                 key={id}
                 className="col col-xxl-2 col-xl-2 col-md-4 col-sm-12"
               >
-                <ProductItem shopData={shopData[e - 1]} />
+                {/* <ProductItem shopData={shopData[e - 1]} /> */}
               </div>
             ))}
           </div>

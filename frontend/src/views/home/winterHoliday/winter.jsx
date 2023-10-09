@@ -21,18 +21,16 @@ import CarouselTeam from "../../../components/Carousel/CarouselTeam";
 import CardSelection from "../../../components/cards/cardSelection/cardSelection";
 import Selections from "../../../components/selections/selections";
 import { BgWinter } from "../../../assets/img";
-import { get_random, to_slug } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
-
 import Banner from "../../../components/banner/banner";
 import "../../App.scss";
 import "./winter.scss";
 import Loading from "../../../components/loading";
 import { GET_CARD_BY_ID } from "../../../constants/actionTypes";
 import { ScoreRating } from "../../../config/scoreRating";
-import { searchCard } from "../../../actions/cards";
 import { getCards } from "../../../actions/cards";
-//get data
+import useSearchParam from "../../../hook/useSearchParam";
+import { to_slug } from "../../../utils/utils";
 const getImgBanner = BannerArr.filter(
   (e) => e.types === "banner_winter_travel"
 );
@@ -112,19 +110,24 @@ const HomeWinter = () => {
   const { cards, isLoading } = useSelector((state) => state.cards);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [cardData, setCardData] = useState(cards);
+  const [cardData, setCardData] = useState(cards.items);
 
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
-    history.push(`/tour-item/${item?._id ? item._id : to_slug(item.title)}`);
+    history.push(`/tour-item/${item?._id}`);
   };
 
+  const page = useSearchParam("page");
   useEffect(() => {
-    dispatch(getCards());
-  }, []);
+    dispatch(
+      getCards({
+        page,
+      })
+    );
+  }, [history.location.search]);
 
   useEffect(() => {
-    setCardData(cards);
+    setCardData(cards.items);
   }, [cards]);
 
   return (
@@ -152,34 +155,31 @@ const HomeWinter = () => {
             <p className="fs-3 text-center">No data</p>
           ) : (
             <SlideCardTravel>
-              {cardData
-                .filter((item) => item.type === "Skiing")
-                .slice(0, 12)
-                .map((item, index) => (
-                  <div
-                    key={index}
-                    className="cursor-pointer"
-                    onClick={() => onRedirect(item)}
-                  >
-                    <CardDetails
-                      img={item.img}
-                      calendar={new Date(item.calendar).getMonth().toString()}
-                      custom={+item.custom}
-                      location={item.location}
-                      title={item.title}
-                      description={item.subTitle}
-                      cost={Number(item.cost)}
-                      rating={item.rating}
-                      icon={
-                        Number(item.rating) === 0
-                          ? "far fa-star"
-                          : Number(item.rating) <= ScoreRating.GOOD.value
-                          ? "fas fa-star-half-alt"
-                          : "fas fa-star"
-                      }
-                    />
-                  </div>
-                ))}
+              {cardData.map((item, index) => (
+                <div
+                  key={index}
+                  className="cursor-pointer"
+                  onClick={() => onRedirect(item)}
+                >
+                  <CardDetails
+                    img={item.img}
+                    calendar={new Date(item.calendar).getMonth().toString()}
+                    custom={+item.custom}
+                    location={item.location}
+                    title={item.title}
+                    description={item.subTitle}
+                    cost={Number(item.cost)}
+                    rating={item.rating}
+                    icon={
+                      Number(item.rating) === 0
+                        ? "far fa-star"
+                        : Number(item.rating) <= ScoreRating.GOOD.value
+                        ? "fas fa-star-half-alt"
+                        : "fas fa-star"
+                    }
+                  />
+                </div>
+              ))}
             </SlideCardTravel>
           )}
         </>

@@ -147,7 +147,7 @@ const AboutUs = () => {
         ))}
         {/* selection item */}
         <Selections>
-          {get_random(cardData, 12).map((item, index) => (
+          {cardData.items.map((item, index) => (
             <Link
               to={"/tour-item/" + to_slug(item.title)}
               key={index}

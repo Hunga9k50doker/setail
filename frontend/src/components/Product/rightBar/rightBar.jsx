@@ -55,18 +55,22 @@ const ProductMini = ({ shopData }) => {
   }
   return (
     <div className="product-mini">
-      <div>
-        <a href="">
-          <img src={shopData.img} alt={shopData.name} />
-        </a>
+      <div className="me-2">
+        <img src={shopData.img} alt={shopData.title} />
       </div>
       <div>
         <a className="product-name" href="">
-          {shopData.name}
+          {shopData.title}
         </a>
         <div>
-          {shopData.uPrice && <p className="line-through">{shopData.uPrice}</p>}
-          <p>{shopData.price}</p>
+          {shopData.sale ? (
+            <>
+              <p className="line-through">${shopData.cost}</p>
+              <p>${shopData.cost - (shopData.cost * shopData.sale) / 100}</p>
+            </>
+          ) : (
+            <p>${shopData.cost}</p>
+          )}
         </div>
         {RatingStar()}
       </div>

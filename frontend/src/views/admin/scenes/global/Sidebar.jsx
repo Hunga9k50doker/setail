@@ -155,6 +155,14 @@ const Sidebar = () => {
             />
             <Item
               isCollapsed={isCollapsed}
+              title="Manage Tours"
+              to="/admin/tour"
+              icon={<InventoryOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              isCollapsed={isCollapsed}
               title="Manage Products"
               to="/admin/product"
               icon={<InventoryOutlinedIcon />}

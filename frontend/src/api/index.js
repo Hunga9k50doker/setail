@@ -28,6 +28,16 @@ export const updateCard = (id, newData) => API.patch(`/cards/${id}`, newData);
 export const updateReviewCard = (id, newData) =>
   API.patch(`/cards/${id}/review`, newData);
 
+export const fetchProducts = (params) => API.get("/products", { params });
+export const searchProduct = (params) => API.get("/search", { params });
+export const getProductById = (id) => API.get(`/products/${id}`);
+export const createProduct = (newProduct) => API.post("/products", newProduct);
+export const deleteProduct = (id) => API.delete(`/products/${id}`);
+export const updateProduct = (id, newData) =>
+  API.patch(`/products/${id}`, newData);
+export const updateReviewProduct = (id, newData) =>
+  API.patch(`/products/${id}/review`, newData);
+
 export const fetchTours = (userId) => API.post("/tours/my-tour", userId);
 export const getTourById = (id) => API.get(`/tours/${id}`);
 export const createTour = (newTour) => API.post("/tours", newTour);

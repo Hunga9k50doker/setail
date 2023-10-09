@@ -25,10 +25,10 @@ const TourList = () => {
     history.push(`/tour-item/${item._id}`);
   };
   useEffect(() => {
-    if (!cards.length) {
+    if (!cards.items.length) {
       dispatch(getCards());
     } else {
-      setCardData(cards);
+      setCardData(cards.items);
     }
   }, [cards]);
   return (

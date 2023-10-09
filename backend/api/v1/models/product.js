@@ -19,10 +19,20 @@ const product = mongoose.Schema({
     unique: true,
   },
   weight: { type: Number, default: 0 },
+  sale: { type: Number, default: "" },
   dismensions: { type: String, default: "" },
   avaliable: { type: Boolean, default: true },
   tag: { type: Array, default: [] },
   amount_sale: { type: Number, default: 0 },
+  links: {
+    type: Map,
+    of: String,
+    default: {
+      slug: function () {
+        return "/shop/products/" + this.title;
+      },
+    },
+  },
   createdAt: { type: Date, default: new Date() },
   updateddAt: { type: Date, default: new Date() },
 });

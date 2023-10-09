@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const cardSchema = mongoose.Schema({
   img: { type: String, required: true },
-  calendar: { type: Date },
+  calendar: { type: Date, required: true },
   creator: String,
   custom: { type: Number, default: 0 },
   age: { type: Number, required: true },
@@ -54,6 +54,11 @@ const cardSchema = mongoose.Schema({
         },
       },
     ],
+  },
+  links: {
+    type: Map,
+    of: String,
+    default: {},
   },
   createdAt: { type: Date, default: new Date() },
   updateddAt: { type: Date, default: new Date() },

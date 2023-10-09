@@ -1,11 +1,9 @@
-import express from "express";
 import { initializeApp } from "firebase/app";
 import {
   getStorage,
   ref,
   getDownloadURL,
   uploadBytesResumable,
-  listAll,
 } from "firebase/storage";
 import config from "../config/firebase.config.js";
 
@@ -17,6 +15,7 @@ export const storage = getStorage();
 
 // Setting up multer as a middleware to grab photo uploads
 export const uploadFile = async (req, res) => {
+  const { folder } = req;
   try {
     // Create file metadata including the content type
     const metadata = {
@@ -24,7 +23,7 @@ export const uploadFile = async (req, res) => {
     };
 
     // Upload the file in the bucket storage
-    const storageRef = ref(storage, `tours/${req.name}`);
+    const storageRef = ref(storage, `${folder || "tours"}/${req.name}`);
     //check existing upload file
     await getDownloadURL(storageRef)
       .then((download) => ({
@@ -62,21 +61,6 @@ export const uploadFile = async (req, res) => {
         "Error handle file: " + error.message + " Please try again later.",
     };
   }
-};
-
-export const getAllFiles = async (req, res) => {
-  // Specify the directory or bucket to retrieve files from
-  const directoryRef = ref(storage, "tours");
-  listAll(directoryRef)
-    .then((result) => {
-      result.items.forEach((itemRef) => {
-        // Get the download URL for each file
-        getFile(itemRef);
-      });
-    })
-    .catch((error) => {
-      console.log("Error retrieving files:", error);
-    });
 };
 
 export const getFile = (itemRef) =>

@@ -8,13 +8,23 @@ export const getCards = async (req, res) => {
   let cardMessages = await CardMessage.find();
   try {
     if (sort === "date") {
-      cardMessages = cardMessages.sort({ createdAt: -1 });
+      cardMessages = cardMessages.sort((a, b) => a.calendar - b.calendar);
     } else if (sort === "lowprice") {
-      cardMessages = cardMessages.sort({ cost: 1 });
+      cardMessages = cardMessages.sort((a, b) => a.cost - b.cost);
     } else if (sort === "highprice") {
-      cardMessages = cardMessages.sort({ cost: -1 });
+      cardMessages = cardMessages.sort((a, b) => b.cost - a.cost);
     } else if (sort === "name") {
-      cardMessages = cardMessages.sort({ title: 1 });
+      cardMessages = cardMessages.sort((a, b) => {
+        const nameA = a.title.toLowerCase();
+        const nameB = b.title.toLowerCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
     }
     // Apply pagination using the paginate function
     const result = Paginate(cardMessages, page, itemsPerPage);
@@ -52,16 +62,19 @@ export const searchCard = async (req, res) => {
 
   try {
     const cardMessages = await CardMessage.find(query);
-    return res.status(200).json(cardMessages);
+    const result = Paginate(cardMessages, page, itemsPerPage);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
 export const getCardById = async (req, res) => {
-  const { id } = req.params;
+  const { id, title } = req.params;
   try {
-    const cardDetail = await CardMessage.findById(id);
+    const cardDetail = await CardMessage.findOne({
+      $or: [{ _id: id }, { title: title }],
+    });
     return res.status(200).json(cardDetail);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -136,7 +149,7 @@ export const updateCard = async (req, res) => {
       age,
       location,
       img,
-      img__grid: [],
+      img__grid,
       calendar,
       avaliable,
       custom,

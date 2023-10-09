@@ -19,7 +19,7 @@ import SlideCardTravel from "../../../components/Carousel/CarouselCardTravel";
 import SlideCardRating from "../../../components/Carousel/CarouselCardRating";
 import CarouselBanner from "../../../components/Carousel/CarouselBanner";
 import Banner from "../../../components/banner/banner";
-import { to_slug, get_random } from "../../../utils/utils";
+import { get_random } from "../../../utils/utils";
 import CardDetails from "../../../components/cards/cardDetails/cardDetails";
 import CardLoading from "../../../components/loading/CardLoading";
 import Loading from "../../../components/loading";
@@ -129,7 +129,7 @@ const HomeTravel = () => {
             count={cards.totalPages}
             variant="outlined"
             color="primary"
-            page={+page}
+            page={cards.currentPage}
           />
         </Selections>
       )}

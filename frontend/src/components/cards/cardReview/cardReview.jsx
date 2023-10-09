@@ -20,7 +20,7 @@ const CardReview = (props) => {
         <p className="card__text">{props.description}</p>
         <p className="card__name__user">{props.name}</p>
         <p className="card__time ">
-          {moment(props.time).format("hh:mm DD-MM-YYYY")}
+          {moment(props.time).format("MMM DD YYYY hh:mm a")}
         </p>
       </div>
     </div>

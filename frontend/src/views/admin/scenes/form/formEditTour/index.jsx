@@ -16,15 +16,13 @@ import ImageUploading from "react-images-uploading";
 import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getProductById, updateProduct } from "../../../../../actions/products";
+import { getCardById, updateCard } from "../../../../../actions/cards";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import Loading from "../../../../../components/loading";
 import { TypeUser } from "../../../../../config/auth.js";
 // import Textarea from "@mui/joy/Textarea";
 const FormEditProduct = () => {
-  const MAX_SIZE_IMG = 1024 * 1024 * 5; // 5MB
-  const MAX_SIZE_IMG_PREVIEW = 1024 * 1024 * 2; // 2MB
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -32,9 +30,9 @@ const FormEditProduct = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   let { id: slug } = useParams();
-  const { product, isLoading } = useSelector((state) => state.products);
+  const { card, isLoading } = useSelector((state) => state.cards);
   const { authData } = useSelector((state) => state.authReducer);
-  const [isAvalilable, setIsAvalilable] = useState(product?.avaliable || false);
+  const [isAvalilable, setIsAvalilable] = useState(card?.avaliable || false);
   const handleFormSubmit = (data) => {
     if (images.length) {
       const dataSumbit = {
@@ -62,7 +60,7 @@ const FormEditProduct = () => {
       };
 
       if (authData?.result?.role === TypeUser.SUPER_ADMIN) {
-        dispatch(updateProduct(dataInit._id, dataSumbit, history));
+        dispatch(updateCard(dataInit._id, dataSumbit, history));
       } else {
         toast.warning("Only super admin can do this, you are admin");
       }
@@ -82,24 +80,24 @@ const FormEditProduct = () => {
   };
 
   useEffect(() => {
-    if (!product) {
-      dispatch(getProductById(slug));
+    if (!card) {
+      dispatch(getCardById(slug));
       return;
     } else {
-      setDataInit(product);
-      setImages([{ data_url: product.img }]);
-      setIsAvalilable(product.avaliable);
+      setDataInit(card);
+      setImages([{ data_url: card.img }]);
+      setIsAvalilable(card.avaliable);
       setImagesPreview(
-        product.img__grid.map((item) => ({
+        card.img__grid.map((item) => ({
           data_preview_url: item,
         }))
       );
     }
-  }, [product]);
+  }, [card]);
 
   return (
     <Box m="20px">
-      <Header title="EDIT PRODUCT" subtitle="Edit product" />
+      <Header title="EDIT Tour" subtitle="Edit Tour" />
       {!dataInit ? (
         <Loading />
       ) : (
@@ -129,7 +127,7 @@ const FormEditProduct = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Name"
+                  label="Title"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.title}
@@ -151,88 +149,77 @@ const FormEditProduct = () => {
                   helperText={touched.subTitle && errors.subTitle}
                   sx={{ gridColumn: "span 2" }}
                 />
-                <FormControl sx={{ gridColumn: "span 2" }}>
-                  <InputLabel id="demo-simple-select-label">
-                    Category
-                  </InputLabel>
-                  <Select
-                    sx={{ gridColumn: "span 2" }}
-                    labelId="demo-simple-select-label"
-                    name="category"
-                    value={values.category}
-                    label="Category"
-                    onChange={handleChange}
-                    error={!!touched.category && !!errors.category}
-                    variant="filled"
-                    fullWidth
-                  >
-                    <MenuItem value={"Accessories"}>Accessories</MenuItem>
-                    <MenuItem value={"Summer"}>Summer</MenuItem>
-                    <MenuItem value={"Camping"}>Camping</MenuItem>
-                    <MenuItem value={"Beach"}>Beach</MenuItem>
-                    <MenuItem value={"Winter"}>Winter</MenuItem>
-                    <MenuItem value={"Vintage"}>Vintage</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ gridColumn: "span 2" }}>
-                  <InputLabel id="select-label">Tag</InputLabel>
-                  <Select
-                    multiple
-                    sx={{ gridColumn: "span 2" }}
-                    labelId="select-label"
-                    name="tag"
-                    value={values.tag}
-                    label="Tag"
-                    onChange={handleChange}
-                    variant="filled"
-                    fullWidth
-                  >
-                    <MenuItem value={"Clothes"}>Clothes</MenuItem>
-                    <MenuItem value={"Summer"}>Summer</MenuItem>
-                    <MenuItem value={"Accessories"}>Accessories</MenuItem>
-                    <MenuItem value={"Camping"}>Camping</MenuItem>
-                    <MenuItem value={"Beach"}>Beach</MenuItem>
-                    <MenuItem value={"Winter"}>Winter</MenuItem>
-                    <MenuItem value={"Vintage"}>Vintage</MenuItem>
-                  </Select>
-                </FormControl>
                 <TextField
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Sku"
+                  label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.sku}
-                  name="sku"
-                  error={!!touched.sku && !!errors.sku}
-                  helperText={touched.sku && errors.sku}
+                  value={values.location}
+                  name="location"
+                  error={!!touched.location && !!errors.location}
+                  helperText={touched.location && errors.location}
                   sx={{ gridColumn: "span 2" }}
                 />
+                <FormControl sx={{ gridColumn: "span 2" }}>
+                  <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    value={values.type}
+                    label="Type"
+                    id="type"
+                    name="type"
+                    variant="filled"
+                    onChange={handleChange}
+                    error={!!touched.type && !!errors.type}
+                    fullWidth
+                  >
+                    <MenuItem value={"Wines"}>Wines</MenuItem>
+                    <MenuItem value={"Europe"}>Europe</MenuItem>
+                    <MenuItem value={"Latest"}>Latest</MenuItem>
+                    <MenuItem value={"NY"}>NY</MenuItem>
+                    <MenuItem value={"Skiing"}>Skiing</MenuItem>
+                    <MenuItem value={"PoPular"}>PoPular</MenuItem>
+                    <MenuItem value={"Trendy"}>Trendy</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   fullWidth
                   variant="filled"
-                  type="text"
-                  label="Dismensions"
+                  type="number"
+                  label="Age"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.dismensions}
-                  name="dismensions"
-                  error={!!touched.dismensions && !!errors.dismensions}
-                  helperText={touched.dismensions && errors.dismensions}
+                  value={values.age}
+                  name="age"
+                  error={!!touched.age && !!errors.age}
+                  helperText={touched.age && errors.age}
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
                   fullWidth
                   variant="filled"
                   type="number"
-                  label="Weight"
+                  label="Amount Customer"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.weight}
-                  name="weight"
-                  error={!!touched.weight && !!errors.weight}
-                  helperText={touched.weight && errors.weight}
+                  value={values.custom}
+                  name="custom"
+                  error={!!touched.custom && !!errors.custom}
+                  helperText={touched.custom && errors.custom}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="date"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.calendar}
+                  name="calendar"
+                  error={!!touched.calendar && !!errors.calendar}
+                  helperText={touched.calendar && errors.calendar}
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
@@ -248,17 +235,6 @@ const FormEditProduct = () => {
                   helperText={touched.cost && errors.cost}
                   sx={{ gridColumn: "span 2" }}
                 />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="number"
-                  label="Sale (%)"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.sale}
-                  name="sale"
-                  sx={{ gridColumn: "span 2" }}
-                />
                 <Select
                   fullWidth
                   variant="filled"
@@ -266,6 +242,8 @@ const FormEditProduct = () => {
                   value={isAvalilable}
                   label="Avalilable"
                   onChange={handleChangeSelect}
+                  // error={!!touched.avaliable && !!errors.avaliable}
+                  // helperText={touched.avaliable && errors.avaliable}
                 >
                   <MenuItem fullWidth value={true}>
                     Avalilable
@@ -276,19 +254,17 @@ const FormEditProduct = () => {
                 </Select>
                 <TextareaAutosize
                   variant="filled"
-                  type="text"
                   placeholder="Description"
                   required
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.description}
-                  name="description"
+                  value={values.subTitle}
+                  name="subTitle"
                   minRows={10}
                   style={{ gridColumn: "span 4", padding: "4px" }}
                 />
                 <Box style={{ gridColumn: "span 4" }}>
                   <ImageUploading
-                    maxFileSize={MAX_SIZE_IMG}
                     acceptType={["jpg", "jpeg", "png"]}
                     value={images}
                     onChange={onChange}
@@ -343,7 +319,6 @@ const FormEditProduct = () => {
                 </Box>
                 <Box style={{ gridColumn: "span 4" }}>
                   <ImageUploading
-                    maxFileSize={MAX_SIZE_IMG_PREVIEW}
                     acceptType={["jpg", "jpeg", "png"]}
                     multiple
                     value={imagesPreview}
@@ -408,7 +383,7 @@ const FormEditProduct = () => {
                   color="secondary"
                   variant="contained"
                 >
-                  Update product
+                  Update tour
                 </Button>
               </Box>
             </form>
@@ -421,15 +396,13 @@ const FormEditProduct = () => {
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
-  sku: yup.string().required("required"),
-  dismensions: yup.string().required("required"),
+  location: yup.string().required("required"),
+  age: yup.number().required("required"),
   subTitle: yup.string().required("required"),
+  calendar: yup.date().required("required"),
   cost: yup.number().required("required"),
-  weight: yup.number().required("required"),
-  description: yup.string().required("required"),
-  category: yup.string().required("required"),
-  tag: yup.array(),
-  sale: yup.number(),
+  custom: yup.number().required("required"),
+  type: yup.string().required("required"),
 });
 
 export default FormEditProduct;

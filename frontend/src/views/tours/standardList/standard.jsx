@@ -31,7 +31,7 @@ const Standard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const search = new URLSearchParams(history.location.search);
-  const [cardData, setCardData] = useState(cards);
+  const [cardData, setCardData] = useState(cards.items);
 
   const onRedirect = (item) => {
     history.push(`/tour-item/${item._id}`);
@@ -42,7 +42,7 @@ const Standard = () => {
   }, [history.location.search]);
 
   useEffect(() => {
-    setCardData(cards);
+    setCardData(cards.items);
   }, [cards]);
 
   return (

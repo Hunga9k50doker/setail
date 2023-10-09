@@ -27,7 +27,7 @@ const SearchPage = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [cardData, setCardData] = useState(cards);
+  const [cardData, setCardData] = useState(cards.items);
   const onRedirect = (item) => {
     dispatch({ type: GET_CARD_BY_ID, payload: { card: item } });
     history.push(`/tour-item/${item?._id}`);
@@ -42,7 +42,7 @@ const SearchPage = () => {
   }, [history.location.search]);
 
   useEffect(() => {
-    setCardData(cards);
+    setCardData(cards.items);
   }, [cards]);
   return (
     <Helmet title="Home Travel Agency" className="component">

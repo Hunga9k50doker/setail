@@ -15,15 +15,12 @@ import Standard from "../views/tours/standardList/standard";
 import Split from "../views/tours/splitList/split";
 
 import Masonry from "../views/blog/masonry/masonry";
-import BlogGallery from "../views/blog/postType/gallery";
-import BlogLink from "../views/blog/postType/link";
 import TypeStandard from "../views/blog/postType/standard";
 import BlogStandard from "../views/blog/standard/BlogStandard";
 // import { BlogItem } from "../views./components/blogItem/BlogItem";
 
 import ShopList from "../views/shop/productList/list";
 import ShopSingle from "../views/shop/productSingle/single";
-import ShopLayout from "../views/shop/shopLayout/shopLayout";
 
 import ElementAccordions from "../views/elements/classic/accordions";
 import Buttons from "../views/elements/classic/buttons";
@@ -46,12 +43,15 @@ import SearchPage from "../views/search";
 import Dashboard from "../views/admin/scenes/dashboard";
 import Team from "../views/admin/scenes/team";
 import Product from "../views/admin/scenes/product";
+import Tour from "../views/admin/scenes/tour";
 import Invoices from "../views/admin/scenes/invoices";
 import Contacts from "../views/admin/scenes/contacts";
 import Bar from "../views/admin/scenes/bar";
 import Form from "../views/admin/scenes/form";
 import FormEditProduct from "../views/admin/scenes/form/formEditProduct";
 import FormAddProduct from "../views/admin/scenes/form/formAddProduct";
+import FormEditTour from "../views/admin/scenes/form/formEditTour";
+import FormAddTour from "../views/admin/scenes/form/formAddTour";
 import Line from "../views/admin/scenes/line";
 import Pie from "../views/admin/scenes/pie";
 import FAQ from "../views/admin/scenes/faq";
@@ -112,10 +112,13 @@ const PrivateRoute = [
 const SuperPrivateRoute = [
   { path: "/admin", component: Dashboard },
   { path: "/admin/team", component: Team },
+  { path: "/admin/tour", component: Tour },
   { path: "/admin/product", component: Product },
   { path: "/admin/contacts", component: Contacts },
   { path: "/admin/invoices", component: Invoices },
   { path: "/admin/form", component: Form },
+  { path: "/admin/tour/add", component: FormAddTour },
+  { path: "/admin/tour/edit/:id", component: FormEditTour },
   { path: "/admin/product/add", component: FormAddProduct },
   { path: "/admin/product/edit/:id", component: FormEditProduct },
   { path: "/admin/bar", component: Bar },

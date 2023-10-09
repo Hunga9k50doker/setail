@@ -1,10 +1,7 @@
 import React from "react";
 import "./single.scss";
 import "../../App.scss";
-import {
-  shopData,
-  ProductItem,
-} from "../../../components/Product/item/productItem";
+import ProductItem from "../../../components/Product/item/productItem";
 import {
   ProductDetailNav,
   ProductItemDetails,
@@ -15,7 +12,7 @@ const ShopSingle = () => {
   return (
     <div className="product-list-single">
       <Baner1 banData={banData[1]} />
-      <div className="background">
+      {/* <div className="background">
         <ProductItemDetails itemData={shopData[0]} />
         <ProductDetailNav shopData={shopData[0]} />
         <h1>Related Products</h1>
@@ -26,7 +23,7 @@ const ShopSingle = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

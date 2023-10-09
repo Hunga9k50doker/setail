@@ -1,30 +1,33 @@
 import Products from "../models/product.js";
 import mongoose from "mongoose";
 import { uploadFile } from "./firebase.js";
+import Paginate from "./paginate.js";
 
 export const getProducts = async (req, res) => {
-  const { sort } = req.query;
-  let product;
+  const { sort, page, itemsPerPage } = req.query;
+  let product = await Products.find();
   try {
     if (sort === "lasted") {
-      product = await Products.find().sort({ createdAt: -1 });
-      return res.status(200).json(product);
+      product = product.sort((a, b) => b.createdAt - b.createdAt);
     } else if (sort === "popular") {
-      product = await Products.find().sort({ amount_sale: -1 });
-      return res.status(200).json(product);
+      product = product.sort((a, b) => b.amount_sale - a.amount_sale);
     } else if (sort === "rating") {
-      product = await Products.find().sort({ rating: -1 });
-      return res.status(200).json(product);
+      product = product.sort((a, b) => b.rating - a.rating);
     } else if (sort === "highprice") {
-      product = await Products.find().sort({ cost: -1 });
-      return res.status(200).json(product);
+      product = product.sort((a, b) => {
+        const salePriceA = a.cost - (a.cost * (a.sale || 1)) / 100;
+        const salePriceB = b.cost - (b.cost * (b.sale || 1)) / 100;
+        return salePriceB - salePriceA;
+      });
     } else if (sort === "lowprice") {
-      product = await Products.find().sort({ cost: 1 });
-      return res.status(200).json(product);
-    } else {
-      product = await Products.find();
-      return res.status(200).json(product);
+      product = product.sort((a, b) => {
+        const salePriceA = a.cost - (a.cost * (a.sale || 1)) / 100;
+        const salePriceB = b.cost - (b.cost * (b.sale || 1)) / 100;
+        return salePriceA - salePriceB;
+      });
     }
+    const result = Paginate(product, page, itemsPerPage);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -65,9 +68,11 @@ export const searchProduct = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  const { id } = req.params;
+  const { id, title } = req.params;
   try {
-    const ProductDetail = await Products.findById(id);
+    const ProductDetail = await Products.findOne({
+      $or: [{ _id: id }, { title: title }],
+    });
     return res.status(200).json(ProductDetail);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -85,7 +90,7 @@ export const createProduct = async (req, res) => {
   });
 
   if (newProduct) {
-    await uploadFile(Product.img)
+    await uploadFile({ ...Product.img, folder: "products" })
       .then((response) => {
         newProduct.img = response.url;
       })
@@ -94,7 +99,7 @@ export const createProduct = async (req, res) => {
       });
     await Promise.all(
       Product.img__grid.map(async (ele) => {
-        return await uploadFile(ele)
+        return await uploadFile({ ...ele, folder: "products" })
           .then((response) => {
             if (response.url) newProduct.img__grid.push(response.url);
           })
@@ -123,15 +128,15 @@ export const updateProduct = async (req, res) => {
   const {
     title,
     subTitle,
-    age,
-    location,
+    sku,
+    sale,
     img,
     img__grid,
-    calendar,
-    custom,
+    category,
+    dismensions,
     cost,
     avaliable,
-    type,
+    tag,
   } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
@@ -139,20 +144,20 @@ export const updateProduct = async (req, res) => {
     const updatedPost = {
       title,
       subTitle,
-      age,
-      location,
+      sku,
+      sale,
       img,
-      img__grid: [],
-      calendar,
-      avaliable,
-      custom,
+      img__grid,
+      category,
+      dismensions,
       cost,
+      avaliable,
+      tag,
       _id: id,
-      type,
     };
 
     if (img?.name) {
-      await uploadFile(img)
+      await uploadFile({ ...img, folder: "products" })
         .then((response) => {
           if (response.url) updatedPost.img = response.url;
         })
@@ -165,7 +170,7 @@ export const updateProduct = async (req, res) => {
       await Promise.all(
         img__grid.map((ele) => {
           if (ele?.name)
-            return uploadFile(ele)
+            return uploadFile({ ...ele, folder: "products" })
               .then((response) => {
                 if (response.url) updatedPost.img__grid.push(response.url);
               })

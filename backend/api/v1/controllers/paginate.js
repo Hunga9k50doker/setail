@@ -10,7 +10,7 @@ const Paginate = (data, currentPage = 1, itemsPerPage = 12) => {
       items,
       totalPages,
       currentPage: +currentPage,
-      totalCount: items.length,
+      totalCount: data.length,
     };
   } catch (error) {
     throw new Error("Pagination error");
