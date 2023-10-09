@@ -1,8 +1,9 @@
 const Paginate = (data, currentPage = 1, itemsPerPage = 12) => {
+  if (!currentPage) currentPage = 1;
+  if (!itemsPerPage) itemsPerPage = 12;
   try {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
     const items = data.slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(data.length / itemsPerPage);

@@ -30,7 +30,7 @@ export const updateReviewCard = (id, newData) =>
 
 export const fetchProducts = (params) => API.get("/products", { params });
 export const searchProduct = (params) => API.get("/search", { params });
-export const getProductById = (id) => API.get(`/products/${id}`);
+export const getProductById = (slug) => API.get(`/products/${slug}`);
 export const createProduct = (newProduct) => API.post("/products", newProduct);
 export const deleteProduct = (id) => API.delete(`/products/${id}`);
 export const updateProduct = (id, newData) =>
@@ -41,6 +41,11 @@ export const updateReviewProduct = (id, newData) =>
 export const fetchTours = (userId) => API.post("/tours/my-tour", userId);
 export const getTourById = (id) => API.get(`/tours/${id}`);
 export const createTour = (newTour) => API.post("/tours", newTour);
+
+export const fetchCarts = (userId) => API.post("/carts/my-cart", userId);
+export const getCartById = (id) => API.get(`/carts/${id}`);
+export const createCart = (newCart) => API.post("/carts", newCart);
+export const deleteCart = (id) => API.delete(`/carts/${id}`);
 
 export const signin = (formData) => API.post("/user/signin", formData);
 export const signup = (formData) => API.post("/user/signup", formData);

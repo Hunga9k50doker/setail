@@ -12,7 +12,6 @@ import {
 } from "../../../components/Product/rightBar/rightBar";
 import { Baner1, banData } from "../../../components/blogItem/BlogItem";
 import { amazingTour } from "../../../assets/img";
-import { to_slug } from "../../../utils/utils";
 import FilterPrice from "../../../components/filter/filterPrice";
 import { getProducts } from "../../../actions/products";
 import Pagination from "@mui/material/Pagination";
@@ -23,10 +22,17 @@ const ShopList = () => {
   const ITEM_PER_PAGE = 12;
   const page = useSearchParam("page");
   const sort = useSearchParam("sort");
+  const cate = useSearchParam("category");
+  const name = useSearchParam("name");
+  const price = useSearchParam("price");
+  const min = useSearchParam("min");
+  const max = useSearchParam("max");
+  const tag = useSearchParam("tag");
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { products } = useSelector((state) => state.products);
-  const tag = [
+  const tags = [
     "Accessories",
     "Beach",
     "Camping",
@@ -36,11 +42,30 @@ const ShopList = () => {
   ];
 
   const handleChange = (e, value) => {
-    history.push(
-      `${history.location.pathname}?page=${value || 1}&sort=${
-        e.target.value || sort || ""
-      }`
-    );
+    const category = tags.find((e) => e === value);
+    if (category)
+      history.push(`${history.location.pathname}?category=${category}`);
+    else
+      history.push(
+        `${history.location.pathname}?page=${value || 1}&sort=${
+          e.target.value || sort || ""
+        }&category=${cate || ""}`
+      );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    history.push(`${history.location.pathname}?name=${e.target[0].value}`);
+  };
+
+  const onFilterPrice = (e) => {
+    e.preventDefault();
+    if (e.target[0].value === e.target[1].value)
+      history.push(`${history.location.pathname}?price=${e.target[0].value}`);
+    else
+      history.push(
+        `${history.location.pathname}?min=${e.target[0].value}&max=${e.target[1].value}`
+      );
   };
 
   React.useEffect(() => {
@@ -49,6 +74,12 @@ const ShopList = () => {
         itemsPerPage: ITEM_PER_PAGE,
         page,
         sort,
+        category: cate,
+        name,
+        min,
+        max,
+        price,
+        tag,
       })
     );
   }, [history.location.search]);
@@ -61,7 +92,9 @@ const ShopList = () => {
           <div className="col col-xxl-9 col-xl-9 col-md-9 col-sm-12">
             <div className="left-col">
               <div className="top-content">
-                <span>{`Showing page ${products.currentPage} of ${products.totalPages}`}</span>
+                <span>{`Showing page ${products.currentPage} of ${
+                  products.totalPages || 1
+                }`}</span>
                 <div>
                   <select
                     name="sort-item"
@@ -83,45 +116,56 @@ const ShopList = () => {
                   </select>
                 </div>
               </div>
-              <div className="row">
-                {products.items.map((e, i) => (
-                  <div
-                    key={i}
-                    className="col col-xxl-4 col-xl-4 col-md-4 col-sm-12 py-4"
-                  >
-                    <div className="item">
-                      <Link to={`/shop/products/` + to_slug(e.title)}>
-                        <ProductItem key={i} shopData={e} />
-                      </Link>
-                    </div>
+              {products.totalCount > 0 && (
+                <>
+                  <div className="row">
+                    {products.items.map((e, i) => (
+                      <div
+                        key={i}
+                        className="col col-xxl-4 col-xl-4 col-md-4 col-sm-12 py-4"
+                      >
+                        <div className="item">
+                          <Link to={`/shop/products/${e._id}`}>
+                            <ProductItem key={i} shopData={e} />
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="bottom-content">
-                <Pagination
-                  onChange={handleChange}
-                  className="mx-auto mt-4"
-                  count={products.totalPages}
-                  variant="outlined"
-                  color="primary"
-                  page={products.currentPage}
-                />
-              </div>
+                  <div className="bottom-content">
+                    <Pagination
+                      onChange={handleChange}
+                      className="mx-auto mt-4"
+                      count={products.totalPages}
+                      variant="outlined"
+                      color="primary"
+                      page={products.currentPage}
+                    />
+                  </div>
+                </>
+              )}
+              {products.totalCount === 0 && (
+                <h3 className="text-center">No data</h3>
+              )}
             </div>
           </div>
           <div className="col col-xxl-3 col-xl-3 col-md-3 col-sm-12">
             <div className="right-col">
-              <SearchBar />
-              <FilterPrice>
+              <SearchBar handleSubmit={handleSubmit} />
+              <FilterPrice onSubmit={onFilterPrice}>
                 <div className="fillter__button">
-                  <button>Filter</button>
+                  <button type="submit">Filter</button>
                 </div>
               </FilterPrice>
               <Categories>
                 <>
-                  {tag.map((e, index) => (
-                    <li key={index + 1}>
-                      <Link to={`/blog/category/` + e}>{e}</Link>
+                  {tags.map((e, index) => (
+                    <li
+                      role="button"
+                      key={index + 1}
+                      onClick={(event) => handleChange(event, e)}
+                    >
+                      {e}
                     </li>
                   ))}
                 </>
@@ -132,13 +176,7 @@ const ShopList = () => {
                   <ProductMini key={i} shopData={e} />
                 ))}
               </div>
-              <a href="">
-                <img
-                  id="img-amazing-tour"
-                  src={amazingTour}
-                  alt="amazing-tour"
-                />
-              </a>
+              <img id="img-amazing-tour" src={amazingTour} alt="amazing-tour" />
             </div>
           </div>
         </div>

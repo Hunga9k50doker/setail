@@ -20,7 +20,7 @@ export const getCards = (params) => async (dispatch) => {
     dispatch({ type: GET_ALL_CARDS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -32,7 +32,7 @@ export const searchCard = (params) => async (dispatch) => {
     dispatch({ type: SEARCH_CARDS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -71,7 +71,7 @@ export const updateCard = (id, newData, callBack) => async (dispatch) => {
     callBack.goBack();
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -84,7 +84,7 @@ export const updateReviewCard = (id, newData) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -97,6 +97,6 @@ export const deleteCard = (id) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };

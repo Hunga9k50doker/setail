@@ -30,7 +30,6 @@ const FormEditProduct = () => {
   const { isLoading } = useSelector((state) => state.products);
   const { authData } = useSelector((state) => state.authReducer);
   const handleFormSubmit = (data) => {
-    console.log(data);
     if (images.length) {
       const dataSumbit = {
         ...data,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { RatingStar } from "../../../utils/utils";
 import { user6 } from "../../../assets/img";
 import { RatingStarInput } from "../../../utils/utils";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const ProductItemDetails = ({ itemData }) => {
   var [productCount, setProductCount] = useState(1);
 
@@ -11,19 +12,33 @@ const ProductItemDetails = ({ itemData }) => {
     <div className="product-details__container">
       <div className="img__list">
         <div className="img-product">
-          <img src={itemData.img} alt="img-product" />
+          <img className="w-100" src={itemData.img} alt="img-product" />
         </div>
         <div className="gallery">
-          {itemData.gallery.map((e, i) => (
+          {itemData.img__grid.map((e, i) => (
             <div className="img-gallery" key={i}>
-              <img src={e} alt={`img-gallery-${i + 1}`} />
+              <img
+                width={150}
+                height={150}
+                src={e}
+                alt={`img-gallery-${i + 1}`}
+              />
             </div>
           ))}
         </div>
       </div>
       <div className="info">
-        <h1>{itemData.name}</h1>
-        <p className="price">{itemData.price}</p>
+        <h1>{itemData.title}</h1>
+        {itemData.sale ? (
+          <>
+            <p className="text-decoration-line-through">${itemData.cost}</p>
+            <p className="price">
+              ${itemData.cost - (itemData.cost * itemData.sale) / 100}
+            </p>
+          </>
+        ) : (
+          <p className="price">${itemData.cost}</p>
+        )}
         <div className="rating">
           {itemData.rating < 5 ? (
             <>
@@ -40,7 +55,7 @@ const ProductItemDetails = ({ itemData }) => {
           )}
           <p>(1 customer review)</p>
         </div>
-        <p className="introduce">{itemData.introduce}</p>
+        <p className="introduce">{itemData.description}</p>
         <div className="btn-container">
           <div className="product-count">
             <input
@@ -74,15 +89,17 @@ const ProductItemDetails = ({ itemData }) => {
             <p className="label">Tags:</p>
           </div>
           <div className="info__detail">
-            <span className="span__detail">{itemData.SKU}</span>
+            <span className="span__detail">{itemData.sku}</span>
             <span className="span__detail">
-              <a href='#'>{itemData.Categories}</a>
+              <Link to={`/shop/products/?category=${itemData.category}`}>
+                {itemData.category}
+              </Link>
             </span>
             <span className="span__detail">
-              {itemData.Tag.map((e, i) => (
-                <a key={i} className="tags" href="#">
+              {itemData.tag.map((e, i) => (
+                <Link key={i} className="tags" to={`/shop/products/?tag=${e}`}>
                   {e}
-                </a>
+                </Link>
               ))}
             </span>
           </div>
@@ -131,15 +148,15 @@ const ReviewProduct = () => {
 const ProductDetailNav = ({ shopData }) => {
   const [tabActive, setTabActive] = useState(0);
   const itemList = [
-    <p>{shopData.Description}</p>,
+    <p>{shopData.description}</p>,
     <div className="add-info">
       <div className="label">
         <span>Weight</span>
         <span>Dismensions</span>
       </div>
       <div>
-        <span>{shopData.AddInfo.weight}</span>
-        <span>{shopData.AddInfo.dismensions}</span>
+        <span>{shopData.weight}</span>
+        <span>{shopData.dismensions}</span>
       </div>
     </div>,
     <ReviewProduct />,

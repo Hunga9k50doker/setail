@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./productItem.scss";
 import React, { useState } from "react";
 
@@ -36,9 +37,9 @@ const ProductItem = ({ shopData }) => {
         {/* hover button */}
         <div className="overlay">{Button()}</div>
       </div>
-      <a className="product-name" href="">
+      <Link className="product-name" to={`/shop/products/${shopData._id}`}>
         {shopData.title}
-      </a>
+      </Link>
       <div className="info">
         <div className="info-rice">
           {shopData.sale ? (

@@ -25,7 +25,6 @@
     }
     img {
       cursor: pointer;
-      width: 100%;
     }
   }
   .info {
@@ -66,6 +65,7 @@
       .product-count {
         position: relative;
         display: flex;
+        width:-moz-fit-content;
         width: fit-content;
         border: 1px rgb(153, 153, 153) solid;
 

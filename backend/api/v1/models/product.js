@@ -27,11 +27,7 @@ const product = mongoose.Schema({
   links: {
     type: Map,
     of: String,
-    default: {
-      slug: function () {
-        return "/shop/products/" + this.title;
-      },
-    },
+    default: {},
   },
   createdAt: { type: Date, default: new Date() },
   updateddAt: { type: Date, default: new Date() },

@@ -1,6 +1,10 @@
 import React from "react";
 import "./filter.scss";
-const FilterPrice = (props) => {
+import useSearchParam from "../../hook/useSearchParam";
+
+const FilterPrice = ({ onSubmit, ...props }) => {
+  const min = useSearchParam("min");
+  const max = useSearchParam("max");
   const rangeInput = document.querySelectorAll(".range__input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     range = document.querySelector(".range__sidebar .range__progress");
@@ -42,24 +46,51 @@ const FilterPrice = (props) => {
       }
     });
   });
+
   return (
-    <div className="filter__price">
+    <form onSubmit={onSubmit} className="filter__price">
       <h3 className="sidebar__item-title">Filter by Price</h3>
       <div className="range__sidebar">
         <div className="range__progress"></div>
         <div className="range__input">
-          <input type="range" name="range_price" className="e range__min " defaultValue={12} min={12} step="1" max={3600} />
+          <input
+            type="range"
+            name="range_price"
+            className="e range__min "
+            defaultValue={12}
+            min={12}
+            step="1"
+            max={3600}
+          />
 
-          <input type="range" name="range_price" className=" range__max " defaultValue={3600} min={12} step="1" max={3600} />
+          <input
+            type="range"
+            name="range_price"
+            className=" range__max "
+            defaultValue={3600}
+            min={12}
+            step="1"
+            max={3600}
+          />
         </div>
       </div>
 
       <p className="sidebar__item-price price-input">
-        Price: $<input type="number" className="input__min" value="12" /> - $
-        <input type="number" className="input__max" value="3600" />
+        Price: $
+        <input
+          type="number"
+          className="input__min"
+          defaultValue={min || 12}
+        />{" "}
+        - $
+        <input
+          type="number"
+          className="input__max"
+          defaultValue={max || 3600}
+        />
         {props.children}
       </p>
-    </div>
+    </form>
   );
 };
 

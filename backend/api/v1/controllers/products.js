@@ -2,13 +2,15 @@ import Products from "../models/product.js";
 import mongoose from "mongoose";
 import { uploadFile } from "./firebase.js";
 import Paginate from "./paginate.js";
+import slugify from "slugify";
 
 export const getProducts = async (req, res) => {
-  const { sort, page, itemsPerPage } = req.query;
+  const { sort, page, tag, itemsPerPage, category, name, price, min, max } =
+    req.query;
   let product = await Products.find();
   try {
-    if (sort === "lasted") {
-      product = product.sort((a, b) => b.createdAt - b.createdAt);
+    if (sort === "date") {
+      product = product.sort((a, b) => b.createdAt - a.createdAt);
     } else if (sort === "popular") {
       product = product.sort((a, b) => b.amount_sale - a.amount_sale);
     } else if (sort === "rating") {
@@ -26,6 +28,24 @@ export const getProducts = async (req, res) => {
         return salePriceA - salePriceB;
       });
     }
+
+    if (tag) {
+      product = product.filter((ele) => ele.tag.includes(tag));
+    }
+
+    if (price) {
+      product = product.filter((ele) => ele.cost === price);
+    } else if (min && max) {
+      product = product.filter((ele) => ele.cost <= max && ele.cost >= min);
+    }
+
+    if (name) {
+      const regex = new RegExp(name, "i");
+      product = product.filter((ele) => regex.test(ele.title));
+    }
+
+    if (category) product = product.filter((ele) => ele.category === category);
+
     const result = Paginate(product, page, itemsPerPage);
     return res.status(200).json(result);
   } catch (error) {
@@ -68,11 +88,11 @@ export const searchProduct = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  const { id, title } = req.params;
+  const { id } = req.params;
   try {
-    const ProductDetail = await Products.findOne({
-      $or: [{ _id: id }, { title: title }],
-    });
+    const ProductDetail = await Products.findById(id);
+    if (!ProductDetail)
+      return res.status(404).json({ message: "Product not found" });
     return res.status(200).json(ProductDetail);
   } catch (error) {
     return res.status(500).json({ message: error.message });

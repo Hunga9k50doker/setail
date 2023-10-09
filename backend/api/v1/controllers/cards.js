@@ -35,7 +35,7 @@ export const getCards = async (req, res) => {
 };
 
 export const searchCard = async (req, res) => {
-  const { destination, time, type } = req.query;
+  const { destination, time, type, page, itemsPerPage } = req.query;
   const query = {};
   if (destination) {
     const destinationRegex = new RegExp(destination, "i");
@@ -70,10 +70,10 @@ export const searchCard = async (req, res) => {
 };
 
 export const getCardById = async (req, res) => {
-  const { id, title } = req.params;
+  const { id } = req.params;
   try {
     const cardDetail = await CardMessage.findOne({
-      $or: [{ _id: id }, { title: title }],
+      $or: [{ _id: id }, { title: id }],
     });
     return res.status(200).json(cardDetail);
   } catch (error) {

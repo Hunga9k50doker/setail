@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./rightBar.scss";
 import { useHistory } from "react-router-dom";
-const SearchBar = () => {
+const SearchBar = ({ handleSubmit }) => {
   const history = useHistory();
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     history.push(`/search/?destination=${e.target[0].value}`);
   };
 
   return (
     <div className="search">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit || onSubmit}>
         <input
           className="ip-search"
           type="text"

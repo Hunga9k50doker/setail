@@ -6,14 +6,13 @@ import TourFilter from "../../components/tourFilter/tourFilter";
 import CustomTitle from "../../components/customTitle/customTitle";
 import Selections from "../../components/selections/selections";
 import CardSelection from "../../components/cards/cardSelection/cardSelection";
-import { to_slug } from "../../utils/utils";
-import { searchCard } from "../../actions/cards";
 
 import "../App.scss";
 import "./index.scss";
 // img sub
 import { GET_CARD_BY_ID } from "../../constants/actionTypes";
 import { useHistory } from "react-router-dom";
+import { searchCard } from "../../actions/cards";
 
 const content1 = {
   content: "Choose your",
@@ -34,11 +33,14 @@ const SearchPage = () => {
   };
 
   React.useEffect(() => {
-    dispatch({
-      destination: searchParams.get("destination") || "",
-      time: searchParams.get("time") || "",
-      type: searchParams.get("type") || "",
-    });
+    dispatch(
+      searchCard({
+        destination: searchParams.get("destination") || "",
+        time: searchParams.get("time") || "",
+        type: searchParams.get("type") || "",
+        page: searchParams.get("page") || "",
+      })
+    );
   }, [history.location.search]);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const SearchPage = () => {
         title={content1.title}
         subTitle={content1.subTitle}
       />
-      {/* selection item  */}
+      {/* selection item */}
       {Boolean(cardData.length) && (
         <Selections>
           {cardData.map((item, index) => (
@@ -78,7 +80,7 @@ const SearchPage = () => {
           ))}
         </Selections>
       )}
-      {!cards.length && !isLoading && (
+      {!cards.items.length && !isLoading && (
         <Selections>
           <h3 className="text-center">No cards found</h3>
         </Selections>

@@ -20,7 +20,7 @@ export const getProducts = (params) => async (dispatch) => {
     dispatch({ type: GET_ALL_PRODUCTS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -32,14 +32,14 @@ export const searchProduct = (params) => async (dispatch) => {
     dispatch({ type: SEARCH_PRODUCTS, payload: { data } });
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
-export const getProductById = (id) => async (dispatch) => {
+export const getProductById = (slug) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   try {
-    const { data } = await api.getProductById(id);
+    const { data } = await api.getProductById(slug);
     dispatch({ type: GET_PRODUCT_BY_ID, payload: { product: data } });
     dispatch({ type: END_LOADING });
   } catch (error) {
@@ -71,7 +71,7 @@ export const updateProduct = (id, newData, callBack) => async (dispatch) => {
     callBack.goBack();
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -84,7 +84,7 @@ export const updateReviewProduct = (id, newData) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -97,6 +97,6 @@ export const deleteProduct = (id) => async (dispatch) => {
     toast.success("Successfully!");
   } catch (error) {
     dispatch({ type: END_LOADING });
-    toast.error(error?.response?.data);
+    toast.error(error?.response?.data?.message);
   }
 };

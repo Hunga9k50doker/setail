@@ -17,6 +17,10 @@ export const CREATE_TOUR = "CREATE_TOUR";
 export const GET_ALL_TOURS = "GET_ALL_TOURS";
 export const GET_TOUR_BY_ID = "GET_TOUR_BY_ID";
 
+export const CREATE_CART = "CREATE_CART";
+export const GET_ALL_CARTS = "GET_ALL_CARTS";
+export const GET_CART_BY_ID = "GET_CART_BY_ID";
+
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";

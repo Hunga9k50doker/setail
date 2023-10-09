@@ -87,7 +87,7 @@ const TourFilter = ({ children }) => {
               <option value="Europe">Europe</option>
               <option value="Latest">Latest</option>
               <option value="NY">NY</option>
-              <option value="Po">PoPular</option>
+              <option value="PoPular">PoPular</option>
               <option value="Skiing">Skiing</option>
               <option value="Trendy">Trendy</option>
               <option value="Wines">Wines</option>
