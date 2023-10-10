@@ -1,13 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./sectionSingle.scss";
-import { useState } from "react";
+import React, { useState } from "react";
 import { RatingStar } from "../../../utils/utils";
 import { user6 } from "../../../assets/img";
 import { RatingStarInput } from "../../../utils/utils";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { useSelector, useDispatch } from "react-redux";
+import { Formik } from "formik";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { createComment, getComments } from "../../../actions/comments";
+import moment from "moment";
+
 const ProductItemDetails = ({ itemData }) => {
   var [productCount, setProductCount] = useState(1);
-
   return (
     <div className="product-details__container">
       <div className="img__list">
@@ -110,37 +115,139 @@ const ProductItemDetails = ({ itemData }) => {
 };
 
 const ReviewProduct = () => {
+  const [star, setStar] = useState(3);
+  const [pageData, setPageData] = useState({
+    totalPages: 1,
+    currentPage: 1,
+    totalCount: 0,
+    items: [],
+  });
+  const dispatch = useDispatch();
+  const { slug } = useParams();
+  const { authData } = useSelector((state) => state.authReducer);
+  const { comments } = useSelector((state) => state.comments);
+
+  const onChange = (event, newValue) => {
+    setStar(newValue);
+  };
+
+  const onSubmit = (e) => {
+    const formData = {
+      user: {
+        name: e.name,
+        email: e.email,
+        _id: authData?.result?._id,
+        avatar: authData?.result?.avatar,
+      },
+      description: e.description,
+      rating: star,
+      productId: slug,
+    };
+    dispatch(createComment(formData));
+  };
+
+  const initialValues = {
+    description: "",
+    name: authData?.result?.name,
+    email: authData?.result?.email,
+    rating: 3,
+  };
+
+  const handleLoadMore = () => {
+    dispatch(
+      getComments({
+        productId: slug,
+        page: comments.currentPage + 1,
+      })
+    );
+  };
+
+  React.useEffect(() => {
+    dispatch(getComments({ productId: slug }));
+  }, []);
+
+  React.useEffect(() => {
+    setPageData(comments);
+  }, [comments]);
+
   return (
     <div className="review-product-container">
-      <h2>1 review for Modern Hat</h2>
-      <div className="review-product__item">
-        <img src={user6} alt="user-avartar" />
-        <div>
-          <RatingStar rating={4} />
-          <h4>John Mills – September 26, 2018</h4>
-          <p>Lorem ipsum dolor sit ametco nsec te tuer adipiscing elitae.</p>
-        </div>
-      </div>
+      {pageData.totalCount > 0 && (
+        <>
+          <h2>{pageData.totalCount} review for Modern Hat</h2>
+          {pageData.items.map((e, i) => (
+            <div key={i} className="review-product__item my-4">
+              <img
+                width={50}
+                height={50}
+                src={e.user.avatar}
+                alt="user-avartar"
+                className="rounded-circle"
+              />
+              <div>
+                <RatingStar rating={4} />
+                <h4>
+                  {e.user.name} – {moment(e.createdAt).format("MMMM Do YYYY")}
+                </h4>
+                <p>{e.description}</p>
+              </div>
+            </div>
+          ))}
+          {pageData.currentPage < pageData.totalPages && (
+            <button className="btn btn-primary" onClick={handleLoadMore}>
+              View more
+            </button>
+          )}
+        </>
+      )}
+
       <h2>Add a review</h2>
-      <form action={() => false}>
-        <p id="first-line">
-          Your email address will not be published. Required fields are marked *
-        </p>
-        <p>Your rating *</p>
-        <RatingStarInput />
-        <label htmlFor="review">Your review*</label>
-        <textarea name="review" required></textarea>
-        <label htmlFor="name">Name*</label>
-        <input type="text" name="name" id="name" required />
-        <label htmlFor="email">Email*</label>
-        <input type="text" name="email" id="email" required />
-        <input type="checkbox" name="save-session" id="save-session" />
-        <label htmlFor="save-session" id="save-session__label">
-          Save my name, email, and website in this browser for the next time i
-          comment.
-        </label>
-        <button type="submit">SUBMIT</button>
-      </form>
+      <Formik onSubmit={onSubmit} initialValues={initialValues}>
+        {({ values, handleChange, handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <p id="first-line">
+              Your email address will not be published. Required fields are
+              marked *
+            </p>
+            <p>Your rating *</p>
+            <RatingStarInput onChange={onChange} />
+            <label htmlFor="review">Your review*</label>
+            <textarea
+              onChange={handleChange}
+              className="text-white"
+              name="description"
+              required
+              value={values.description}
+            ></textarea>
+            <label htmlFor="name">Name*</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              name="name"
+              id="name"
+              readOnly
+              className="text-white"
+              value={authData?.result?.name}
+            />
+            <label htmlFor="email">Email*</label>
+            <input
+              onChange={handleChange}
+              className="text-white"
+              type="text"
+              name="email"
+              id="email"
+              readOnly
+              value={authData?.result?.email}
+            />
+            <input type="checkbox" name="save-session" id="save-session" />
+            <label htmlFor="save-session" id="save-session__label">
+              Save my name, email, and website in this browser for the next time
+              i comment.
+            </label>
+            <button type="submit">SUBMIT</button>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 };

@@ -65,7 +65,9 @@ const ProductMini = ({ shopData }) => {
         <div>
           {shopData.sale ? (
             <>
-              <p className="line-through">${shopData.cost}</p>
+              <p className="text-decoration-line-through text-secondary">
+                ${shopData.cost}
+              </p>
               <p>${shopData.cost - (shopData.cost * shopData.sale) / 100}</p>
             </>
           ) : (

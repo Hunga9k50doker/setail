@@ -1,68 +1,23 @@
 import React, { useState } from "react";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+import { FormControl } from "@mui/material";
 
 const RatingStarInput = ({ name, onChange, defaultValue, ...props }) => {
-  let [star, setStar] = useState(defaultValue ?? 3);
-  var $ = [];
-  for (let i = 0; i <= 4; i++) {
-    $ = [
-      ...$,
-      <label
-        className="rating__label"
-        key={i}
-        htmlFor={`${name}${i + 1}`}
-        onClick={() => {
-          setStar(() => i + 1);
-        }}
-      >
-        <i className={`${i < star ? "fas" : "far"} fa-star`}></i>
-      </label>,
-    ];
-  }
-
   return (
-    <div className="star-input">
-      <input
-        type="radio"
-        name={name}
-        id={`${name}1`}
-        value={20}
-        hidden
-        onChange={(e) => onChange(e.target.value, name)}
+    <FormControl>
+      <Rating
+        name="simple-controlled"
+        defaultValue={defaultValue || 3}
+        onChange={onChange}
+        emptyIcon={
+          <StarIcon
+            style={{ opacity: 0.55, color: "#fff" }}
+            fontSize="inherit"
+          />
+        }
       />
-      <input
-        type="radio"
-        name={name}
-        id={`${name}2`}
-        value={40}
-        hidden
-        onChange={(e) => onChange(e.target.value, name)}
-      />
-      <input
-        type="radio"
-        name={name}
-        id={`${name}3`}
-        value={60}
-        hidden
-        onChange={(e) => onChange(e.target.value, name)}
-      />
-      <input
-        type="radio"
-        name={name}
-        id={`${name}4`}
-        value={80}
-        hidden
-        onChange={(e) => onChange(e.target.value, name)}
-      />
-      <input
-        type="radio"
-        name={name}
-        id={`${name}5`}
-        value={100}
-        hidden
-        onChange={(e) => onChange(e.target.value, name)}
-      />
-      {$}
-    </div>
+    </FormControl>
   );
 };
 

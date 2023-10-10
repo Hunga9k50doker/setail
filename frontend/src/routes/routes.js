@@ -35,7 +35,7 @@ import TypographyHeadings from "../views/elements/typography/headings";
 import TypographyColumns from "../views/elements/typography/columns";
 import TypographySectionTitle from "../views/elements/typography/sectionTitle";
 import FormUser from "../views/user";
-import MyTour from "../views/MyTour";
+import MyTour from "../views/myTour";
 
 import ItemDetail from "../components/tourItem/item";
 import SearchPage from "../views/search";
@@ -88,6 +88,7 @@ const PublishRoute = [
   // { path: "/shop/three-columns", component: ShopLayout },
   // { path: "/shop/four-columns", component: ShopLayout },
   // { path: "/shop/full-width", component: ShopLayout },
+  { path: "/search", component: SearchPage },
 ];
 
 const PrivateRoute = [
@@ -106,7 +107,6 @@ const PrivateRoute = [
   { path: "/elements/columns", component: TypographyColumns },
   { path: "/elements/headings", component: TypographyHeadings },
   { path: "/elements/section-title", component: TypographySectionTitle },
-  { path: "/search", component: SearchPage },
 ];
 
 const SuperPrivateRoute = [

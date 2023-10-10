@@ -38,14 +38,22 @@ export const updateProduct = (id, newData) =>
 export const updateReviewProduct = (id, newData) =>
   API.patch(`/products/${id}/review`, newData);
 
-export const fetchTours = (userId) => API.post("/tours/my-tour", userId);
+export const fetchTours = (params) => API.get("/tours/my-tour", { params });
 export const getTourById = (id) => API.get(`/tours/${id}`);
 export const createTour = (newTour) => API.post("/tours", newTour);
 
-export const fetchCarts = (userId) => API.post("/carts/my-cart", userId);
+export const fetchCarts = (userId) => API.get("/carts/my-cart", userId);
 export const getCartById = (id) => API.get(`/carts/${id}`);
 export const createCart = (newCart) => API.post("/carts", newCart);
 export const deleteCart = (id) => API.delete(`/carts/${id}`);
+export const updateCart = (id, newData) => API.patch(`/carts/${id}`, newData);
+
+export const fetchComments = (params) => API.get("/comments", { params });
+export const getCommentById = (id) => API.get(`/comments/${id}`);
+export const createComment = (newComment) => API.post("/comments", newComment);
+export const deleteComment = (id) => API.delete(`/comments/${id}`);
+export const updateComment = (id, newData) =>
+  API.patch(`/comments/${id}`, newData);
 
 export const signin = (formData) => API.post("/user/signin", formData);
 export const signup = (formData) => API.post("/user/signup", formData);

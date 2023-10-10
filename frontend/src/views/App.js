@@ -11,7 +11,7 @@ import {
   PrivateRoute,
   SuperPrivateRoute,
 } from "../routes/routes";
-import NotFound from "./NotFound/notfound";
+import NotFound from "./notFound/notfound.jsx";
 import "./App.scss";
 import { getMyProfile } from "../actions/auth";
 import Cookies from "js-cookie";

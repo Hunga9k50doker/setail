@@ -95,7 +95,15 @@ const ShopList = () => {
                 <span>{`Showing page ${products.currentPage} of ${
                   products.totalPages || 1
                 }`}</span>
-                <div>
+                <div className="d-flex align-items-center gap-2">
+                  {history.location.search && (
+                    <button
+                      onClick={() => history.push("/shop/products")}
+                      className="my-0 mx-0 btn btn-primary"
+                    >
+                      Reset filter
+                    </button>
+                  )}
                   <select
                     name="sort-item"
                     id="sort-item"
