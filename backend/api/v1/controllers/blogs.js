@@ -11,7 +11,7 @@ export const getBlogs = async (req, res) => {
     }
     return res.status(200).json(blogs);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -21,7 +21,7 @@ export const getBlogById = async (req, res) => {
     const blogDetail = await Blog.findById(id);
     return res.status(200).json(blogDetail);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -40,7 +40,7 @@ export const createBlog = async (req, res) => {
     await newBlog.save();
     return res.status(201).json({ message: "Create blog successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 

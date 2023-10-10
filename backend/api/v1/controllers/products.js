@@ -2,7 +2,6 @@ import Products from "../models/product.js";
 import mongoose from "mongoose";
 import { uploadFile } from "./firebase.js";
 import Paginate from "./paginate.js";
-import slugify from "slugify";
 
 export const getProducts = async (req, res) => {
   const { sort, page, tag, itemsPerPage, category, name, price, min, max } =

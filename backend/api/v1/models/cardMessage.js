@@ -13,6 +13,7 @@ const cardSchema = mongoose.Schema({
   cost: { type: Number, default: 0, require: true },
   img__grid: { type: Array },
   rating: { type: Number, default: 0 },
+  numRating: { type: Number, default: 0 },
   count_rating: { type: Number, default: 0 },
   type: {
     type: String,

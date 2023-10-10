@@ -2,8 +2,10 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./productItem.scss";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProductItem = ({ shopData }) => {
+  const { product, isLoading } = useSelector((state) => state.products);
   var [isAddCart, setCart] = useState(false);
 
   const Button = function () {

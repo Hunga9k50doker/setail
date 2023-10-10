@@ -4,6 +4,7 @@ import Blog from "../models/blog.js";
 import Product from "../models/product.js";
 import mongoose from "mongoose";
 import Paginate from "./paginate.js";
+import { calularAvarage } from "../config/index.js";
 
 export const getComments = async (req, res) => {
   const { tourId, blogId, productId, page } = req.query;
@@ -15,7 +16,7 @@ export const getComments = async (req, res) => {
     const result = Paginate(comments, page, 2, true);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -25,7 +26,7 @@ export const getCommentById = async (req, res) => {
     const commentDetail = await Comment.findById(id);
     return res.status(200).json(commentDetail);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -49,12 +50,20 @@ export const createComment = async (req, res) => {
       if (!tour) {
         return res.status(404).json({ error: "Tour not found" });
       }
+      const newRating = calularAvarage(comment.rating, tour.rating);
+      tour.rating = newRating;
+      tour.numRating += 1;
+      await tour.save();
     }
     if (comment.blogId) {
       const blog = await Blog.findById(comment.blogId);
       if (!blog) {
         return res.status(404).json({ error: "Blog not found" });
       }
+      const newRating = calularAvarage(comment.rating, blog.rating);
+      blog.rating = newRating;
+      blog.numComments += 1;
+      await blog.save();
     }
 
     if (comment.productId) {
@@ -62,6 +71,10 @@ export const createComment = async (req, res) => {
       if (!product) {
         return res.status(404).json({ error: "Product not found" });
       }
+      const newRating = calularAvarage(comment.rating, product.rating);
+      product.rating = newRating;
+      product.numRating += 1;
+      await product.save();
     }
 
     const newComment = new Comment({
@@ -71,7 +84,7 @@ export const createComment = async (req, res) => {
     await newComment.save();
     return res.status(201).json({ message: "Create comment successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -109,6 +122,6 @@ export const updateComment = async (req, res) => {
     }
     return res.status(201).json({ message: "Update comment successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };

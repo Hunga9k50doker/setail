@@ -23,7 +23,17 @@ const product = mongoose.Schema({
   dismensions: { type: String, default: "" },
   avaliable: { type: Boolean, default: true },
   tag: { type: Array, default: [] },
-  amount_sale: { type: Number, default: 0 },
+  amount_sale: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: function (value) {
+        return !isNaN(value);
+      },
+      message: "Amount sale must be a valid number",
+    },
+  },
+  numRating: { type: Number, default: 0 },
   links: {
     type: Map,
     of: String,

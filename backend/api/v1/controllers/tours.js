@@ -10,7 +10,7 @@ export const getTours = async (req, res) => {
     }
     return res.status(200).json(tours);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -20,7 +20,7 @@ export const getTourById = async (req, res) => {
     const tourDetail = await ToursBooked.findById(id);
     return res.status(200).json(tourDetail);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -44,6 +44,6 @@ export const createTour = async (req, res) => {
     await newTour.save();
     return res.status(201).json({ message: "Create tour successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };

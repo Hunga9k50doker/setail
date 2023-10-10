@@ -7,6 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cardRoutes from "./api/v1/routes/cards.js";
+import cartRoutes from "./api/v1/routes/carts.js";
 import productRoutes from "./api/v1/routes/products.js";
 import tourRoutes from "./api/v1/routes/tours.js";
 import userRoutes from "./api/v1/routes/users.js";
@@ -35,6 +36,7 @@ app.use("/api/v1/cards", cardRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/search", searchRoutes);
 app.use("/api/v1/tours", tourRoutes);
+app.use("/api/v1/carts", cartRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/comments", commentsRoutes);
 

@@ -2,7 +2,6 @@
 import "./sectionSingle.scss";
 import React, { useState } from "react";
 import { RatingStar } from "../../../utils/utils";
-import { user6 } from "../../../assets/img";
 import { RatingStarInput } from "../../../utils/utils";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,9 +9,32 @@ import { Formik } from "formik";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { createComment, getComments } from "../../../actions/comments";
 import moment from "moment";
+import { createCart } from "../../../actions/carts";
+import { toast } from "react-toastify";
 
 const ProductItemDetails = ({ itemData }) => {
-  var [productCount, setProductCount] = useState(1);
+  const { product, isLoading } = useSelector((state) => state.products);
+  const { authData } = useSelector((state) => state.authReducer);
+
+  const dispatch = useDispatch();
+  const [productCount, setProductCount] = useState(1);
+
+  const onChange = (event) => {
+    setProductCount(event.target.value || 1);
+  };
+
+  const onAddCart = () => {
+    if (!authData) return toast.warning("Please login to add cart");
+    dispatch(
+      createCart({
+        product: product,
+        userId: authData.result._id,
+        count: productCount,
+        total: productCount * product.cost,
+      })
+    );
+  };
+
   return (
     <div className="product-details__container">
       <div className="img__list">
@@ -58,34 +80,46 @@ const ProductItemDetails = ({ itemData }) => {
               <i className="fas fa-star"></i> <i className="fas fa-star"></i>
             </>
           )}
-          <p>(1 customer review)</p>
+          {itemData.numRating > 0 && (
+            <p>({itemData.numRating} customer review)</p>
+          )}
         </div>
         <p className="introduce">{itemData.description}</p>
         <div className="btn-container">
           <div className="product-count">
             <input
               className="product-count__input"
-              type="text"
+              type="number"
+              min={1}
+              max={999}
+              maxLength={3}
               value={productCount}
+              onChange={onChange}
             />
             <div className="btn btn__ud">
               <button
                 onClick={() => {
-                  setProductCount((e) => e + 1);
+                  setProductCount((e) => +e + 1);
                 }}
               >
                 <i className="fas fa-chevron-up"></i>
               </button>
               <button
                 onClick={() => {
-                  setProductCount((e) => (e === 1 ? 1 : e - 1));
+                  setProductCount((e) => (e === 1 ? 1 : +e - 1));
                 }}
               >
                 <i className="fas fa-chevron-down"></i>
               </button>
             </div>
           </div>
-          <button className="btn-product">ADD TO CART</button>
+          <button
+            className="btn-product"
+            onClick={onAddCart}
+            disabled={isLoading}
+          >
+            ADD TO CART
+          </button>
         </div>
         <div className="detail-container">
           <div className="detail__label">
