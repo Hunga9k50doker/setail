@@ -197,10 +197,6 @@ const ReviewProduct = () => {
   };
 
   React.useEffect(() => {
-    dispatch(getComments({ productId: slug }));
-  }, []);
-
-  React.useEffect(() => {
     setPageData(comments);
   }, [comments]);
 
@@ -287,7 +283,14 @@ const ReviewProduct = () => {
 };
 
 const ProductDetailNav = ({ shopData }) => {
+  const dispatch = useDispatch();
+  const { slug } = useParams();
   const [tabActive, setTabActive] = useState(0);
+
+  const { comments } = useSelector((state) => state.comments);
+  React.useEffect(() => {
+    dispatch(getComments({ productId: slug }));
+  }, []);
   const itemList = [
     <p>{shopData.description}</p>,
     <div className="add-info">
@@ -328,7 +331,7 @@ const ProductDetailNav = ({ shopData }) => {
           }}
           className={`tabs-item ${tabActive === 2 ? "active" : ""}`}
         >
-          REVIEWS(1)
+          REVIEWS({comments.totalCount})
         </button>
       </div>
       <div className="bottom">{itemList[tabActive]}</div>
