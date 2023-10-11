@@ -35,7 +35,7 @@ import TypographyHeadings from "../views/elements/typography/headings";
 import TypographyColumns from "../views/elements/typography/columns";
 import TypographySectionTitle from "../views/elements/typography/sectionTitle";
 import FormUser from "../views/user";
-import MyTour from "../views/myTour";
+import MyTour from "../views/MyTour";
 import MyCart from "../views/myCart";
 
 import ItemDetail from "../components/tourItem/item";
