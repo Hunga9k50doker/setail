@@ -36,6 +36,7 @@ import TypographyColumns from "../views/elements/typography/columns";
 import TypographySectionTitle from "../views/elements/typography/sectionTitle";
 import FormUser from "../views/user";
 import MyTour from "../views/myTour";
+import MyCart from "../views/myCart";
 
 import ItemDetail from "../components/tourItem/item";
 import SearchPage from "../views/search";
@@ -94,6 +95,7 @@ const PublishRoute = [
 const PrivateRoute = [
   { path: "/setting", component: FormUser },
   { path: "/my-tour", component: MyTour },
+  { path: "/my-cart", component: MyCart },
 
   { path: "/elements/tour-carousel", component: Carousel },
   { path: "/elements/tour-list", component: TourList },

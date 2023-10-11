@@ -4,34 +4,19 @@ import mongoose from "mongoose";
 import Paginate from "./paginate.js";
 
 export const getCarts = async (req, res) => {
-  // api for admin get all carts
-  const { page, itemsPerPage } = req.query;
-  try {
-    const carts = await Cart.find();
-    const result = Paginate(carts, page, itemsPerPage || 25);
-
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-export const getCartByUserId = async (req, res) => {
   const { userId, page, itemsPerPage } = req.query;
   try {
-    const carts = await Cart.find({ userId });
-    const result = Paginate(carts, page, itemsPerPage);
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+    let carts = [],
+      result = {};
+    if (userId) {
+      carts = await Cart.findOne({ userId });
+      result = Paginate(carts.products, page, itemsPerPage || 25);
+    } else {
+      carts = await Cart.find();
+      result = Paginate(carts, page, itemsPerPage || 25);
+    }
 
-export const getCartById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const cartDetail = await Cart.findById(id);
-    return res.status(200).json(cartDetail);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -42,9 +27,9 @@ export const createCart = async (req, res) => {
   try {
     const product = await Products.findById(cart.product._id);
     if (!product) {
-      return res.status(204).json({ error: "Product not found!" });
+      return res.status(204).json({ message: "Product not found!" });
     } else if (!product.avaliable) {
-      return res.status(204).json({ error: "Product not avaliable!" });
+      return res.status(204).json({ message: "Product not avaliable!" });
     } else {
       product.amount_sale += cart.count;
       await product.save();
@@ -55,7 +40,7 @@ export const createCart = async (req, res) => {
     if (!cartResult) {
       //create new cart for user
       const newCart = new Cart({
-        count: cart.quantity,
+        count: cart.count,
         userId: cart.userId,
         products: [
           {
@@ -71,14 +56,18 @@ export const createCart = async (req, res) => {
     } else {
       //update cart for user
       const productIndex = cartResult.products.findIndex(
-        (item) => item.product == cart.productId
+        (item) => item.product._id === cart.product._id
       );
       if (productIndex > -1) {
-        cartResult.products[productIndex].quantity += cart.quantity;
+        cartResult.products[productIndex].quantity += cart.count;
       } else {
-        cartResult.products.push({ ...cart.product });
+        cartResult.products.push({
+          product: cart.product,
+          quantity: cart.count,
+          total: cart.total,
+        });
       }
-      cartResult.count += cart.quantity;
+      cartResult.count += cart.count;
       await cartResult.save();
       return res.status(201).json({ message: "Create cart successfully" });
     }
@@ -89,37 +78,56 @@ export const createCart = async (req, res) => {
 
 export const updateCart = async (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
+  const { quantity, userId } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No cart with id: ${id}`);
-    const cart = await Cart.findById(id);
-    const product = await Products.findById(cart.productId);
-    if (!product) {
-      return res.status(204).json({ error: "Product not found!" });
-    } else if (!product.avaliable) {
-      return res.status(204).json({ error: "Product not avaliable!" });
-    } else {
-      product.amount_sale += quantity;
-      await product.save();
-    }
-    const updatedCart = { ...cart, quantity: quantity };
+    const cart = await Cart.findOne({ userId });
+    const product = await Products.findById(id);
 
-    const result = await CartMessage.findByIdAndUpdate(id, updatedCart, {
-      new: true,
-    });
-    res.status(200).json(result);
+    if (!cart) return res.status(404).send(`No cart with id: ${id}`);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found!" });
+    } else if (!product.avaliable) {
+      return res.status(404).json({ message: "Product not avaliable!" });
+    } else {
+      const productIndex = cart.products.findIndex(
+        (item) => item.product._id === id
+      );
+      if (productIndex > -1) {
+        cart.count =
+          cart.count + Number(quantity) - cart.products[productIndex].quantity; //update new count
+        cart.products[productIndex].total =
+          cart.products[productIndex].total +
+          Number(quantity) * cart.products[productIndex].product.cost -
+          cart.products[productIndex].total; //update new count
+        cart.products[productIndex].quantity = quantity;
+      } else {
+        return res
+          .status(404)
+          .json({ message: "Product not found in your cart!" });
+      }
+      await cart.save();
+      return res.status(201).json({ message: "Update cart successfully" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
 export const deleteCart = async (req, res) => {
-  const { id } = req.params;
+  const { productId, userId } = req.query;
   try {
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(404).send(`No cart with id: ${id}`);
-    await CartMessage.findByIdAndRemove(id);
+    if (!mongoose.Types.ObjectId.isValid(productId))
+      return res.status(404).send(`No cart with id: ${productId}`);
+
+    const cartUser = await Cart.findOne({ userId });
+    if (!cartUser) return res.status(404).send(`No find user`);
+
+    cartUser.products = cartUser.products.filter((item) => {
+      return item.product._id !== productId;
+    });
+    await cartUser.save();
     res.status(200).json({ message: "Remove successfully." });
   } catch (error) {
     res.status(500).json({ message: error.message });

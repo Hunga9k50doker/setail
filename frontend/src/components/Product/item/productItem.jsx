@@ -2,39 +2,48 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./productItem.scss";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { createCart } from "../../../actions/carts";
 
 const ProductItem = ({ shopData }) => {
-  const { product, isLoading } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const { authData } = useSelector((state) => state.authReducer);
+
   var [isAddCart, setCart] = useState(false);
+
+  const onAddCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!authData) return toast.warning("Please login to add cart");
+    dispatch(
+      createCart({
+        product: shopData,
+        userId: authData.result._id,
+        count: 1,
+        total: 1 * shopData.cost,
+      })
+    );
+    setCart(true);
+  };
 
   const Button = function () {
     if (isAddCart)
       return (
-        <button
-          className="btn btn-product"
-          onClick={function () {
-            window.location.href = "";
-          }}
-        >
-          VIEW CART
-        </button>
+        <Link to={"/my-cart"}>
+          <button className="btn btn-product">VIEW CART</button>
+        </Link>
       );
     else
       return (
-        <button
-          className="btn btn-product"
-          onClick={function () {
-            setCart(() => true);
-          }}
-        >
+        <button className="btn btn-product" onClick={(e) => onAddCart(e)}>
           ADD TO CART
         </button>
       );
   };
   return (
     <div className="product-item">
-      <div className="img-container">
+      <div className="img-container ">
         <img width={300} height={300} src={shopData.img} alt={shopData.title} />
         {/* hover button */}
         <div className="overlay">{Button()}</div>

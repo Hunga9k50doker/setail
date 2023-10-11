@@ -31,7 +31,7 @@ export const createBlog = async (req, res) => {
     const cardBlog = await CardMessage.findById(blog.cardId);
     if (!cardBlog) {
       // Handle case when the cardBlogId is not found
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({ message: "Blog not found" });
     }
     const newBlog = new Blog({
       ...blog,

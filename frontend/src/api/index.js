@@ -42,10 +42,10 @@ export const fetchTours = (params) => API.get("/tours/my-tour", { params });
 export const getTourById = (id) => API.get(`/tours/${id}`);
 export const createTour = (newTour) => API.post("/tours", newTour);
 
-export const fetchCarts = (userId) => API.get("/carts/my-cart", userId);
-export const getCartById = (id) => API.get(`/carts/${id}`);
-export const createCart = (newCart) => API.post("/carts", newCart);
-export const deleteCart = (id) => API.delete(`/carts/${id}`);
+export const fetchCarts = () => API.get("/carts/");
+export const getCartByUserId = (params) => API.get(`/carts/`, { params });
+export const createCart = (newCart) => API.post("/carts/", newCart);
+export const deleteCart = (params) => API.delete(`/carts`, { params });
 export const updateCart = (id, newData) => API.patch(`/carts/${id}`, newData);
 
 export const fetchComments = (params) => API.get("/comments", { params });

@@ -48,7 +48,7 @@ export const createComment = async (req, res) => {
     if (comment.tourId) {
       const tour = await CardMessage.findById(comment.tourId);
       if (!tour) {
-        return res.status(404).json({ error: "Tour not found" });
+        return res.status(404).json({ message: "Tour not found" });
       }
       const newRating = calularAvarage(comment.rating, tour.rating);
       tour.rating = newRating;
@@ -58,7 +58,7 @@ export const createComment = async (req, res) => {
     if (comment.blogId) {
       const blog = await Blog.findById(comment.blogId);
       if (!blog) {
-        return res.status(404).json({ error: "Blog not found" });
+        return res.status(404).json({ message: "Blog not found" });
       }
       const newRating = calularAvarage(comment.rating, blog.rating);
       blog.rating = newRating;
@@ -69,7 +69,7 @@ export const createComment = async (req, res) => {
     if (comment.productId) {
       const product = await Product.findById(comment.productId);
       if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+        return res.status(404).json({ message: "Product not found" });
       }
       const newRating = calularAvarage(comment.rating, product.rating);
       product.rating = newRating;
@@ -98,7 +98,7 @@ export const updateComment = async (req, res) => {
         { new: true }
       );
       if (!tour) {
-        return res.status(404).json({ error: "Tour not found" });
+        return res.status(404).json({ message: "Tour not found" });
       }
     }
     if (comment.blogId) {
@@ -106,7 +106,7 @@ export const updateComment = async (req, res) => {
         new: true,
       });
       if (!blog) {
-        return res.status(404).json({ error: "Blog not found" });
+        return res.status(404).json({ message: "Blog not found" });
       }
     }
 
@@ -117,7 +117,7 @@ export const updateComment = async (req, res) => {
         { new: true }
       );
       if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+        return res.status(404).json({ message: "Product not found" });
       }
     }
     return res.status(201).json({ message: "Update comment successfully" });

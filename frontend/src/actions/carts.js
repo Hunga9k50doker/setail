@@ -22,10 +22,10 @@ export const getCarts = (userId) => async (dispatch) => {
   }
 };
 
-export const getCartById = (id) => async (dispatch) => {
+export const getCartByUserId = (id) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   try {
-    const { data } = await api.getCartById(id);
+    const { data } = await api.getCartByUserId(id);
     dispatch({ type: GET_CART_BY_ID, payload: { cart: data } });
     dispatch({ type: END_LOADING });
   } catch (error) {
@@ -50,22 +50,22 @@ export const createCart = (cart) => async (dispatch) => {
 export const updateCart = (id, newData, callBack) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   try {
-    const { data } = await api.updateCart(id, newData);
-    dispatch({ type: UPDATE_CART, payload: data });
+    await api.updateCart(id, newData);
+    dispatch({ type: UPDATE_CART, payload: { id, ...newData } });
     dispatch({ type: END_LOADING });
     toast.success("Successfully!");
-    callBack.goBack();
+    callBack && callBack.goBack();
   } catch (error) {
     dispatch({ type: END_LOADING });
     toast.error(error?.response?.data?.message);
   }
 };
 
-export const deleteCart = (id) => async (dispatch) => {
+export const deleteCart = (params) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   try {
-    await api.deleteCart(id);
-    dispatch({ type: DELETE_CART, payload: id });
+    await api.deleteCart(params);
+    dispatch({ type: DELETE_CART, payload: params?.productId });
     dispatch({ type: END_LOADING });
     toast.success("Successfully!");
   } catch (error) {

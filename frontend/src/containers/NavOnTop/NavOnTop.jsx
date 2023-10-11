@@ -176,7 +176,10 @@ const NavOnTop = () => {
                     <li className="w-100 text-center">Setting</li>
                   </Link>
                   <Link to="/my-tour" className="w-100 ">
-                    <li className="w-100 text-center">My tours</li>
+                    <li className="w-100 text-center">Tours</li>
+                  </Link>
+                  <Link to="/my-cart" className="w-100 ">
+                    <li className="w-100 text-center">Cart</li>
                   </Link>
                   <li onClick={() => logout()}>Logout</li>
                 </ul>

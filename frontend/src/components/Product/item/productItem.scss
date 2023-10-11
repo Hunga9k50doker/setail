@@ -7,6 +7,7 @@
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
+    overflow: hidden;
     img {
       width: 100%;
     }
@@ -31,10 +32,12 @@
     }
     .overlay {
       display: none;
+      &:hover{
+        display: block;
+      }
       .btn-product {
         color: #fff;
         background-color: #3fd0d4;
-    
         padding: 15px 30px;
         border-radius: 0px;
         position: absolute;

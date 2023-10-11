@@ -26,11 +26,11 @@ const auth = async (req, res, next) => {
           { expiresIn: "5m" }
         );
         req.headers.authorization = `Bearer ${token}`;
-        res.cookie("jwt", {
-          maxAge: 1000 * 5 * 60, // 5m
-          httpOnly: true,
-          path: "/",
-        });
+        // res.cookie("jwt", {
+        //   maxAge: 1000 * 5 * 60, // 5m
+        //   httpOnly: true,
+        //   path: "/",
+        // });
         next();
       } else {
         res.clearCookie("jwt");
