@@ -6,9 +6,15 @@ import LogoHeader from "../../assets/img/logo/logo-header.png";
 import { CustomTitle, map, CardEmpty } from "../../assets/img";
 import { LOGOUT } from "../../constants/actionTypes";
 import { useSelector, useDispatch } from "react-redux";
+import { Badge } from "@mui/material";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import moment from "moment";
 
 const Nav = () => {
   const { authData } = useSelector((state) => state.authReducer);
+  const { cart } = useSelector((state) => state.carts);
 
   const [showAncordion, setShowAncordion] = useState(false);
 
@@ -27,7 +33,6 @@ const Nav = () => {
     dispatch({ type: LOGOUT });
     window.location.replace("/");
   };
-
   return (
     <div className="nav nav__category">
       <Link to="/">
@@ -241,11 +246,48 @@ const Nav = () => {
 
       <ul className="nav__innerRight">
         <li className="nav__innerRight-item nav__innerRight-item-cart">
-          <i className="fas fa-shopping-cart"></i>
-          <div className="cart-category">
-            <p>No products in the cart.</p>
-            <img className="no-cart-img" src={CardEmpty} alt="Not found" />
-          </div>
+          <Badge badgeContent={cart.totalCount} color="primary">
+            <i className="fas fa-shopping-cart"></i>
+          </Badge>
+          {cart.totalCount === 0 ? (
+            <div className="cart-category">
+              <p>No products in the cart.</p>
+              <img className="no-cart-img" src={CardEmpty} alt="Not found" />
+            </div>
+          ) : (
+            <div className="cart-category">
+              {cart.items.map((item, key) => (
+                <Link
+                  key={key}
+                  to={`/shop/products/${item.product._id}`}
+                  className="d-flex justify-content-start"
+                >
+                  <ListItem>
+                    <ListItemAvatar>
+                      <img
+                        width={50}
+                        height={50}
+                        src={item.product.img}
+                        alt="Not found"
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={item.product.title}
+                      secondaryTypographyProps={{ component: "div" }}
+                      secondary={moment(item.product.updatedAt).format(
+                        "MMM DD YYYY"
+                      )}
+                    />
+                  </ListItem>
+                </Link>
+              ))}
+              <Link to="/my-cart">
+                <button className="mx-0 my-0 mb-4 btn btn-primary">
+                  View cart
+                </button>
+              </Link>
+            </div>
+          )}
         </li>
         <li className="nav__innerRight-item nav__innerRight-item-search">
           <Link to="/search">

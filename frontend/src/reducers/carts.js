@@ -43,6 +43,7 @@ const reducer = (state = initialState, action) => {
         draftState.cart.items = draftState.cart.items.filter(
           (cart) => cart.product._id !== action.payload
         );
+        draftState.cart.totalCount -= 1;
         break;
       case UPDATE_CART:
         draftState.cart.items = draftState.cart.items.map((cart) => {

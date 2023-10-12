@@ -15,6 +15,7 @@ import NotFound from "./NotFound";
 import "./App.scss";
 import { getMyProfile } from "../actions/auth";
 import Cookies from "js-cookie";
+import WebSocketComponent from "../components/websocket";
 
 function App() {
   const jwt = Cookies.get("jwt");
@@ -74,6 +75,7 @@ function App() {
 
   return (
     <div className="App">
+      <WebSocketComponent />
       <BrowserRouter>
         <Switch>
           <Route exact path={PublishRoute.map((e) => e.path)}>

@@ -1,9 +1,4 @@
-const Paginate = (
-  data,
-  currentPage = 1,
-  itemsPerPage = 12,
-  preData = false
-) => {
+const Paginate = (data, currentPage, itemsPerPage, preData = false) => {
   if (!currentPage) currentPage = 1;
   if (!itemsPerPage) itemsPerPage = 12;
   try {

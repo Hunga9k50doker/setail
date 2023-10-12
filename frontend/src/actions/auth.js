@@ -1,5 +1,10 @@
 import * as api from "../api";
-import { AUTH, START_LOADING, END_LOADING } from "../constants/actionTypes";
+import {
+  AUTH,
+  START_LOADING,
+  END_LOADING,
+  GET_CART_BY_ID,
+} from "../constants/actionTypes";
 import { toast } from "react-toastify";
 export const login = (formData, callback) => async (dispatch) => {
   await api
@@ -30,11 +35,16 @@ export const verifyUser = (formData) => async (dispatch) => {
 export const getMyProfile = async (dispatch) => {
   await api
     .getProfile()
-    .then((res) => {
+    .then(async (res) => {
       dispatch({ type: AUTH, data: res.data });
+      await api
+        .getCartByUserId({ userId: res.data?.result?._id })
+        .then((res) => {
+          dispatch({ type: GET_CART_BY_ID, payload: { cart: res.data } });
+        });
     })
     .catch((err) => {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message);
     });
 };
 

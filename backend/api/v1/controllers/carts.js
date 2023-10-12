@@ -2,6 +2,7 @@ import Products from "../models/product.js";
 import Cart from "../models/cart.js";
 import mongoose from "mongoose";
 import Paginate from "./paginate.js";
+import { broadcastMessage } from "../services/websocket.js";
 
 export const getCarts = async (req, res) => {
   const { userId, page, itemsPerPage } = req.query;
@@ -52,6 +53,11 @@ export const createCart = async (req, res) => {
         createdAt: new Date().toISOString(),
       });
       await newCart.save();
+      broadcastMessage({
+        message: "success",
+        type: "cart",
+        data: Paginate(newCart.products.reverse(), 1, 5),
+      });
       return res.status(201).json({ message: "Create cart successfully" });
     } else {
       //update cart for user
@@ -69,6 +75,11 @@ export const createCart = async (req, res) => {
       }
       cartResult.count += cart.count;
       await cartResult.save();
+      broadcastMessage({
+        message: "success",
+        type: "cart",
+        data: Paginate(cartResult.products.reverse(), 1, 5),
+      });
       return res.status(201).json({ message: "Create cart successfully" });
     }
   } catch (error) {

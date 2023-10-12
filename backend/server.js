@@ -13,6 +13,7 @@ import tourRoutes from "./api/v1/routes/tours.js";
 import userRoutes from "./api/v1/routes/users.js";
 import searchRoutes from "./api/v1/routes/search.js";
 import commentsRoutes from "./api/v1/routes/comments.js";
+import startWebSocketServer from "./api/v1/services/websocket.js";
 
 dotenv.config();
 const app = express();
@@ -62,12 +63,14 @@ mongoose
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 3000,
   })
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server Running on Port: http://localhost:${PORT}`)
-    )
-  )
-  .catch((error) => console.log(`Database did not connect`));
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server connected`));
+    startWebSocketServer();
+  })
+  .catch((error) => {
+    console.log(error);
+    console.log(`Database did not connect`);
+  });
 
 process.on("SIGINT", () => {
   mongoose.connection.close(() => {
