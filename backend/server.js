@@ -28,7 +28,7 @@ app.use(
       "http://localhost:3000",
       "https://apis.google.com",
       "https://setsail.onrender.com/",
-      "https://be-setsail.onrender.com/",
+      "https://be-setail.onrender.com/",
     ],
     credentials: true,
   })
