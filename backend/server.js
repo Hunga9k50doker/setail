@@ -26,8 +26,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://setail.onrender.com",
       "https://apis.google.com",
+      "https://setsail.onrender.com/",
     ],
     credentials: true,
   })
